@@ -1,0 +1,58 @@
+### Test hello world
+GET http://localhost:5000/
+
+### Get plans
+GET http://localhost:5000/api/plans
+
+### Get plan
+GET http://localhost:5000/api/plans/27
+
+###
+POST http://localhost:5000/api/plans HTTP/1.1
+content-type: application/json
+
+{
+  "create": {
+    "name": "  aaaa   ",
+    "description": "  Plan 100 description."
+  }
+}
+###
+POST http://localhost:5000/api/plans HTTP/1.1
+content-type: application/json
+
+{
+ "a": "1"
+}
+###
+PATCH http://localhost:5000/api/plans/4 HTTP/1.1
+content-type: application/json
+
+{
+  "update": {
+    "name": "plan100  ",
+    "description": "   Plan 300 description.  "
+  }
+}
+###
+PATCH http://localhost:5000/api/plans/3 HTTP/1.1
+content-type: application/json
+
+{
+  "update": {
+    "name": "plan101"
+  }
+}
+
+###
+PATCH http://localhost:5000/api/plans/22 HTTP/1.1
+content-type: application/json
+
+{
+  "update": {
+    "description": "Plan 101 description."
+  }
+}
+###
+DELETE http://localhost:5000/api/plans/4
+

@@ -1,0 +1,61 @@
+### Test hello world
+GET http://localhost:5000/
+
+### Get meals
+GET http://localhost:5000/api/meals
+
+### Get meal
+GET http://localhost:5000/api/meals/4
+
+###
+POST http://localhost:5000/api/meals HTTP/1.1
+content-type: application/json
+
+{
+  "create": {
+    "name": "Meal 4   ",
+    "description": "Meal 100 description.",
+    "planId": "4"
+  }
+}
+###
+POST http://localhost:5000/api/meals HTTP/1.1
+content-type: application/json
+
+{
+ "a": "1"
+}
+###
+PATCH http://localhost:5000/api/meals/4 HTTP/1.1
+content-type: application/json
+
+{
+  "update": {
+    "name": "meal100  ",
+    "description": "   Meal 300 description.  "
+  }
+}
+###
+PATCH http://localhost:5000/api/meals/1 HTTP/1.1
+content-type: application/json
+
+{
+  "update": {
+    "name": "meal 1",
+    "description": "Meal 100 description.",
+    "planId": "4"
+  }
+}
+
+###
+PATCH http://localhost:5000/api/meals/1 HTTP/1.1
+content-type: application/json
+
+{
+  "update": {
+    "description": "Meal 101 description."
+  }
+}
+###
+DELETE http://localhost:5000/api/meals/4
+
