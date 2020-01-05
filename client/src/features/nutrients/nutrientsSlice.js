@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const mealsSlice = createSlice({
-  name: 'meals',
+const nutrientsSlice = createSlice({
+  name: 'nutrients',
   initialState: {
-    meals: [],
+    nutrients: [],
     error: '',
     isLoading: false
   },
@@ -16,45 +16,46 @@ const mealsSlice = createSlice({
       state.error = action.payload;
       state.isLoading = false;
     },
-    addAllMeals(state, action) {
-      state.meals.push(...action.payload);
+    addAllNutrients(state, action) {
+      state.nutrients.push(...action.payload);
       state.isLoading = false;
     },
-    addMeal(state, action) {
-      state.meals.push(action.payload);
+    addNutrient(state, action) {
+      state.nutrients.push(action.payload);
       state.isLoading = false;
     },
-    deleteMeal(state, action) {
-      const { mealId } = action.payload;
-      state.meals.splice(state.meals.findIndex(meal => meal.mealId === mealId), 1);
+    deleteNutrient(state, action) {
+      const { nutrientId } = action.payload;
+      state.nutrients.splice(state.nutrients.findIndex(nutrient => nutrient.nutrientId === nutrientId), 1);
       state.isLoading = false;
     },
-    updateMeal(state, action) {
-      const { mealId, name, description } = action.payload;
-      const meal = state.meals.find(meal => meal.mealId === mealId);
-      if (meal) {
-        meal.name = name;
-        meal.description = description;
+    updateNutrient(state, action) {
+      const { nutrientId, amount, mealId, finelliId } = action.payload;
+      const nutrient = state.nutrients.find(nutrient => nutrient.nutrientId === nutrientId);
+      if (nutrient) {
+        nutrient.amount = amount;
+        nutrient.mealId = mealId;
+        nutrient.finelliId = finelliId;
       }
       state.isLoading = false;
     }
   }
 });
 
-export const { addAllMeals, addMeal, deleteMeal, updateMeal, startDbOperation, setError } = mealsSlice.actions;
+export const { addAllNutrients, addNutrient, deleteNutrient, updateNutrient, startDbOperation, setError } = nutrientsSlice.actions;
 
-export default mealsSlice.reducer;
+export default nutrientsSlice.reducer;
 
-export const fetchMealsFromDb = () => {
+export const fetchNutrientsFromDb = () => {
   return async (dispatch) => {
     dispatch(startDbOperation());
     try {
-      const response = await fetch('/api/meals');
+      const response = await fetch('/api/nutrients');
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      const mealsData = await response.json();
-      dispatch(addAllMeals(mealsData));
+      const nutrientsData = await response.json();
+      dispatch(addAllNutrients(nutrientsData));
     } catch (err) {
       dispatch(setError(err.message));
       console.error(err.message)
@@ -62,13 +63,13 @@ export const fetchMealsFromDb = () => {
   }
 };
 
-export const addMealToDb = (name, description, planId) => {
+export const addNutrientToDb = (amount, mealId, finelliId) => {
   return async (dispatch) => {
     dispatch(startDbOperation());
 
     try {
-      const create = { create: { name, description, planId } };
-      const response = await fetch("/api/meals", {
+      const create = { create: { amount, mealId, finelliId } };
+      const response = await fetch("/api/nutrients", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -79,7 +80,7 @@ export const addMealToDb = (name, description, planId) => {
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      dispatch(addMeal(data));
+      dispatch(addNutrient(data));
     } catch (err) {
       dispatch(setError(err.message));
       console.error(err)
@@ -87,12 +88,12 @@ export const addMealToDb = (name, description, planId) => {
   }
 }
 
-export const deleteMealFromDb = (mealId) => {
+export const deleteNutrientFromDb = (nutrientId) => {
   return async (dispatch) => {
     dispatch(startDbOperation());
 
     try {
-      const response = await fetch('/api/meals/' + mealId,
+      const response = await fetch('/api/nutrients/' + nutrientId,
         {
           method: 'DELETE'
         });
@@ -100,7 +101,7 @@ export const deleteMealFromDb = (mealId) => {
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      dispatch(deleteMeal(data));
+      dispatch(deleteNutrient(data));
     } catch (err) {
       dispatch(setError(err.message));
       console.error(err)
@@ -108,12 +109,12 @@ export const deleteMealFromDb = (mealId) => {
   }
 };
 
-export const updateMealInDb = (id, name, description, planId) => {
+export const updateNutrientInDb = (id, amount, mealId, finelliId) => {
   return async (dispatch) => {
-    const update = { update: { name, description, planId } };
+    const update = { update: { amount, mealId, finelliId } };
     dispatch(startDbOperation());
     try {
-      const response = await fetch("/api/meals/" + id, {
+      const response = await fetch("/api/nutrients/" + id, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -124,7 +125,7 @@ export const updateMealInDb = (id, name, description, planId) => {
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      dispatch(updateMeal(data));
+      dispatch(updateNutrient(data));
     } catch (err) {
       dispatch(setError(err.message));
       console.error(err)

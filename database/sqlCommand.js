@@ -3,6 +3,8 @@ const config = require('../secrets/finelliConfig.js');
 const util = require('util');
 const INTERNAL_SERVER_ERROR = 'Internal server error happened';
 
+//TODO: if UPDATE SQL command returns affectedRows=0 value return 404 status?
+
 async function sqlCommand(sqlCommand, values) {
   // console.debug('sqlCommand =', sqlCommand);
   const result = { result: undefined, error: undefined };

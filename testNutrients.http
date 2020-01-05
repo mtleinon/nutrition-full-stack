@@ -19,12 +19,12 @@ content-type: application/json
   }
 }
 ###
-PATCH http://localhost:5000/api/nutrients/5 HTTP/1.1
+PATCH http://localhost:5000/api/nutrients/30 HTTP/1.1
 content-type: application/json
 
 {
   "update": {
-    "amount": "500",
+    "amount": "450",
     "mealId": "1",
     "finelliId": "1"
   }

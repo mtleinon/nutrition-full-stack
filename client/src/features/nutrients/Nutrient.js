@@ -1,30 +1,31 @@
 import React, { useState } from 'react';
-import EditMeal from './EditMeal';
-import './meal.css';
+import EditNutrient from './EditNutrient';
+import './nutrient.css';
 
-export default function Meal(props) {
+export default function Nutrient(props) {
   const [editMode, setEditMode] = useState(false);
 
-  const editMealHandler = (id, name) => {
-    props.editMealHandler(id, name);
+  const editNutrientHandler = (nutrientId, amount, mealId, finelliId) => {
+    props.editNutrientHandler(nutrientId, amount, mealId, finelliId);
     setEditMode(false);
   }; //
   const cancelHandler = () => {
     setEditMode(false);
   };
 
-  const meal = props.meal;
+  const nutrient = props.nutrient;
   return (
-    <div className="meal">
-      {editMode && <EditMeal
-        editMealHandler={editMealHandler}
+    <div className="nutrient">
+      {editMode && <EditNutrient
+        editNutrientHandler={editNutrientHandler}
         cancelHandler={cancelHandler}
-        meal={meal}
+        nutrient={nutrient}
+        mealId={nutrient.mealId}
       />
       }
-      {!editMode && <div>{meal.name}
+      {!editMode && <div>{nutrient.finelliId}. {nutrient.amount}
         <button onClick={() => setEditMode(true)}>Edit</button>
-        <button onClick={() => props.removeHandler(meal.mealId)}>Remove</button>
+        <button onClick={() => props.removeHandler(nutrient.nutrientId)}>Remove</button>
       </div>
       }
     </div>

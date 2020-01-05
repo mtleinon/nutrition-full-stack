@@ -1,4 +1,4 @@
-const mySqlUtils = require('../database/mySqlUtils');
+const mySqlUtils = require('../database/mySqlPlansUtils');
 const Plan = require('../models/Plan');
 const { validationResult } = require('express-validator');
 

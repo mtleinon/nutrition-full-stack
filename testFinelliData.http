@@ -1,0 +1,9 @@
+### Test hello world
+GET http://localhost:5000/
+
+### Get nutrients
+GET http://localhost:5000/api/finelliData
+
+### Get nutrient
+GET http://localhost:5000/api/finelliData/2
+

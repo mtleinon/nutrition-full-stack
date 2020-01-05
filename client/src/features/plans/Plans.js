@@ -5,6 +5,9 @@ import {
   deletePlanFromDb, updatePlanInDb, addPlanToDb
 } from './plansSlice';
 import { fetchMealsFromDb } from '../meals/mealsSlice';
+import { fetchNutrientsFromDb } from '../nutrients/nutrientsSlice';
+import { fetchFinelliDataFromDb } from '../finelliData/finelliDataSlice';
+
 import Plan from './Plan';
 import EditPlan from './EditPlan';
 import './plans.css';
@@ -29,6 +32,8 @@ export default function Plans() {
   useEffect(() => {
     dispatch(fetchPlansFromDb());
     dispatch(fetchMealsFromDb());
+    dispatch(fetchNutrientsFromDb());
+    dispatch(fetchFinelliDataFromDb());
   }, [dispatch]);
 
 

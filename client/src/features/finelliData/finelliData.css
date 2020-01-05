@@ -1,6 +1,7 @@
-.nutrients {
+.finelliData {
   margin: 5px;
   padding: 5px;
-
+  height: 200px;
   border: solid blue 1px;
+  overflow-y: scroll;
 }
