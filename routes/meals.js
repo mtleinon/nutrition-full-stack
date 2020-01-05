@@ -10,6 +10,7 @@ const {
 } = require('../controllers/meals');
 
 router.post('/', [
+  check('create.planId').isNumeric().withMessage('planId can not be empty.'),
   check('create.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
   check('create.description').trim()
 ], createMeal);

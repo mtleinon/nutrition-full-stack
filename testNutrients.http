@@ -1,0 +1,36 @@
+### Test hello world
+GET http://localhost:5000/
+
+### Get nutrients
+GET http://localhost:5000/api/nutrients
+
+### Get nutrient
+GET http://localhost:5000/api/nutrients/2
+
+###
+POST http://localhost:5000/api/nutrients HTTP/1.1
+content-type: application/json
+
+{
+  "create": {
+    "amount": "300",
+    "mealId": "1",
+    "finelliId": "1"
+  }
+}
+###
+PATCH http://localhost:5000/api/nutrients/5 HTTP/1.1
+content-type: application/json
+
+{
+  "update": {
+    "amount": "500",
+    "mealId": "1",
+    "finelliId": "1"
+  }
+}
+
+
+###
+DELETE http://localhost:5000/api/nutrients/5
+

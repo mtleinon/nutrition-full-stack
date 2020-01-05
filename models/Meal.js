@@ -1,4 +1,4 @@
-class Plan {
+class Meal {
   constructor(name, description, planId) {
     this.name = name;
     if (description) {
@@ -8,4 +8,4 @@ class Plan {
   }
 }
 
-module.exports = Plan;
+module.exports = Meal;

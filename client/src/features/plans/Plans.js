@@ -7,6 +7,7 @@ import {
 import { fetchMealsFromDb } from '../meals/mealsSlice';
 import Plan from './Plan';
 import EditPlan from './EditPlan';
+import './plans.css';
 
 export default function Plans() {
   const plans = useSelector(state => state.plans.plans);
@@ -36,7 +37,7 @@ export default function Plans() {
   }
 
   return (
-    <div>
+    <div className="plans">
       <h2>Plans</h2>
       {plans.map(plan => <Plan
         key={plan.planId}

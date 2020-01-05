@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import EditPlan from './EditPlan';
 import Meals from '../meals/Meals';
-// import './Plan.scss';
+import './plan.css';
 
 export default function Plan(props) {
   const [editMode, setEditMode] = useState(false);
@@ -20,7 +20,7 @@ export default function Plan(props) {
 
   const plan = props.plan;
   return (
-    <div>
+    <div className="plan">
       {editMode && <EditPlan
         editPlanHandler={editPlanHandler}
         cancelHandler={cancelHandler}
