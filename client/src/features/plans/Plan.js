@@ -8,6 +8,8 @@ import Card from '../../components/Card';
 import './plan.css';
 import Container from '../../components/Container';
 import EditableValue from '../../components/EditableValue';
+import CenterVertically from '../../components/CenterVertically';
+import HeaderRow from '../../components/HeaderRow';
 
 const TEST_DATA = {
   calorie: 230,
@@ -34,21 +36,22 @@ export default React.memo(function Plan(props) {
   const plan = props.plan;
   return (
     <div className="plan">
-      <Card>
-        <div className="headerRow">
+      <Card >
+        <HeaderRow>
           <EditableValue
             okHandler={editPlanHandler}
             value={plan.name}
           />
-          <div className="icons" >
+          <CenterVertically>
             <DeleteIcon onClick={() => props.removeHandler(plan.planId)} />
             {showMeals ? <CloseIcon onClick={() => toggleShowMeals()} /> :
               <OpenIcon onClick={() => toggleShowMeals()} />}
-          </div>
-        </div>
-        <NutrientRow {...TEST_DATA} />
+          </CenterVertically>
+        </HeaderRow>
+        <NutrientRow {...TEST_DATA} style={{ margin: '0 15px' }} />
       </Card>
-      {showMeals &&
+      {
+        showMeals &&
         <Container >
           <Meals planId={props.plan.planId} />
         </Container>

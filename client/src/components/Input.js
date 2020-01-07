@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styles from './Input.module.css';
 
 export default function Input({
-  initialValue, okHandler, cancelHandler }) {
+  initialValue, okHandler, cancelHandler, type }) {
+
   const [value, setValue] = useState(initialValue ? initialValue : '');
 
   const keyUpHandler = (event) => {
@@ -14,14 +15,16 @@ export default function Input({
   }
 
   return (
-    <div className="headerRow">
-      <input type="text"
-        autoFocus
-        onBlur={cancelHandler}
-        className={styles.input}
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-        onKeyUp={keyUpHandler}
-      />
-    </div >);
+    // <div className="headerRow">
+    <input
+      type={type}
+      autoFocus
+      onBlur={cancelHandler}
+      className={styles.input}
+      value={value}
+      onChange={(event) => setValue(event.target.value)}
+      onKeyUp={keyUpHandler}
+    />
+    // </div >
+  );
 }

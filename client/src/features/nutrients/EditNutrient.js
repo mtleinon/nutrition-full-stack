@@ -19,7 +19,7 @@ export default function EditNutrient({
   );
 
   return (
-    <div>
+    <div style={{ height: '80%' }}>
       <input type="number"
         value={amount}
         onChange={(event) => setAmount(event.target.value)} />
@@ -30,7 +30,9 @@ export default function EditNutrient({
       }
       {addNutrientHandler &&
         <>
-          <button onClick={() => addNutrientHandler(+amount, mealId, selectedFinelliId)}>Ok</button>
+          <button onClick={() => addNutrientHandler(+amount, mealId, selectedFinelliId)}>
+            Ok
+          </button>
           <FinelliData selectDataHandler={selectDataHandler} />
         </>
       }

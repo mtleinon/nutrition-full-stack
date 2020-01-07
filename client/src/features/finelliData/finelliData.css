@@ -1,7 +1,8 @@
 .finelliData {
   margin: 5px;
   padding: 5px;
-  height: 200px;
-  border: solid blue 1px;
+  /* height: 200px; */
+  height: 80%;
+  /* border: solid blue 1px; */
   overflow-y: scroll;
 }

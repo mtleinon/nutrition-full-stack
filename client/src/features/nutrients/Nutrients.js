@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   deleteNutrientFromDb, updateNutrientInDb, addNutrientToDb
 } from './nutrientsSlice';
-
+import Modal from '../../components/Modal';
 import Nutrient from './Nutrient';
 import EditNutrient from './EditNutrient';
 import './nutrients.css';
@@ -27,10 +27,6 @@ export default React.memo(function Nutrients({ mealId }) {
     setAddMode(false);
   }
 
-  // useEffect(() => {
-  //   dispatch(fetchNutrientsFromDb());
-  // }, [dispatch]);
-
   const removeHandler = (id) => {
     dispatch(deleteNutrientFromDb(id));
   }
@@ -43,8 +39,11 @@ export default React.memo(function Nutrients({ mealId }) {
         nutrient={nutrient}
         removeHandler={removeHandler}
         editNutrientHandler={editNutrientHandler} />)}
-      {addMode ? <EditNutrient addNutrientHandler={addNutrientHandler} mealId={mealId} /> : null}
       <div><button onClick={() => setAddMode(true)}>ADD NEW NUTRIENT</button></div>
+      <Modal visible={addMode} dismiss={() => setAddMode(false)}>
+        <p>Select nutrient</p>
+        <EditNutrient addNutrientHandler={addNutrientHandler} mealId={mealId} />
+      </Modal>
       <div>Error: {error}</div>
     </div>
   );

@@ -7,6 +7,7 @@ import DeleteIcon from '../../components/DeleteIcon';
 import OpenIcon from '../../components/OpenIcon';
 import CloseIcon from '../../components/CloseIcon';
 import EditableValue from '../../components/EditableValue';
+import CenterVertically from '../../components/CenterVertically';
 
 import './meal.css';
 import HeaderRow from '../../components/HeaderRow';
@@ -37,13 +38,13 @@ export default React.memo(function Meal(props) {
             okHandler={editMealHandler}
             value={meal.name}
           />
-          <div>
+          <CenterVertically>
             <DeleteIcon onClick={() => props.removeHandler(meal.mealId)} />
             {showNutrients ? <CloseIcon onClick={() => toggleShowNutrients()} /> :
               <OpenIcon onClick={() => toggleShowNutrients()} />}
-          </div>
+          </CenterVertically>
         </HeaderRow>
-        <NutrientRow {...TEST_DATA} />
+        <NutrientRow {...TEST_DATA} style={{ margin: '0 10px' }} />
       </Card>
       {showNutrients &&
         <Container >

@@ -2,9 +2,11 @@ import React from 'react';
 import './nutrient.css';
 import CardSmall from '../../components/CardSmall';
 import HeaderRow from '../../components/HeaderRow';
+import CenterVertically from '../../components/CenterVertically';
 import DeleteIcon from '../../components/DeleteIcon';
 import NutrientRow from '../../components/NutrientRow';
 import EditableValue from '../../components/EditableValue';
+import WrapText from '../../components/WrapText';
 
 const TEST_DATA = {
   calorie: 230,
@@ -24,18 +26,24 @@ export default React.memo(function Nutrient(props) {
   return (
     <CardSmall>
       <HeaderRow>
-        <div>
-          {nutrient.finelliId}. {props.name}
-        </div>
-        <EditableValue
-          okHandler={editNutrientHandler}
-          value={nutrient.amount}
-        />
-        <div className="icons" >
-          <DeleteIcon onClick={() => props.removeHandler(nutrient.nutrientId)} />
-        </div>
+        <WrapText>
+          {props.name}
+        </WrapText>
+        <CenterVertically>
+          <EditableValue
+            type="number"
+            okHandler={editNutrientHandler}
+            value={nutrient.amount}
+          />
+          <CenterVertically style={{ marginLeft: '3px', marginRight: '10px', marginBottom: '3px' }}>
+            g
+          </CenterVertically>
+          <CenterVertically>
+            <DeleteIcon onClick={() => props.removeHandler(nutrient.nutrientId)} />
+          </CenterVertically>
+        </CenterVertically>
       </HeaderRow>
-      <NutrientRow {...TEST_DATA} />
+      <NutrientRow {...TEST_DATA} style={{ margin: '0 0' }} />
     </CardSmall>
   );
 });
