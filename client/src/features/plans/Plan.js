@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-// import EditPlan from './EditPlan';
 import Meals from '../meals/Meals';
 import NutrientRow from '../../components/NutrientRow';
 import DeleteIcon from '../../components/DeleteIcon';
-import EditIcon from '../../components/EditIcon';
 import OpenIcon from '../../components/OpenIcon';
 import CloseIcon from '../../components/CloseIcon';
 import Card from '../../components/Card';
@@ -49,7 +47,6 @@ export default React.memo(function Plan(props) {
               {plan.name}
             </div>
             <div className="icons" >
-              <EditIcon onClick={() => setEditMode(true)} />
               <DeleteIcon onClick={() => props.removeHandler(plan.planId)} />
               {showMeals ? <CloseIcon onClick={() => toggleShowMeals()} /> :
                 <OpenIcon onClick={() => toggleShowMeals()} />}

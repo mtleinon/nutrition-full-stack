@@ -4,7 +4,6 @@ import CardSmall from '../../components/CardSmall';
 import Input from '../../components/Input';
 import HeaderRow from '../../components/HeaderRow';
 import DeleteIcon from '../../components/DeleteIcon';
-import EditIcon from '../../components/EditIcon';
 import NutrientRow from '../../components/NutrientRow';
 const TEST_DATA = {
   calorie: 230,
@@ -21,7 +20,7 @@ export default React.memo(function Nutrient(props) {
     props.editNutrientHandler(
       nutrient.nutrientId, amount, nutrient.mealId, nutrient.finelliId);
     setEditMode(false);
-  }; //
+  };
   const cancelHandler = () => {
     setEditMode(false);
   };
@@ -48,7 +47,6 @@ export default React.memo(function Nutrient(props) {
               {nutrient.amount}
             </div>
             <div className="icons" >
-              <EditIcon onClick={() => setEditMode(true)} />
               <DeleteIcon onClick={() => props.removeHandler(nutrient.nutrientId)} />
             </div>
           </div>

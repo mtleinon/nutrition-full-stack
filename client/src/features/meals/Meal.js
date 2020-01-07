@@ -4,7 +4,6 @@ import Card from '../../components/Card';
 import Container from '../../components/Container';
 import NutrientRow from '../../components/NutrientRow';
 import DeleteIcon from '../../components/DeleteIcon';
-import EditIcon from '../../components/EditIcon';
 import OpenIcon from '../../components/OpenIcon';
 import CloseIcon from '../../components/CloseIcon';
 import Input from '../../components/Input';
@@ -50,7 +49,6 @@ export default React.memo(function Meal(props) {
               {meal.name}
             </div>
             <div>
-              <EditIcon onClick={() => setEditMode(true)} />
               <DeleteIcon onClick={() => props.removeHandler(meal.mealId)} />
               {showNutrients ? <CloseIcon onClick={() => toggleShowNutrients()} /> :
                 <OpenIcon onClick={() => toggleShowNutrients()} />}
