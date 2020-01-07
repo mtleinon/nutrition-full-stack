@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-// import CheckIcon from './CheckIcon';
-// import CancelIcon from './CancelIcon';
 import styles from './Input.module.css';
 
 export default function Input({
@@ -14,12 +12,7 @@ export default function Input({
       cancelHandler();
     }
   }
-  // const tOk = () => {
-  //   okHandler(value);
-  // };
-  // const tCancel = () => {
-  //   cancelHandler();
-  // };
+
   return (
     <div className="headerRow">
       <input type="text"
@@ -30,9 +23,5 @@ export default function Input({
         onChange={(event) => setValue(event.target.value)}
         onKeyUp={keyUpHandler}
       />
-      {/* <div className="icons">
-        <CheckIcon onClick={tOk} />
-        <CancelIcon onClick={tCancel} />
-      </div> */}
     </div >);
 }

@@ -7,7 +7,7 @@ import CloseIcon from '../../components/CloseIcon';
 import Card from '../../components/Card';
 import './plan.css';
 import Container from '../../components/Container';
-import Input from '../../components/Input';
+import EditableValue from '../../components/EditableValue';
 
 const TEST_DATA = {
   calorie: 230,
@@ -18,16 +18,16 @@ const TEST_DATA = {
 
 
 export default React.memo(function Plan(props) {
-  const [editMode, setEditMode] = useState(false);
+  // const [editMode, setEditMode] = useState(false);
   const [showMeals, setShowMeals] = useState(false);
 
   const editPlanHandler = (name) => {
-    setEditMode(false);
+    // setEditMode(false);
     props.editPlanHandler(props.plan.planId, name);
   };
-  const cancelHandler = () => {
-    setEditMode(false);
-  };
+  // const cancelHandler = () => {
+  //   // setEditMode(false);
+  // };
   const toggleShowMeals = () => {
     setShowMeals(state => !state);
   };
@@ -35,25 +35,17 @@ export default React.memo(function Plan(props) {
   return (
     <div className="plan">
       <Card>
-        {editMode && <Input
-          okHandler={editPlanHandler}
-          cancelHandler={cancelHandler}
-          initialValue={plan.name}
-        />
-        }
-        {!editMode && <div>
-          <div className="headerRow">
-            <div onClick={() => setEditMode(true)}>
-              {plan.name}
-            </div>
-            <div className="icons" >
-              <DeleteIcon onClick={() => props.removeHandler(plan.planId)} />
-              {showMeals ? <CloseIcon onClick={() => toggleShowMeals()} /> :
-                <OpenIcon onClick={() => toggleShowMeals()} />}
-            </div>
+        <div className="headerRow">
+          <EditableValue
+            okHandler={editPlanHandler}
+            value={plan.name}
+          />
+          <div className="icons" >
+            <DeleteIcon onClick={() => props.removeHandler(plan.planId)} />
+            {showMeals ? <CloseIcon onClick={() => toggleShowMeals()} /> :
+              <OpenIcon onClick={() => toggleShowMeals()} />}
           </div>
         </div>
-        }
         <NutrientRow {...TEST_DATA} />
       </Card>
       {showMeals &&
