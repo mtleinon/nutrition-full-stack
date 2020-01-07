@@ -9,7 +9,7 @@ import { fetchNutrientsFromDb } from '../nutrients/nutrientsSlice';
 import { fetchFinelliDataFromDb } from '../finelliData/finelliDataSlice';
 
 import Plan from './Plan';
-import EditPlan from './EditPlan';
+import Input from '../../components/Input';
 import './plans.css';
 
 export default function Plans() {
@@ -24,8 +24,12 @@ export default function Plans() {
     dispatch(updatePlanInDb(id, name));
   }
 
-  const addPlanHandler = (name, description = '') => {
-    dispatch(addPlanToDb(name, description));
+  const addPlanHandler = (name) => {
+    dispatch(addPlanToDb(name, ''));
+    setAddMode(false);
+  }
+
+  const cancelAddPlanHandler = () => {
     setAddMode(false);
   }
 
@@ -49,7 +53,7 @@ export default function Plans() {
         plan={plan}
         removeHandler={removeHandler}
         editPlanHandler={editPlanHandler} />)}
-      {addMode ? <EditPlan addPlanHandler={addPlanHandler} /> : null}
+      {addMode ? <Input okHandler={addPlanHandler} cancelHandler={cancelAddPlanHandler} /> : null}
       <div><button onClick={() => setAddMode(true)}>ADD NEW PLAN</button></div>
       <div>Error: {error}</div>
     </div>

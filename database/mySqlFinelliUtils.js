@@ -8,9 +8,9 @@ async function getFinelliData(id) {
     sql = `SELECT * FROM ${FINELLI_TABLE} WHERE ?`;
     values = [{ finelliId: id }];
   }
-  console.debug('sql, values =', sql, values);
+  // console.debug('sql, values =', sql, values);
   const result = await sqlCommand(sql, values);
-  console.debug('get result =', result);
+  // console.debug('get result =', result);
   return result;
 }
 

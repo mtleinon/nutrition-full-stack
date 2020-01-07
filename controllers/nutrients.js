@@ -19,6 +19,11 @@ const createNutrient = async (req, res, next) => {
 }
 
 const updateNutrient = async (req, res, next) => {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
   const id = +req.params.id;
   const updateValues = req.body.update;
   console.debug('updateValues =', updateValues);

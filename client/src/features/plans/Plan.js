@@ -1,15 +1,31 @@
 import React, { useState } from 'react';
-import EditPlan from './EditPlan';
+// import EditPlan from './EditPlan';
 import Meals from '../meals/Meals';
+import NutrientRow from '../../components/NutrientRow';
+import DeleteIcon from '../../components/DeleteIcon';
+import EditIcon from '../../components/EditIcon';
+import OpenIcon from '../../components/OpenIcon';
+import CloseIcon from '../../components/CloseIcon';
+import Card from '../../components/Card';
 import './plan.css';
+import Container from '../../components/Container';
+import Input from '../../components/Input';
 
-export default function Plan(props) {
+const TEST_DATA = {
+  calorie: 230,
+  fet: 45,
+  protein: 32,
+  carb: 87
+}
+
+
+export default React.memo(function Plan(props) {
   const [editMode, setEditMode] = useState(false);
   const [showMeals, setShowMeals] = useState(false);
 
-  const editPlanHandler = (id, name) => {
-    props.editPlanHandler(id, name);
+  const editPlanHandler = (name) => {
     setEditMode(false);
+    props.editPlanHandler(props.plan.planId, name);
   };
   const cancelHandler = () => {
     setEditMode(false);
@@ -17,23 +33,37 @@ export default function Plan(props) {
   const toggleShowMeals = () => {
     setShowMeals(state => !state);
   };
-
   const plan = props.plan;
   return (
     <div className="plan">
-      {editMode && <EditPlan
-        editPlanHandler={editPlanHandler}
-        cancelHandler={cancelHandler}
-        plan={plan}
-      />
+      <Card>
+        {editMode && <Input
+          okHandler={editPlanHandler}
+          cancelHandler={cancelHandler}
+          initialValue={plan.name}
+        />
+        }
+        {!editMode && <div>
+          <div className="headerRow">
+            <div onClick={() => setEditMode(true)}>
+              {plan.name}
+            </div>
+            <div className="icons" >
+              <EditIcon onClick={() => setEditMode(true)} />
+              <DeleteIcon onClick={() => props.removeHandler(plan.planId)} />
+              {showMeals ? <CloseIcon onClick={() => toggleShowMeals()} /> :
+                <OpenIcon onClick={() => toggleShowMeals()} />}
+            </div>
+          </div>
+        </div>
+        }
+        <NutrientRow {...TEST_DATA} />
+      </Card>
+      {showMeals &&
+        <Container >
+          <Meals planId={props.plan.planId} />
+        </Container>
       }
-      {!editMode && <div>{plan.name}
-        <button onClick={() => setEditMode(true)}>Edit</button>
-        <button onClick={() => props.removeHandler(plan.planId)}>Remove</button>
-        <button onClick={() => toggleShowMeals()}>Show Meals</button>
-      </div>
-      }
-      {showMeals && <Meals planId={plan.planId} />}
-    </div>
+    </div >
   );
-}
+});

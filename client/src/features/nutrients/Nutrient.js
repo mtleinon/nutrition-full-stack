@@ -1,33 +1,61 @@
 import React, { useState } from 'react';
-import EditNutrient from './EditNutrient';
 import './nutrient.css';
+import CardSmall from '../../components/CardSmall';
+import Input from '../../components/Input';
+import HeaderRow from '../../components/HeaderRow';
+import DeleteIcon from '../../components/DeleteIcon';
+import EditIcon from '../../components/EditIcon';
+import NutrientRow from '../../components/NutrientRow';
+const TEST_DATA = {
+  calorie: 230,
+  fet: 45,
+  protein: 32,
+  carb: 87
+}
 
-export default function Nutrient(props) {
+export default React.memo(function Nutrient(props) {
   const [editMode, setEditMode] = useState(false);
+  const nutrient = props.nutrient;
 
-  const editNutrientHandler = (nutrientId, amount, mealId, finelliId) => {
-    props.editNutrientHandler(nutrientId, amount, mealId, finelliId);
+  const editNutrientHandler = (amount) => {
+    props.editNutrientHandler(
+      nutrient.nutrientId, amount, nutrient.mealId, nutrient.finelliId);
     setEditMode(false);
   }; //
   const cancelHandler = () => {
     setEditMode(false);
   };
 
-  const nutrient = props.nutrient;
   return (
-    <div className="nutrient">
-      {editMode && <EditNutrient
-        editNutrientHandler={editNutrientHandler}
-        cancelHandler={cancelHandler}
-        nutrient={nutrient}
-        mealId={nutrient.mealId}
-      />
+    <CardSmall>
+      {editMode && <HeaderRow>
+        {nutrient.finelliId}. {props.name}
+        <Input
+
+          okHandler={editNutrientHandler}
+          cancelHandler={cancelHandler}
+          initialValue={nutrient.amount}
+        />
+      </HeaderRow>
       }
-      {!editMode && <div>{nutrient.finelliId}. {nutrient.amount}
-        <button onClick={() => setEditMode(true)}>Edit</button>
-        <button onClick={() => props.removeHandler(nutrient.nutrientId)}>Remove</button>
-      </div>
+      {!editMode &&
+        <HeaderRow>
+          <div>
+            {nutrient.finelliId}. {props.name}
+          </div>
+          <div style={{ display: 'flex' }}>
+            <div onClick={() => setEditMode(true)}>
+              {nutrient.amount}
+            </div>
+            <div className="icons" >
+              <EditIcon onClick={() => setEditMode(true)} />
+              <DeleteIcon onClick={() => props.removeHandler(nutrient.nutrientId)} />
+            </div>
+          </div>
+        </HeaderRow>
       }
-    </div>
+      <NutrientRow {...TEST_DATA} />
+
+    </CardSmall>
   );
-}
+});

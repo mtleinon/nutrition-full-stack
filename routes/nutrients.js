@@ -19,9 +19,9 @@ router.get('/:id', getNutrients);
 router.get('/', getNutrients);
 
 router.patch('/:id', [
-  check('create.mealId').isNumeric().withMessage('mealId can not be empty.'),
-  check('create.finelliId').isNumeric().withMessage('finelliId can not be empty.'),
-  check('create.amount').isNumeric().withMessage('amount must be a number.'),
+  check('update.mealId').isNumeric().withMessage('mealId can not be empty.'),
+  check('update.finelliId').isNumeric().withMessage('finelliId can not be empty.'),
+  check('update.amount').isNumeric().withMessage('amount must be a number.'),
 ], updateNutrient);
 
 router.delete('/:id', deleteNutrient);

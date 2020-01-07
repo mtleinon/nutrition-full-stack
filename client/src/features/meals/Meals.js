@@ -8,8 +8,8 @@ import Meal from './Meal';
 import EditMeal from './EditMeal';
 import './meals.css';
 
-export default function Meals({ planId }) {
-  const meals = useSelector(state => state.meals.meals.filter(meal => meal.planId === planId));
+export default React.memo(function Meals({ planId }) {
+  const meals = useSelector(state => state.meals.meals).filter(meal => meal.planId === planId);
   const error = useSelector(state => state.meals.error);
   const dispatch = useDispatch();
 
@@ -33,8 +33,7 @@ export default function Meals({ planId }) {
   }
 
   return (
-    <div className="meals">
-      <h2>Meals</h2>
+    <div>
       {meals.map(meal => <Meal
         key={meal.mealId}
         meal={meal}
@@ -45,4 +44,4 @@ export default function Meals({ planId }) {
       <div>Error: {error}</div>
     </div>
   );
-}
+}, (prevMeals, nextMeals) => { return prevMeals.planId === nextMeals.planId });

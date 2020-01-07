@@ -8,8 +8,9 @@ import Nutrient from './Nutrient';
 import EditNutrient from './EditNutrient';
 import './nutrients.css';
 
-export default function Nutrients({ mealId }) {
+export default React.memo(function Nutrients({ mealId }) {
   const nutrients = useSelector(state => state.nutrients.nutrients.filter(nutrient => nutrient.mealId === mealId));
+  const finelliData = useSelector(state => state.finelliData.finelliData);
   const error = useSelector(state => state.nutrients.error);
   const dispatch = useDispatch();
 
@@ -20,9 +21,9 @@ export default function Nutrients({ mealId }) {
   }
 
   const addNutrientHandler = (nutrientId, amount, mealId, finelliId) => {
-    console.debug('addNutrientHandler 1', new Date().getMilliseconds());
+    console.debug('addNutrientHandler 1', new Date().getSeconds(), new Date().getMilliseconds());
     dispatch(addNutrientToDb(nutrientId, amount, mealId, finelliId));
-    console.debug('addNutrientHandler 2', new Date().getMilliseconds());
+    console.debug('addNutrientHandler 2', new Date().getSeconds(), new Date().getMilliseconds());
     setAddMode(false);
   }
 
@@ -35,10 +36,10 @@ export default function Nutrients({ mealId }) {
   }
 
   return (
-    <div className="nutrients">
-      <h4>Nutrients</h4>
+    <div>
       {nutrients.map(nutrient => <Nutrient
         key={nutrient.nutrientId}
+        name={finelliData.find(row => row.finelliId === nutrient.finelliId).name}
         nutrient={nutrient}
         removeHandler={removeHandler}
         editNutrientHandler={editNutrientHandler} />)}
@@ -47,4 +48,4 @@ export default function Nutrients({ mealId }) {
       <div>Error: {error}</div>
     </div>
   );
-}
+});

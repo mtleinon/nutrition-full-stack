@@ -65,7 +65,8 @@ export const fetchNutrientsFromDb = () => {
 
 export const addNutrientToDb = (amount, mealId, finelliId) => {
   return async (dispatch) => {
-    dispatch(startDbOperation());
+    console.debug('addNutrientToDb 1', new Date().getSeconds(), new Date().getMilliseconds());
+    // dispatch(startDbOperation());
 
     try {
       const create = { create: { amount, mealId, finelliId } };
@@ -80,12 +81,14 @@ export const addNutrientToDb = (amount, mealId, finelliId) => {
         throw new Error(response.statusText);
       }
       const data = await response.json();
+
       dispatch(addNutrient(data));
     } catch (err) {
       dispatch(setError(err.message));
       console.error(err)
     };
   }
+
 }
 
 export const deleteNutrientFromDb = (nutrientId) => {
