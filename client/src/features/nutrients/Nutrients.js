@@ -52,7 +52,6 @@ export default React.memo(function Nutrients({ mealId }) {
         </Button>
       </div>
       <Modal visible={addMode} dismiss={() => setAddMode(false)}>
-        <h3>Add nutrient to meal</h3>
         <AddNutrientToMeal
           addNutrientToMealHandler={addNutrientToMealHandler}
           mealId={mealId}

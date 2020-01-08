@@ -8,3 +8,7 @@
 .breakLine {
   word-break: break-word;
 }
+.number {
+  width: 50px;
+  text-align: right;
+}

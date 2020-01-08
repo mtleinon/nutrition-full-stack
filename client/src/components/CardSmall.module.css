@@ -6,4 +6,10 @@
 
   border-bottom: 1px solid lightgray;
   padding: 5px;
+
+  transition: background-color 0.5s;
+}
+
+.card:hover {
+  background-color: rgb(226, 252, 221);
 }

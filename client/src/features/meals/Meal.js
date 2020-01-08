@@ -6,6 +6,7 @@ import NutrientRow from '../../components/NutrientRow';
 import DeleteIcon from '../../components/DeleteIcon';
 import OpenIcon from '../../components/OpenIcon';
 import CloseIcon from '../../components/CloseIcon';
+import InfoIcon from '../../components/InfoIcon';
 import EditableValue from '../../components/EditableValue';
 import CenterVertically from '../../components/CenterVertically';
 
@@ -23,6 +24,7 @@ const TEST_DATA = {
 export default React.memo(function Meal(props) {
   const [showNutrients, setShowNutrients] = useState(false);
   const meal = props.meal;
+  const [showMealInfo, setShowMealInfo] = useState(false);
 
   const editMealHandler = (name) => {
     props.editMealHandler(meal.mealId, name);
@@ -32,19 +34,21 @@ export default React.memo(function Meal(props) {
   };
   return (
     <div className="meal">
-      <Card>
+      <Card active={showNutrients}>
         <HeaderRow>
           <EditableValue
             okHandler={editMealHandler}
             value={meal.name}
           />
           <CenterVertically>
+            <InfoIcon onClick={() => setShowMealInfo(true)} />
+
             <DeleteIcon onClick={() => props.removeHandler(meal.mealId)} />
             {showNutrients ? <CloseIcon onClick={() => toggleShowNutrients()} /> :
               <OpenIcon onClick={() => toggleShowNutrients()} />}
           </CenterVertically>
         </HeaderRow>
-        <NutrientRow {...TEST_DATA} style={{ margin: '0 10px' }} />
+        <NutrientRow {...TEST_DATA} sideMargins={'10px'} />
       </Card>
       {showNutrients &&
         <Container >

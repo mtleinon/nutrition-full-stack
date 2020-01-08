@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import './nutrient.css';
 import CardSmall from '../../components/CardSmall';
 import HeaderRow from '../../components/HeaderRow';
@@ -17,11 +17,17 @@ const TEST_DATA = {
 
 export default React.memo(function Nutrient(props) {
   const nutrient = props.nutrient;
+  // const mainRef = useRef(null);
+
+  // useEffect(() => {
+  //   mainRef.current.focus();
+  // }, [mainRef]);
 
   const editNutrientHandler = (amount) => {
     props.editNutrientHandler(
       nutrient.nutrientId, amount, nutrient.mealId, nutrient.finelliId);
   };
+
 
   return (
     <CardSmall>
@@ -30,6 +36,7 @@ export default React.memo(function Nutrient(props) {
           {props.name}
         </WrapText>
         <CenterVertically>
+          {/* <input placeholder="xxx" ref={mainRef} /> */}
           <EditableValue
             type="number"
             okHandler={editNutrientHandler}
@@ -43,7 +50,7 @@ export default React.memo(function Nutrient(props) {
           </CenterVertically>
         </CenterVertically>
       </HeaderRow>
-      <NutrientRow {...TEST_DATA} style={{ margin: '0 0' }} />
+      <NutrientRow {...TEST_DATA} />
     </CardSmall>
   );
 });

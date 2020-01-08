@@ -23,11 +23,13 @@ export default function EditableValue(props) {
     />);
   }
   return (
-    <div className={styles.text + (props.type !== 'number' ? ' ' + styles.breakLine : '')}
-      onClick={() => setEditMode(true)}>
-      <CenterVertically>
-        {props.value}
-      </CenterVertically>
+    <div
+      className={styles.text + (props.type !== 'number' ? ' ' + styles.breakLine : ' ' + styles.number)}
+      onClick={() => setEditMode(true)}
+    >
+      {/* <CenterVertically> */}
+      {props.value}
+      {/* </CenterVertically> */}
     </div>
   );
 

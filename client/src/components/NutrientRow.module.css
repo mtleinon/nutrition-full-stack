@@ -6,6 +6,7 @@
   /* border: 1px solid lightgray; */
   background-color: rgb(241, 241, 241);
   border-radius: 3px;
+  margin: 10px 0 5px 0;
 }
 .items {
   flex-grow: 1;

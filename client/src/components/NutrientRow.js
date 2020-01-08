@@ -1,10 +1,11 @@
 import React from 'react';
 import styles from './NutrientRow.module.css';
 
-export default React.memo(function ({ calorie, fet, protein, carb, style }) {
+export default React.memo(function ({ calorie, fet, protein, carb, sideMargins }) {
 
   return (
-    <div className={styles.container} style={style}>
+    <div className={styles.container}
+      style={{ marginLeft: sideMargins, marginRight: sideMargins }}>
       <div className={styles.items}>
         ener. {calorie}kcal
       </div>
