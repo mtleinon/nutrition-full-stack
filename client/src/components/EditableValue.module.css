@@ -3,6 +3,7 @@
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bolder;
   color: blue;
+  cursor: pointer;
 }
 .breakLine {
   word-break: break-word;

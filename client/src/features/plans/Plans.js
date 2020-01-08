@@ -10,7 +10,10 @@ import { fetchFinelliDataFromDb } from '../finelliData/finelliDataSlice';
 
 import Plan from './Plan';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 import './plans.css';
+
+const NEW_PLAN_DEFAULT_NAME = 'New plan';
 
 export default function Plans() {
   const plans = useSelector(state => state.plans.plans);
@@ -54,7 +57,14 @@ export default function Plans() {
         removeHandler={removeHandler}
         editPlanHandler={editPlanHandler} />)}
       {addMode ? <Input okHandler={addPlanHandler} cancelHandler={cancelAddPlanHandler} /> : null}
-      <div><button onClick={() => setAddMode(true)}>ADD NEW PLAN</button></div>
+      <div style={{ justifyContent: 'center' }}>
+        <Button
+          onClick={() => addPlanHandler(NEW_PLAN_DEFAULT_NAME)}
+          style={{ backgroundColor: 'lightGreen' }}
+        >
+          ADD NEW PLAN
+        </Button>
+      </div>
       <div>Error: {error}</div>
     </div>
   );

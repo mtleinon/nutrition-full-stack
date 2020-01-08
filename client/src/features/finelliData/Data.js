@@ -5,7 +5,7 @@ export default function Data({ data, selectDataHandler }) {
 
   return (
     <div className="data"
-      onClick={() => selectDataHandler(data.finelliId)}>
+      onClick={() => selectDataHandler(data.finelliId, data.name)}>
       {data.finelliId}. {data.name}
     </div>
   );

@@ -4,8 +4,9 @@ import {
   deleteNutrientFromDb, updateNutrientInDb, addNutrientToDb
 } from './nutrientsSlice';
 import Modal from '../../components/Modal';
+import Button from '../../components/Button';
 import Nutrient from './Nutrient';
-import EditNutrient from './EditNutrient';
+import AddNutrientToMeal from './AddNutrientToMeal';
 import './nutrients.css';
 
 export default React.memo(function Nutrients({ mealId }) {
@@ -20,10 +21,10 @@ export default React.memo(function Nutrients({ mealId }) {
     dispatch(updateNutrientInDb(nutrientId, amount, mealId, finelliId));
   }
 
-  const addNutrientHandler = (nutrientId, amount, mealId, finelliId) => {
-    console.debug('addNutrientHandler 1', new Date().getSeconds(), new Date().getMilliseconds());
+  const addNutrientToMealHandler = (nutrientId, amount, mealId, finelliId) => {
+    console.debug('addNutrientToMealHandler 1', new Date().getSeconds(), new Date().getMilliseconds());
     dispatch(addNutrientToDb(nutrientId, amount, mealId, finelliId));
-    console.debug('addNutrientHandler 2', new Date().getSeconds(), new Date().getMilliseconds());
+    console.debug('addNutrientToMealHandler 2', new Date().getSeconds(), new Date().getMilliseconds());
     setAddMode(false);
   }
 
@@ -33,16 +34,29 @@ export default React.memo(function Nutrients({ mealId }) {
 
   return (
     <div>
-      {nutrients.map(nutrient => <Nutrient
-        key={nutrient.nutrientId}
-        name={finelliData.find(row => row.finelliId === nutrient.finelliId).name}
-        nutrient={nutrient}
-        removeHandler={removeHandler}
-        editNutrientHandler={editNutrientHandler} />)}
-      <div><button onClick={() => setAddMode(true)}>ADD NEW NUTRIENT</button></div>
+      {nutrients.map(nutrient =>
+        <Nutrient
+          key={nutrient.nutrientId}
+          name={finelliData.find(row => row.finelliId === nutrient.finelliId).name}
+          nutrient={nutrient}
+          removeHandler={removeHandler}
+          editNutrientHandler={editNutrientHandler}
+        />)}
+      <div>
+        <Button
+          color='lightGreen'
+          style={{ marginTop: '5px' }}
+          onClick={() => setAddMode(true)}
+        >
+          ADD NEW NUTRIENT
+        </Button>
+      </div>
       <Modal visible={addMode} dismiss={() => setAddMode(false)}>
-        <p>Select nutrient</p>
-        <EditNutrient addNutrientHandler={addNutrientHandler} mealId={mealId} />
+        <h3>Add nutrient to meal</h3>
+        <AddNutrientToMeal
+          addNutrientToMealHandler={addNutrientToMealHandler}
+          mealId={mealId}
+          cancelHandler={() => setAddMode(false)} />
       </Modal>
       <div>Error: {error}</div>
     </div>
