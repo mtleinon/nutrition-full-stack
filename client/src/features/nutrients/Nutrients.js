@@ -21,9 +21,9 @@ export default React.memo(function Nutrients({ mealId }) {
     dispatch(updateNutrientInDb(nutrientId, amount, mealId, finelliId));
   }
 
-  const addNutrientToMealHandler = (nutrientId, amount, mealId, finelliId) => {
+  const addNutrientToMealHandler = (finelliId) => {
     console.debug('addNutrientToMealHandler 1', new Date().getSeconds(), new Date().getMilliseconds());
-    dispatch(addNutrientToDb(nutrientId, amount, mealId, finelliId));
+    dispatch(addNutrientToDb(0, mealId, finelliId));
     console.debug('addNutrientToMealHandler 2', new Date().getSeconds(), new Date().getMilliseconds());
     setAddMode(false);
   }
@@ -54,7 +54,6 @@ export default React.memo(function Nutrients({ mealId }) {
       <Modal visible={addMode} dismiss={() => setAddMode(false)}>
         <AddNutrientToMeal
           addNutrientToMealHandler={addNutrientToMealHandler}
-          mealId={mealId}
           cancelHandler={() => setAddMode(false)} />
       </Modal>
       <div>Error: {error}</div>

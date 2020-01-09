@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Meals from '../meals/Meals';
 import NutrientRow from '../../components/NutrientRow';
 import DeleteIcon from '../../components/DeleteIcon';

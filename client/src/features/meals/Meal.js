@@ -26,6 +26,7 @@ export default React.memo(function Meal(props) {
   const meal = props.meal;
   const [showMealInfo, setShowMealInfo] = useState(false);
 
+  console.debug('Meals: showMealInfo  =', showMealInfo);
   const editMealHandler = (name) => {
     props.editMealHandler(meal.mealId, name);
   };

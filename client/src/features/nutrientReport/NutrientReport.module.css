@@ -1,0 +1,51 @@
+.container {
+  height: 70vh;
+  overflow-y: scroll;
+  padding: 0 5px;
+  margin-top: 10px;
+  border: 1px solid #eee;
+}
+
+.reportTitle {
+  font-weight: bolder;
+  font-size: larger;
+}
+
+.titleRow {
+  display: flex;
+  border-bottom: 1px solid gray;
+  font-weight: 500;
+  margin-top: 1rem;
+  padding-bottom: 0.2rem;
+}
+
+.dataRow {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  /* font-weight: 500; */
+  margin-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+.name {
+  flex: 1 1;
+}
+.valueTitle {
+  flex-basis: 6rem;
+  text-align: end;
+  padding-right: 1rem;
+}
+.value {
+  flex-basis: 4rem;
+  text-align: end;
+}
+.unit {
+  flex-basis: 2rem;
+  text-align: start;
+  padding-left: 3px;
+}
+
+.recommendation {
+  flex-basis: 4rem;
+  text-align: end;
+}

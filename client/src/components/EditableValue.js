@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Input from './Input';
 import styles from './EditableValue.module.css';
-import CenterVertically from './CenterVertically';
 
 export default function EditableValue(props) {
   const [editMode, setEditMode] = useState(false);

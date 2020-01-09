@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import './nutrient.css';
 import CardSmall from '../../components/CardSmall';
 import HeaderRow from '../../components/HeaderRow';

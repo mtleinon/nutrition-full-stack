@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   deleteMealFromDb, updateMealInDb, addMealToDb
 } from './mealsSlice';
 
 import Meal from './Meal';
-import EditMeal from './EditMeal';
 import './meals.css';
 import Button from '../../components/Button';
 
@@ -16,20 +15,13 @@ export default React.memo(function Meals({ planId }) {
   const error = useSelector(state => state.meals.error);
   const dispatch = useDispatch();
 
-  const [addMode, setAddMode] = useState(false);
-
   const editMealHandler = (id, name, description, planId) => {
     dispatch(updateMealInDb(id, name, description, planId));
   }
 
   const addMealHandler = (name, description, planId) => {
     dispatch(addMealToDb(name, description, planId));
-    setAddMode(false);
   }
-
-  // useEffect(() => {
-  //   dispatch(fetchMealsFromDb());
-  // }, [dispatch]);
 
   const removeHandler = (id) => {
     dispatch(deleteMealFromDb(id));
@@ -42,10 +34,7 @@ export default React.memo(function Meals({ planId }) {
         meal={meal}
         removeHandler={removeHandler}
         editMealHandler={editMealHandler} />)}
-      {/* {addMode ? 
-        <EditMeal addMealHandler={addMealHandler} planId={planId} /> : null} */}
       <div>
-        {/* <button onClick={() => setAddMode(true)}>ADD NEW MEAL</button> */}
         <Button
           color='lightGreen'
           onClick={() => addMealHandler(DEFAULT_NEW_MEAL_NAME, '', planId)}>

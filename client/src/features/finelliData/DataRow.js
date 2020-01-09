@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import './data.css';
-import CenterVertically from '../../components/CenterVertically';
 import HeaderRow from '../../components/HeaderRow';
 import Modal from '../../components/Modal';
 import InfoIcon from '../../components/InfoIcon';
-import CancelIcon from '../../components/CancelIcon';
-import Info from './Info';
+import NutrientReport from '../nutrientReport/NutrientReport';
 
-export default function Data({ data, selectDataHandler }) {
+export default function Data({ nutrientData, selectDataHandler }) {
   const [showNutrientInfo, setShowNutrientInfo] = useState(false);
 
   return (
     <div className="data">
       <HeaderRow>
         <div style={{ cursor: 'pointer' }}
-          onClick={() => selectDataHandler(data.finelliId, data.name)}
+          onClick={() => selectDataHandler(nutrientData.finelliId, nutrientData.name)}
         >
-          {data.finelliId}. {data.name}
+          {nutrientData.finelliId}. {nutrientData.name}
         </div>
         <div style={{ width: '40px', flexBasis: 0 }}>
           <InfoIcon onClick={() => setShowNutrientInfo(true)} />
@@ -27,12 +25,11 @@ export default function Data({ data, selectDataHandler }) {
         visible={showNutrientInfo}
         dismiss={() => setShowNutrientInfo(false)}
       >
-        {/* cancelHandler={() => setShowNutrientInfo(false)} > */}
-        <HeaderRow>
-          Micronutrient data
-            <CancelIcon onClick={() => setShowNutrientInfo(false)} />
-        </HeaderRow>
-        <Info data={data} />
+        <NutrientReport
+          reportTitle={nutrientData.name}
+          nutrientData={Object.values(nutrientData)}
+          hideModal={() => setShowNutrientInfo(false)}
+        />
       </Modal>
 
     </div>

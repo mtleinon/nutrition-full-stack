@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-// import Input from '../../components/Input';
-import Data from './Data';
+import DataRow from './DataRow';
 import './selectFinelliNutrient.css';
 
-export default React.memo(function SelectFinelliNutrient({ selectDataHandler }) {
+export default React.memo(function SelectFinelliNutrient(
+  { selectDataHandler }) {
   const finelliData = useSelector(state => state.finelliData.finelliData);
-  // const error = useSelector(state => state.nutrients.error);
   const [filterValue, setFilterValue] = useState('');
 
   return (
@@ -21,19 +20,18 @@ export default React.memo(function SelectFinelliNutrient({ selectDataHandler }) 
       />
       <div className="selectFinelliNutrient">
         {finelliData
-          .filter(data => {
+          .filter(nutrientData => {
             if (filterValue.trim() === '') {
               return true;
             }
-            return filterValue.split(' ').every(word => data.name.toUpperCase().includes(word.toUpperCase()))
+            return filterValue.split(' ').every(word => nutrientData.name.toUpperCase().includes(word.toUpperCase()))
           })
-          .map(data => <Data
-            key={data.finelliId}
-            data={data}
+          .map(nutrientData => <DataRow
+            key={nutrientData.finelliId}
+            nutrientData={nutrientData}
             selectDataHandler={selectDataHandler}
           />)
         }
-        {/* <div>Error: {error}</div> */}
       </div>
     </div>
   );
