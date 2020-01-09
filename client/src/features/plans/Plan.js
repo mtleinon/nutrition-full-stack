@@ -3,7 +3,6 @@ import Meals from '../meals/Meals';
 import NutrientRow from '../../components/NutrientRow';
 import DeleteIcon from '../../components/DeleteIcon';
 import OpenIcon from '../../components/OpenIcon';
-import CancelIcon from '../../components/CancelIcon';
 import CloseIcon from '../../components/CloseIcon';
 import Card from '../../components/Card';
 import './plan.css';
@@ -13,6 +12,7 @@ import CenterVertically from '../../components/CenterVertically';
 import HeaderRow from '../../components/HeaderRow';
 import Modal from '../../components/Modal';
 import InfoIcon from '../../components/InfoIcon';
+import PlanAndMealReport from '../nutrientReport/PlanAndMealReport';
 
 const TEST_DATA = {
   calorie: 230,
@@ -63,21 +63,12 @@ export default React.memo(function Plan(props) {
         </Container>
       }
       <Modal visible={showPlanInfo} dismiss={() => setShowPlanInfo(false)}>
-        <div style={{ height: '80%', width: '100%', backgroundColor: 'lightgray' }}
-          // planId={plan.planId}
-          // name={plan.name}
-          cancelHandler={() => setShowPlanInfo(false)} >
-          <HeaderRow>
-            <CenterVertically>
-              {plan.planId} - {plan.name}
-            </CenterVertically>
-            <CancelIcon onClick={() => setShowPlanInfo(false)} />
-
-          </HeaderRow>
-
-        </div>
+        <PlanAndMealReport
+          planId={plan.planId}
+          name={plan.name}
+          hideModal={() => setShowPlanInfo(false)}
+        />
       </Modal>
-
-    </div >
+    </div>
   );
 });

@@ -13,7 +13,7 @@ import Modal from '../../components/Modal';
 
 import './meal.css';
 import HeaderRow from '../../components/HeaderRow';
-import MealNutrientReport from './MealNutrientReport';
+import PlanAndMealReport from '../nutrientReport/PlanAndMealReport';
 
 const TEST_DATA = {
   calorie: 230,
@@ -61,9 +61,9 @@ export default React.memo(function Meal(props) {
         visible={showMealInfo}
         dismiss={() => setShowMealInfo(false)}
       >
-        <MealNutrientReport
+        <PlanAndMealReport
           mealId={meal.mealId}
-          mealName={meal.name}
+          name={meal.name}
           hideModal={() => setShowMealInfo(false)}
         />
       </Modal>

@@ -43,7 +43,6 @@ const DataRow = ({ row }) => {
 
 function dataWithHeadingAndTitles(nutrientData) {
 
-
   const headingsAdded = nutrientData.map((dataRow, i) => ({
     value: dataRow,
     heading: nutrientHeading[i].name.fiShort,
@@ -74,19 +73,34 @@ function dataWithHeadingAndTitles(nutrientData) {
   return titlesAdded;
 }
 
+function Header({ reportTitle, hideModal }) {
+  return (
+    <HeaderRow>
+      <div className={styles.reportTitle} >
+        {reportTitle}
+      </div>
+      <CancelIcon onClick={hideModal} />
+    </HeaderRow>
+  );
+}
+
 export default function NutrientReport({ reportTitle, nutrientData, hideModal }) {
+
+  if (nutrientData.length === 0) {
+    return <Header
+      reportTitle={'No micronutrient data for ' + reportTitle}
+      hideModal={hideModal}
+    />;
+  }
 
   const data = dataWithHeadingAndTitles(nutrientData);
 
   return (
     <>
-      <HeaderRow>
-        <div className={styles.reportTitle} >
-          Micronutrient content of {reportTitle}
-        </div>
-        <CancelIcon onClick={hideModal} />
-      </HeaderRow>
-
+      <Header
+        reportTitle={'Micronutrient data for ' + reportTitle}
+        hideModal={hideModal}
+      />
       <div className={styles.container}>
         {data.map((section, i) => {
           return (
