@@ -1,5 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+/*
+  convertFinelliData converts finelli data object to 
+  array.
+  From API (and SQL database) finelli data row comes in an
+  object. However it is more convenient and efficient to do
+  calculations when data is in array form. So this function 
+  converts an array of objects to array of arrays.
+*/
+function convertFinelliData(finelliDataObjects) {
+  return finelliDataObjects
+    .map(finelliObject => Object.values(finelliObject));
+}
+
 const finelliDataSlice = createSlice({
   name: 'finelliData',
   initialState: {
@@ -17,7 +30,7 @@ const finelliDataSlice = createSlice({
       state.isLoading = false;
     },
     addAllFinelliData(state, action) {
-      state.finelliData.push(...action.payload);
+      state.finelliData.push(...convertFinelliData(action.payload));
       state.isLoading = false;
     }
   }

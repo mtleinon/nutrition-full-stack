@@ -3,6 +3,8 @@ import nutrientHeading from './nutrientHeading';
 import styles from './NutrientReport.module.css';
 import HeaderRow from '../../components/HeaderRow';
 import CancelIcon from '../../components/CancelIcon';
+import { decimals, convertKCalToKJ } from './helperFunctions';
+import { I_ENERGY } from '../finelliData/constants';
 
 const getRecommendation = header => {
   if (header.dri) {
@@ -29,7 +31,9 @@ const TitleRow = ({ title }) => {
 const DataRow = ({ row }) => {
   return <div className={styles.dataRow}>
     <div className={styles.name}>{row.heading}</div>
-    <div className={styles.value} >{row.value}</div>
+    <div className={styles.value} >
+      {row.value.toFixed(decimals(row.value))}
+    </div>
     <div className={styles.unit}>{row.unit}</div>
     <div className={styles.recommendation} >
       {row.recommendation === -1 ? '' : row.recommendation}
@@ -39,12 +43,15 @@ const DataRow = ({ row }) => {
 
 function dataWithHeadingAndTitles(nutrientData) {
 
+
   const headingsAdded = nutrientData.map((dataRow, i) => ({
     value: dataRow,
     heading: nutrientHeading[i].name.fiShort,
     unit: nutrientHeading[i].unit,
     recommendation: getRecommendation(nutrientHeading[i])
   }));
+
+  headingsAdded[I_ENERGY].value = convertKCalToKJ(headingsAdded[I_ENERGY].value);
 
   const titlesAdded = [
     {

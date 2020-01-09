@@ -8,6 +8,7 @@ import Button from '../../components/Button';
 import Nutrient from './Nutrient';
 import AddNutrientToMeal from './AddNutrientToMeal';
 import './nutrients.css';
+import { I_NAME, I_FINELLI_ID } from '../finelliData/constants'
 
 export default React.memo(function Nutrients({ mealId }) {
   const nutrients = useSelector(state => state.nutrients.nutrients.filter(nutrient => nutrient.mealId === mealId));
@@ -37,7 +38,9 @@ export default React.memo(function Nutrients({ mealId }) {
       {nutrients.map(nutrient =>
         <Nutrient
           key={nutrient.nutrientId}
-          name={finelliData.find(row => row.finelliId === nutrient.finelliId).name}
+          name={finelliData.find(row => {
+            return row[I_FINELLI_ID] === nutrient.finelliId
+          })[I_NAME]}
           nutrient={nutrient}
           removeHandler={removeHandler}
           editNutrientHandler={editNutrientHandler}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import DataRow from './DataRow';
 import './selectFinelliNutrient.css';
+import { I_NAME, I_FINELLI_ID } from '../finelliData/constants'
 
 export default React.memo(function SelectFinelliNutrient(
   { selectDataHandler }) {
@@ -24,10 +25,10 @@ export default React.memo(function SelectFinelliNutrient(
             if (filterValue.trim() === '') {
               return true;
             }
-            return filterValue.split(' ').every(word => nutrientData.name.toUpperCase().includes(word.toUpperCase()))
+            return filterValue.split(' ').every(word => nutrientData[I_NAME].toUpperCase().includes(word.toUpperCase()))
           })
           .map(nutrientData => <DataRow
-            key={nutrientData.finelliId}
+            key={nutrientData[I_FINELLI_ID]}
             nutrientData={nutrientData}
             selectDataHandler={selectDataHandler}
           />)
