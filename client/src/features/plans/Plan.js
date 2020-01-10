@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Meals from '../meals/Meals';
-import NutrientRow from '../../components/NutrientRow';
+import NutrientRow from '../nutrientReport/NutrientRow';
 import DeleteIcon from '../../components/DeleteIcon';
 import OpenIcon from '../../components/OpenIcon';
 import CloseIcon from '../../components/CloseIcon';
@@ -13,14 +13,6 @@ import HeaderRow from '../../components/HeaderRow';
 import Modal from '../../components/Modal';
 import InfoIcon from '../../components/InfoIcon';
 import PlanAndMealReport from '../nutrientReport/PlanAndMealReport';
-
-const TEST_DATA = {
-  calorie: 230,
-  fet: 45,
-  protein: 32,
-  carb: 87
-}
-
 
 export default React.memo(function Plan(props) {
   // const [editMode, setEditMode] = useState(false);
@@ -54,7 +46,7 @@ export default React.memo(function Plan(props) {
               <OpenIcon onClick={() => toggleShowMeals()} />}
           </CenterVertically>
         </HeaderRow>
-        <NutrientRow {...TEST_DATA} sideMargins={'15px'} />
+        <NutrientRow planId={plan.planId} sideMargins={'15px'} />
       </Card>
       {
         showMeals &&

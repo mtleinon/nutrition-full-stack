@@ -4,16 +4,9 @@ import CardSmall from '../../components/CardSmall';
 import HeaderRow from '../../components/HeaderRow';
 import CenterVertically from '../../components/CenterVertically';
 import DeleteIcon from '../../components/DeleteIcon';
-import NutrientRow from '../../components/NutrientRow';
+import NutrientRow from '../nutrientReport/NutrientRow';
 import EditableValue from '../../components/EditableValue';
 import WrapText from '../../components/WrapText';
-
-const TEST_DATA = {
-  calorie: 230,
-  fet: 45,
-  protein: 32,
-  carb: 87
-}
 
 export default React.memo(function Nutrient(props) {
   const nutrient = props.nutrient;
@@ -50,7 +43,7 @@ export default React.memo(function Nutrient(props) {
           </CenterVertically>
         </CenterVertically>
       </HeaderRow>
-      <NutrientRow {...TEST_DATA} />
+      <NutrientRow nutrientId={props.nutrient.nutrientId} sideMargins={'5px'} />
     </CardSmall>
   );
 });

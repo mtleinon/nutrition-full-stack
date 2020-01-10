@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 1px 5px;
+  /* border: 1px solid lightgray; */
+  background-color: rgb(241, 241, 241);
+  border-radius: 3px;
+  margin: 10px 0 5px 0;
+}
+.items {
+  flex-grow: 1;
+  text-align: right;
+  margin-left: 10px;
+}
+.items:first-child {
+  margin-left: 0;
+}
