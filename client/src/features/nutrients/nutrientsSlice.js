@@ -66,7 +66,7 @@ export const fetchNutrientsFromDb = () => {
 export const addNutrientToDb = (amount, mealId, finelliId) => {
   return async (dispatch) => {
     console.debug('addNutrientToDb 1', new Date().getSeconds(), new Date().getMilliseconds());
-    // dispatch(startDbOperation());
+    dispatch(startDbOperation());
 
     try {
       const create = { create: { amount, mealId, finelliId } };

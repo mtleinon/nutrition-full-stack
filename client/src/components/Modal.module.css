@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: 102;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,7 +18,7 @@
   overflow: hidden;
   padding: 8px;
   margin: auto;
-  z-index: 1;
+  z-index: 101;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
   background: white;
   border: 0.5px solid lightgray;
@@ -28,6 +28,6 @@
 .modalBackGround {
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  z-index: 100;
   background: rgba(0, 0, 0, 0.5);
 }

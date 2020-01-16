@@ -1,4 +1,7 @@
 import React from 'react';
+import SpinnerModal from '../../components/SpinnerModal';
+import { Ring } from 'react-awesome-spinners'
+
 import { useSelector, useDispatch } from 'react-redux';
 import {
   deleteMealFromDb, updateMealInDb, addMealToDb
@@ -13,6 +16,7 @@ const DEFAULT_NEW_MEAL_NAME = "New meal";
 export default React.memo(function Meals({ planId }) {
   const meals = useSelector(state => state.meals.meals).filter(meal => meal.planId === planId);
   const error = useSelector(state => state.meals.error);
+  const isLoading = useSelector(state => state.meals.isLoading);
   const dispatch = useDispatch();
 
   const editMealHandler = (id, name, description, planId) => {
@@ -28,7 +32,7 @@ export default React.memo(function Meals({ planId }) {
   }
 
   return (
-    <div>
+    <>
       {meals.map(meal => <Meal
         key={meal.mealId}
         meal={meal}
@@ -41,7 +45,11 @@ export default React.memo(function Meals({ planId }) {
           ADD NEW MEAL
         </Button>
       </div>
+      <div>isLoading: {isLoading ? 'Loading ...' : 'No'}</div>
       <div>Error: {error}</div>
-    </div>
+      <SpinnerModal visible={isLoading}>
+        <Ring size='100' sizeUnit='px' />
+      </SpinnerModal>
+    </>
   );
 }, (prevMeals, nextMeals) => { return prevMeals.planId === nextMeals.planId });

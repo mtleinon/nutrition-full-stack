@@ -2,6 +2,7 @@
   width: 20px;
   height: 20px;
   padding: 5px;
+  /* fill: rgba(0, 0, 255, 0.616); */
   cursor: pointer;
 }
 .icon {

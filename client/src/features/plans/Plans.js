@@ -8,6 +8,9 @@ import { fetchMealsFromDb } from '../meals/mealsSlice';
 import { fetchNutrientsFromDb } from '../nutrients/nutrientsSlice';
 import { fetchFinelliDataFromDb } from '../finelliData/finelliDataSlice';
 
+import SpinnerModal from '../../components/SpinnerModal';
+import { Ring } from 'react-awesome-spinners'
+
 import Plan from './Plan';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -18,6 +21,7 @@ const NEW_PLAN_DEFAULT_NAME = 'New plan';
 export default function Plans() {
   const plans = useSelector(state => state.plans.plans);
   const error = useSelector(state => state.plans.error);
+  const isLoading = useSelector(state => state.plans.isLoading);
   const dispatch = useDispatch();
 
   const [addMode, setAddMode] = useState(false);
@@ -66,6 +70,10 @@ export default function Plans() {
         </Button>
       </div>
       <div>Error: {error}</div>
+      <div>isLoading: {isLoading ? 'Loading ...' : 'No'}</div>
+      <SpinnerModal visible={isLoading}>
+        <Ring size='100' sizeUnit='px' />
+      </SpinnerModal>
     </div>
   );
 }

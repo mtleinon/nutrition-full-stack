@@ -1,9 +1,12 @@
 .container {
-  margin: 0 5px 5px 5px;
+  margin: 0 5px 10px 5px;
   padding: 5px;
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   border-top: none;
-  /* background-color: lightgray; */
+  background-color: #eee;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
+  /* position: relative;
+  z-index: -1; */
 }

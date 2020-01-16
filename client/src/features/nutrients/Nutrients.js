@@ -9,11 +9,15 @@ import Nutrient from './Nutrient';
 import AddNutrientToMeal from './AddNutrientToMeal';
 import './nutrients.css';
 import { I_NAME, I_FINELLI_ID } from '../finelliData/constants'
+import SpinnerModal from '../../components/SpinnerModal';
+import { Ring } from 'react-awesome-spinners'
+
 
 export default React.memo(function Nutrients({ mealId }) {
   const nutrients = useSelector(state => state.nutrients.nutrients.filter(nutrient => nutrient.mealId === mealId));
   const finelliData = useSelector(state => state.finelliData.finelliData);
   const error = useSelector(state => state.nutrients.error);
+  const isLoading = useSelector(state => state.nutrients.isLoading);
   const dispatch = useDispatch();
 
   const [addMode, setAddMode] = useState(false);
@@ -59,7 +63,11 @@ export default React.memo(function Nutrients({ mealId }) {
           addNutrientToMealHandler={addNutrientToMealHandler}
           cancelHandler={() => setAddMode(false)} />
       </Modal>
+      <div>isLoading: {isLoading ? 'Loading ...' : 'No'}</div>
       <div>Error: {error}</div>
+      <SpinnerModal visible={isLoading}>
+        <Ring size='100' sizeUnit='px' />
+      </SpinnerModal>
     </div>
   );
 });

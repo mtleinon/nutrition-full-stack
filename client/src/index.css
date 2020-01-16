@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --margin-bottom: 5px;
+  --main-txt-color: blue;
+  --main-padding: 15px;
+}

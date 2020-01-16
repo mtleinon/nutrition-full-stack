@@ -10,6 +10,7 @@ import InfoIcon from '../../components/InfoIcon';
 import EditableValue from '../../components/EditableValue';
 import CenterVertically from '../../components/CenterVertically';
 import Modal from '../../components/Modal';
+// import { Ring } from 'react-awesome-spinners'
 
 import './meal.css';
 import HeaderRow from '../../components/HeaderRow';
@@ -19,6 +20,8 @@ export default React.memo(function Meal(props) {
   const [showNutrients, setShowNutrients] = useState(false);
   const meal = props.meal;
   const [showMealInfo, setShowMealInfo] = useState(false);
+  // const isLoading = useSelector(state => state.meals.isLoading);
+
 
   console.debug('Meals: showMealInfo  =', showMealInfo);
   const editMealHandler = (name) => {
@@ -27,6 +30,9 @@ export default React.memo(function Meal(props) {
   const toggleShowNutrients = () => {
     setShowNutrients(state => !state);
   };
+  // if (isLoading) {
+  //   return <Ring />
+  // }
   return (
     <div className="meal">
       <Card active={showNutrients}>
@@ -46,7 +52,7 @@ export default React.memo(function Meal(props) {
         <NutrientRow mealId={meal.mealId} sideMargins={'10px'} />
       </Card>
       {showNutrients &&
-        <Container >
+        <Container style={{ backgroundColor: 'white' }}>
           <Nutrients mealId={meal.mealId} />
         </Container>
       }

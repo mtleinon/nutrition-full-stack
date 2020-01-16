@@ -16,7 +16,7 @@ import PlanAndMealReport from '../nutrientReport/PlanAndMealReport';
 
 export default React.memo(function Plan(props) {
   // const [editMode, setEditMode] = useState(false);
-  const [showMeals, setShowMeals] = useState(false);
+  const [showMeals, setShowMeals] = useState(false);  
   const [showPlanInfo, setShowPlanInfo] = useState(false);
 
   const editPlanHandler = (name) => {
