@@ -21,6 +21,7 @@
 
 .dataRow {
   display: flex;
+  width: 100%;
   border-bottom: 1px solid #eee;
   /* font-weight: 500; */
   margin-top: 0.2rem;

@@ -5,7 +5,8 @@ import Modal from '../../components/Modal';
 import InfoIcon from '../../components/InfoIcon';
 import NutrientReport from '../nutrientReport/NutrientReport';
 import { I_NAME, I_FINELLI_ID } from '../finelliData/constants'
-export default function Data({ nutrientData, selectDataHandler }) {
+
+export default function DataRow({ nutrientData, selectDataHandler }) {
   const [showNutrientInfo, setShowNutrientInfo] = useState(false);
 
   return (

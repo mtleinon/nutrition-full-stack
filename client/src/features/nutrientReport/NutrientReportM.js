@@ -6,6 +6,12 @@ import CancelIcon from '../../components/CancelIcon';
 import { decimals, convertKCalToKJ } from './helperFunctions';
 import { I_ENERGY } from '../finelliData/constants';
 
+import { makeStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListSubheader from '@material-ui/core/ListSubheader';
+
+
 const getRecommendation = header => {
   if (header.dri) {
     if (header.dri.rda) {
@@ -19,6 +25,36 @@ const getRecommendation = header => {
   }
   return -1;
 }
+
+const useStyles = makeStyles(theme => ({
+  modalContainer: {
+    top: '5vh',
+    margin: 'auto',
+    marginBottom: 'auto',
+    width: '90%',
+    maxWidth: '420px',
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    // overflow: 'auto',
+    height: '90vh',
+  },
+  root: {
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    overflow: 'auto',
+    height: '85vh',
+    // maxHeight: 300,
+  },
+  listSection: {
+    backgroundColor: 'inherit',
+  },
+  ul: {
+    backgroundColor: 'inherit',
+    padding: 0,
+  },
+}));
+
 
 const TitleRow = ({ title }) => {
   return <div className={styles.titleRow}>
@@ -84,7 +120,8 @@ function Header({ reportTitle, hideModal }) {
   );
 }
 
-export default function NutrientReport({ reportTitle, nutrientData, hideModal }) {
+export default function NutrientReportM({ reportTitle, nutrientData, hideModal, ref }) {
+  const classes = useStyles();
 
   if (nutrientData.length === 0) {
     return <Header
@@ -96,29 +133,65 @@ export default function NutrientReport({ reportTitle, nutrientData, hideModal })
   const data = dataWithHeadingAndTitles(nutrientData);
 
   return (
-    <div style={{ backgroundColor: 'white' }}>
+    <div ref={ref} className={classes.modalContainer} >
       <Header
         reportTitle={'Micronutrient data for ' + reportTitle}
         hideModal={hideModal}
       />
-      <div className={styles.container}>
-        {data.map((section, i) => {
-          return (
-            <>
-              <TitleRow
-                key={'h' + i.toString()}
-                title={section.title}
-              />
-              {section.data.map((row, j) =>
-                <DataRow
-                  key={'d' + ((i + 1) * 100 + j).toString()}
-                  row={row}
-                />)
-              }
-            </>
-          )
-        })}
-      </div>
+      <List className={classes.root} subheader={<li />}>
+        {data.map((section, i) => (
+          <li key={`section-${i}`} className={classes.listSection}>
+            <ul className={classes.ul}>
+              <ListSubheader><TitleRow title={section.title} /></ListSubheader>
+              {section.data.map((item, j) => (
+                <ListItem key={`item-${j}`}>
+                  <DataRow row={item} />
+                  {/* <ListItemText primary={`Item ${item}`} /> */}
+                </ListItem>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </List>
     </div>
   );
-};
+}
+
+// export default function NutrientReport({ reportTitle, nutrientData, hideModal }) {
+
+//   if (nutrientData.length === 0) {
+//     return <Header
+//       reportTitle={'No micronutrient data for ' + reportTitle}
+//       hideModal={hideModal}
+//     />;
+//   }
+
+//   const data = dataWithHeadingAndTitles(nutrientData);
+
+//   return (
+//     <div style={{ backgroundColor: 'white' }}>
+//       <Header
+//         reportTitle={'Micronutrient data for ' + reportTitle}
+//         hideModal={hideModal}
+//       />
+//       <div className={styles.container}>
+//         {data.map((section, i) => {
+//           return (
+//             <>
+//               <TitleRow
+//                 key={'h' + i.toString()}
+//                 title={section.title}
+//               />
+//               {section.data.map((row, j) =>
+//                 <DataRow
+//                   key={'d' + ((i + 1) * 100 + j).toString()}
+//                   row={row}
+//                 />)
+//               }
+//             </>
+//           )
+//         })}
+//       </div>
+//     </div>
+//   );
+// };
