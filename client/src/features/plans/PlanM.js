@@ -1,19 +1,4 @@
-import React from 'react';
-// import Meals from '../meals/Meals';
-// import NutrientRow from '../nutrientReport/NutrientRow';
-// import DeleteIcon from '../../components/DeleteIcon';
-// import OpenIcon from '../../components/OpenIcon';
-// import CloseIcon from '../../components/CloseIcon';
-// import Card from '../../components/Card';
-// import './plan.css';
-// import Container from '../../components/Container';
-// import EditableValue from '../../components/EditableValue';
-// import CenterVertically from '../../components/CenterVertically';
-// import HeaderRow from '../../components/HeaderRow';
-// import Modal from '../../components/Modal';
-// import InfoIcon from '../../components/InfoIcon';
-// import PlanAndMealReport from '../nutrientReport/PlanAndMealReport';
-
+import React, { useState } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -23,17 +8,10 @@ import NamePanelDetailsM from './NamePanelDetailsM';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import NameHeaderM from './NameHeaderM';
 import MealsM from '../meals/MealsM';
+import Modal from '@material-ui/core/Modal';
+import PlanAndMealReportM from '../nutrientReport/PlanAndMealReportM';
 
-// import MealsNutrients from './MealsNutrients';
 import Button from '@material-ui/core/Button';
-// import ReportModal from './ReportModal';
-
-// const useStyles = makeStyles({
-//   fullWidth: {
-//     width: '100%',
-//   },
-// });
-
 
 const NamePanel = withStyles({
   root: {
@@ -42,16 +20,7 @@ const NamePanel = withStyles({
 })(ExpansionPanel);
 
 export default React.memo(function PlanM({ plan, editPlanHandler, removeHandler }) {
-  // const classes = useStyles();
-
-  // const [modalOpen, setModalOpen] = useState(false);
-
-  // const openModal = () => {
-  //   setModalOpen(true);
-  // }
-  // const closeModal = () => {
-  //   setModalOpen(false);
-  // }
+  const [showPlanInfo, setShowPlanInfo] = useState(false);
 
   return (
     <>
@@ -67,22 +36,28 @@ export default React.memo(function PlanM({ plan, editPlanHandler, removeHandler 
             initialName={plan.name}
             editHandler={editPlanHandler}
             removeHandler={removeHandler}
-          // openModal={openModal}
+            openModal={() => setShowPlanInfo(true)}
           />
         </NamePanelSummaryM>
         <NamePanelDetailsM>
           <MealsM planId={plan.planId} />
         </NamePanelDetailsM >
-        <div style={{ margin: '4px' }}>
+        {/* <div style={{ margin: '4px' }}>
           <Button variant="contained" color="primary" fullWidth>
             Add meal
           </Button>
-        </div>
+        </div> */}
       </NamePanel >
-      {/* <ReportModal
-        open={modalOpen}
-        onClose={closeModal}
-      /> */}
+      <Modal aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description"
+        open={showPlanInfo}
+        onClose={() => setShowPlanInfo(false)}
+      >
+        <PlanAndMealReportM
+          planId={plan.planId}
+          name={plan.name}
+          hideModal={() => setShowPlanInfo(false)}
+        />
+      </Modal>
     </>
   );
 });

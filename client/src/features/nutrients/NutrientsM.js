@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import ErrorDialog from '../../materialUiComponents/ErrorDialog';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  deleteNutrientFromDb, updateNutrientInDb, addNutrientToDb
+  deleteNutrientFromDb, updateNutrientInDb, addNutrientToDb, setError
 } from './nutrientsSlice';
 // import Modal from '../../components/Modal';
 // import Button from '../../components/Button';
@@ -56,8 +57,13 @@ export default React.memo(function NutrientsM({ mealId }) {
     dispatch(deleteNutrientFromDb(id));
   }
 
+  const clearError = () => {
+    dispatch(setError(''));
+  }
+
   return (
     <div>
+      {error && <ErrorDialog error={error} clearError={clearError} />}
       {isLoadingFinelli ? (
         <SpinnerModal visible={isLoading}>
           <Ring size='100' sizeUnit='px' />
@@ -76,9 +82,11 @@ export default React.memo(function NutrientsM({ mealId }) {
               />)}
           </NutrientListM >
         )}
-      <div >
+      <div style={{ margin: '4px' }} >
         <Button
           color='primary'
+          variant='contained'
+
           style={{ marginTop: '5px' }}
           onClick={() => setAddMode(true)}
         >
@@ -93,8 +101,8 @@ export default React.memo(function NutrientsM({ mealId }) {
           addNutrientToMealHandler={addNutrientToMealHandler}
           cancelHandler={() => setAddMode(false)} />
       </Modal>
-      <div>isLoading: {isLoading ? 'Loading ...' : 'No'}</div>
-      <div>Error: {error}</div>
+      {/* <div>isLoading: {isLoading ? 'Loading ...' : 'No'}</div>
+      <div>Error: {error}</div> */}
       <SpinnerModal visible={isLoading}>
         <Ring size='100' sizeUnit='px' />
       </SpinnerModal>

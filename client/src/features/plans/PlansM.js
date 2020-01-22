@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import ErrorDialog from '../../materialUiComponents/ErrorDialog';
+
 import {
   fetchPlansFromDb,
-  deletePlanFromDb, updatePlanInDb, addPlanToDb
+  deletePlanFromDb, updatePlanInDb, addPlanToDb, setError
 } from './plansSlice';
 import { fetchMealsFromDb } from '../meals/mealsSlice';
 import { fetchNutrientsFromDb } from '../nutrients/nutrientsSlice';
@@ -57,8 +59,13 @@ export default function Plans() {
     dispatch(deletePlanFromDb(id));
   }
 
+  const clearError = () => {
+    dispatch(setError(''));
+  }
+
   return (
     <div className="plans">
+      {error && <ErrorDialog error={error} clearError={clearError} />}
       <h2>Plans</h2>
       {plans.map(plan => <PlanM
         key={plan.planId}
@@ -74,8 +81,8 @@ export default function Plans() {
           ADD NEW PLAN
         </Button>
       </div>
-      <div>Error: {error}</div>
-      <div>isLoading: {isLoading ? 'Loading ...' : 'No'}</div>
+      {/* <div>Error: {error}</div>
+      <div>isLoading: {isLoading ? 'Loading ...' : 'No'}</div> */}
       <SpinnerModal visible={isLoading}>
         <Ring size='100' sizeUnit='px' />
       </SpinnerModal>

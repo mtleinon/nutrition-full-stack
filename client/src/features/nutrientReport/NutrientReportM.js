@@ -124,10 +124,13 @@ export default function NutrientReportM({ reportTitle, nutrientData, hideModal, 
   const classes = useStyles();
 
   if (nutrientData.length === 0) {
-    return <Header
-      reportTitle={'No micronutrient data for ' + reportTitle}
-      hideModal={hideModal}
-    />;
+    return (
+      <div ref={ref} className={classes.modalContainer} >
+        <Header className={classes.modalContainer}
+          reportTitle={'No micronutrient data for ' + reportTitle}
+          hideModal={hideModal}
+        />
+      </div>);
   }
 
   const data = dataWithHeadingAndTitles(nutrientData);
