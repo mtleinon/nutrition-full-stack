@@ -52,7 +52,7 @@ export default React.memo(function Meal({ meal, editMealHandler, removeHandler }
       >
         <NameHeaderM
           label="Meal name"
-          id={meal.mealId}
+          mealId={meal.mealId}
           initialName={meal.name}
           editHandler={editMealHandler}
           removeHandler={removeHandler}

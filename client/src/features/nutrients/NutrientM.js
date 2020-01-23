@@ -5,6 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import Typography from '@material-ui/core/Typography';
 import InputFieldM from '../plans/InputFieldM';
+import NutrientRow from '../nutrientReport/NutrientRow';
 
 const useStyles = makeStyles({
   listItemIconRoot: {
@@ -58,7 +59,6 @@ export default function NutrientM(props) {
           {props.name}
         </Typography>
         <div id="3" className={classes.nutrientRowNumber}>
-          {/* <InputFieldM /> */}
           <InputFieldM
             label='Amount'
             id={props.nutrient.nutrientId}
@@ -67,7 +67,6 @@ export default function NutrientM(props) {
             type='number'
             unit='g'
           />
-
           <div className={classes.iconContainer}>
             <ListItemIcon onClick={() => props.removeHandler(props.nutrient.nutrientId)}
               classes={{ root: classes.listItemIconRoot }}>
@@ -76,7 +75,7 @@ export default function NutrientM(props) {
           </div>
         </div>
       </div>
-      {/* <NutrientRow calorie={1233} fet={34} prot={167} carb={230} /> */}
+      <NutrientRow nutrientId={props.nutrient.nutrientId} sideMargins={'5px'} />
     </div>
   );
 }

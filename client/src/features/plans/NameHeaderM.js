@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InputFieldM from './InputFieldM';
 
-// import NutrientRow from './NutrientRow';
+import NutrientRow from '../nutrientReport/NutrientRow';
 
 // const useStyles = makeStyles(theme => ({
 //   fullWidth: {
@@ -25,7 +25,7 @@ const IconButton2 = withStyles({
   },
 })(IconButton);
 
-export default function NameHeaderM({ label, id, initialName, editHandler, removeHandler, openModal }) {
+export default function NameHeaderM({ label, mealId, planId, initialName, isLoading, lastlyUpdatedId, editHandler, removeHandler, openModal }) {
   // const classes = useStyles();
   // const [name, setName] = useState(initialName);
 
@@ -45,13 +45,15 @@ export default function NameHeaderM({ label, id, initialName, editHandler, remov
     e.stopPropagation();
     openModal();
   }
-
+  const id = planId || mealId;
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <InputFieldM
           label={label}
           id={id}
+          isLoading={isLoading}
+          lastlyUpdated={lastlyUpdatedId === id}
           initialValue={initialName}
           editHandler={editHandler}
         />
@@ -67,7 +69,7 @@ export default function NameHeaderM({ label, id, initialName, editHandler, remov
           </IconButton2>
         </div>
       </div>
-      {/* <NutrientRow calorie={1233} fet={134} prot={167} carb={230} /> */}
+      <NutrientRow mealId={mealId} planId={planId} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ErrorDialog from '../../materialUiComponents/ErrorDialog';
 
@@ -30,11 +30,13 @@ export default function Plans() {
   const error = useSelector(state => state.plans.error);
   const isLoading = useSelector(state => state.plans.isLoading);
   const dispatch = useDispatch();
+  const [lastlyUpdatedId, setLastlyUpdatedId] = useState(0);
 
   // const [addMode, setAddMode] = useState(false);
   // const [error, setError] = useState('');
 
   const editPlanHandler = (id, name) => {
+    setLastlyUpdatedId(id);
     dispatch(updatePlanInDb(id, name));
   }
 
@@ -66,10 +68,11 @@ export default function Plans() {
   return (
     <div className="plans">
       {error && <ErrorDialog error={error} clearError={clearError} />}
-      <h2>Plans</h2>
       {plans.map(plan => <PlanM
         key={plan.planId}
         plan={plan}
+        isLoading={isLoading}
+        lastlyUpdatedId={lastlyUpdatedId}
         editPlanHandler={editPlanHandler}
         removeHandler={removeHandler} />
       )}

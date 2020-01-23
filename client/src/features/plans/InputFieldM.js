@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
-
 // import NutrientRow from './NutrientRow';
 
 const useStyles = makeStyles(({
@@ -18,11 +17,12 @@ const numberInputStyle = {
     // TODO: set input type to number and remove arrows:
     // "-webkit-appearance": 'none',
     // margin: 0
-  }
+  },
+
 };
 
 
-export default function NameHeaderM({ label, id, initialValue, editHandler, type, unit }) {
+export default function InputFieldM({ label, id, initialValue, isLoading, lastlyUpdated, editHandler, type, unit }) {
   const classes = useStyles();
   const [value, setValue] = useState(initialValue);
 
@@ -58,24 +58,20 @@ export default function NameHeaderM({ label, id, initialValue, editHandler, type
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <TextField margin="dense"
-          className={classes.fullWidth}
-          // id="name1"
-          label={label}
-          onChange={onChange} value={value}
-          onClick={onClick}
-          onKeyUp={onKeyUp}
-          onBlur={onBlur}
-          color="primary"
-          inputProps={(type === 'number') ? numberInputStyle : {}}
-          InputProps={unit ? ({
-            endAdornment: <InputAdornment position="end">{unit}</InputAdornment>
-          }) : {}
-          }
-        />
-      </div>
-    </div>
+    <TextField margin="dense"
+      className={classes.fullWidth}
+      // id="name1"
+      label={label}
+      onChange={onChange} value={value}
+      onClick={onClick}
+      onKeyUp={onKeyUp}
+      onBlur={onBlur}
+      color="primary"
+      inputProps={(type === 'number') ? numberInputStyle : {}}
+      InputProps={unit ? ({
+        endAdornment: <InputAdornment position="end">{unit}</InputAdornment>
+      }) : {}
+      }
+    />
   );
 }

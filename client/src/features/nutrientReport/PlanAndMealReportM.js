@@ -3,7 +3,8 @@ import NutrientReportM from './NutrientReportM';
 import { useSelector } from 'react-redux';
 import { dataToShow } from './helperFunctions';
 
-const PlanAndMealReport = React.forwardRef(({ mealId, planId, name, hideModal }, ref) => {
+const PlanAndMealReportM = React.forwardRef((props, ref) => {
+  const { mealId, planId, name, hideModal } = props;
   const finelliData = useSelector(state => state.finelliData.finelliData);
 
   const allNutrients = useSelector(state => state.nutrients.nutrients);
@@ -22,7 +23,7 @@ const PlanAndMealReport = React.forwardRef(({ mealId, planId, name, hideModal },
   const nutrientData = dataToShow(nutrients, 0, finelliData);
   return (
     <NutrientReportM
-      ref={ref}
+      ref2={ref}
       reportTitle={name}
       nutrientData={nutrientData}
       hideModal={hideModal}
@@ -30,4 +31,4 @@ const PlanAndMealReport = React.forwardRef(({ mealId, planId, name, hideModal },
   );
 });
 
-export default PlanAndMealReport;
+export default PlanAndMealReportM;

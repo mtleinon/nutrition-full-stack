@@ -19,7 +19,7 @@ const NamePanel = withStyles({
   },
 })(ExpansionPanel);
 
-export default React.memo(function PlanM({ plan, editPlanHandler, removeHandler }) {
+export default React.memo(function PlanM({ plan, isLoading, lastlyUpdatedId, editPlanHandler, removeHandler }) {
   const [showPlanInfo, setShowPlanInfo] = useState(false);
 
   return (
@@ -32,7 +32,9 @@ export default React.memo(function PlanM({ plan, editPlanHandler, removeHandler 
         >
           <NameHeaderM
             label="Plan name"
-            id={plan.planId}
+            planId={plan.planId}
+            isLoading={isLoading}
+            lastlyUpdatedId={lastlyUpdatedId}
             initialName={plan.name}
             editHandler={editPlanHandler}
             removeHandler={removeHandler}

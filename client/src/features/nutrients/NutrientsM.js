@@ -76,6 +76,9 @@ export default React.memo(function NutrientsM({ mealId }) {
                 name={finelliData.find(row => {
                   return row[I_FINELLI_ID] === nutrient.finelliId
                 })[I_NAME]}
+                nutrientData={finelliData.find(row => {
+                  return row[I_FINELLI_ID] === nutrient.finelliId
+                })}
                 nutrient={nutrient}
                 removeHandler={removeHandler}
                 editNutrientHandler={editNutrientHandler}

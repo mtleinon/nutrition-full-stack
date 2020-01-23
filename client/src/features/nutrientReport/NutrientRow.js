@@ -42,7 +42,7 @@ export default function NutrientRow({ mealId, planId, nutrientId, sideMargins })
       style={{ marginLeft: sideMargins, marginRight: sideMargins }}>
 
       <div className={styles.items}>
-        ener. {convertKCalToKJ(nutrientData[I_ENERGY]).toFixed(0)}kcal
+        {convertKCalToKJ(nutrientData[I_ENERGY]).toFixed(0)}kcal
       </div>
       <div className={styles.items}>
         carb {nutrientData[I_FET].toFixed(0)}g

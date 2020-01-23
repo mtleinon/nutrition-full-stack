@@ -120,12 +120,12 @@ function Header({ reportTitle, hideModal }) {
   );
 }
 
-export default function NutrientReportM({ reportTitle, nutrientData, hideModal, ref }) {
+export default function NutrientReportM({ reportTitle, nutrientData, hideModal, ref2 }) {
   const classes = useStyles();
 
   if (nutrientData.length === 0) {
     return (
-      <div ref={ref} className={classes.modalContainer} >
+      <div ref={ref2} className={classes.modalContainer} >
         <Header className={classes.modalContainer}
           reportTitle={'No micronutrient data for ' + reportTitle}
           hideModal={hideModal}
@@ -136,7 +136,7 @@ export default function NutrientReportM({ reportTitle, nutrientData, hideModal, 
   const data = dataWithHeadingAndTitles(nutrientData);
 
   return (
-    <div ref={ref} className={classes.modalContainer} >
+    <div className={classes.modalContainer} >
       <Header
         reportTitle={'Micronutrient data for ' + reportTitle}
         hideModal={hideModal}
@@ -159,6 +159,31 @@ export default function NutrientReportM({ reportTitle, nutrientData, hideModal, 
     </div>
   );
 }
+
+/*
+return (
+  <div ref={ref} className={classes.modalContainer} >
+    <Header
+      reportTitle={'Micronutrient data for ' + reportTitle}
+      hideModal={hideModal}
+    />
+    <List className={classes.root} subheader={<li />}>
+      {data.map((section, i) => (
+        <li key={`section-${i}`} className={classes.listSection}>
+          <ul className={classes.ul}>
+            <ListSubheader><TitleRow title={section.title} /></ListSubheader>
+            {section.data.map((item, j) => (
+              <ListItem key={`item-${j}`}>
+                <DataRow row={item} />
+              </ListItem>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </List>
+  </div>
+);
+*/
 
 // export default function NutrientReport({ reportTitle, nutrientData, hideModal }) {
 
