@@ -2,7 +2,7 @@
 GET http://localhost:5000/
 
 ### Get plans
-GET http://localhost:5000/api/plans
+GET http://localhost:5000/api/plans/
 
 ### Get plan
 GET http://localhost:5000/api/plans/27

@@ -1,8 +1,7 @@
-const mySqlUtils = require('../database/mySqlPlansUtils');
-const Plan = require('../models/Plan');
+const mySqlUtils = require('../database/mySqlUsersUtils');
 const { validationResult } = require('express-validator');
 
-const createPlan = async (req, res, next) => {
+const createUser = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
@@ -10,44 +9,43 @@ const createPlan = async (req, res, next) => {
 
   const create = req.body.create;
   console.debug('create =', create);
-  const { error, result } = await mySqlUtils.createPlan(create);
+  const { error, result } = await mySqlUtils.createUser(create);
   console.debug('result =', result);
   if (error) {
     res.status(500).send(error);
   } else {
-    create.planId = result.insertId;
+    create.userId = result.insertId;
     res.status(200).send(create);
   }
 }
 
-const updatePlan = async (req, res, next) => {
+const updateUser = async (req, res, next) => {
   const id = +req.params.id;
   const updateValues = req.body.update;
   console.debug('updateValues =', updateValues);
-  const { error, result } = await mySqlUtils.updatePlan(id, updateValues);
+  const { error, result } = await mySqlUtils.updateUser(id, updateValues);
   if (error) {
     res.status(500).send(error);
   } else {
     console.debug('result =', result);
-    updateValues.planId = id;
+    updateValues.userId = id;
     res.status(200).send(updateValues);
   }
 }
 
-const deletePlan = async (req, res, next) => {
+const deleteUser = async (req, res, next) => {
   const id = +req.params.id;
-  const { status, error, result } = await mySqlUtils.deletePlan(id);
+  const { status, error, result } = await mySqlUtils.deleteUser(id);
   if (error) {
     res.status(status).send({ error });
   } else {
-    res.status(status).send({ planId: id });
+    res.status(status).send({ userId: id });
   }
 }
 
-const getPlans = async (req, res, next) => {
-  const planId = req.params.planId;
-  const userId = req.params.userId;
-  const { error, result } = await mySqlUtils.getPlans(userId, planId);
+const getUsers = async (req, res, next) => {
+  const id = req.params.id;
+  const { error, result } = await mySqlUtils.getUsers(id);
   if (error) {
     res.status(500).send(error);
   } else {
@@ -56,6 +54,6 @@ const getPlans = async (req, res, next) => {
 }
 
 module.exports = {
-  createPlan, getPlans, updatePlan, deletePlan
+  createUser, getUsers, updateUser, deleteUser
 
 }

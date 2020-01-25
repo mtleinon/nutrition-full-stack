@@ -15,9 +15,11 @@ import { I_NAME, I_FINELLI_ID } from '../finelliData/constants'
 import SpinnerModal from '../../components/SpinnerModal';
 import { Ring } from 'react-awesome-spinners'
 
+import Dialog from '@material-ui/core/Dialog';
 import List from '@material-ui/core/List';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import SelectFinelliNutrientM from '../finelliData/SelectFinelliNutrientM';
 
 const NutrientListM = withStyles({
   root: {
@@ -96,14 +98,25 @@ export default React.memo(function NutrientsM({ mealId }) {
           ADD NEW NUTRIENT
         </Button>
       </div>
+      <SelectFinelliNutrientM open={addMode} onClose={() => setAddMode(false)}
+        selectDataHandler={addNutrientToMealHandler} />
+
+      {/* <Dialog onClose={() => setAddMode(false)} aria-labelledby="customized-dialog-title" open={addMode}>
+        <AddNutrientToMealM
+          addNutrientToMealHandler={addNutrientToMealHandler}
+          cancelHandler={() => setAddMode(false)} />
+      </Dialog>
+
+
       <Modal aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description"
-        open={addMode}
+        open={false}
         onClose={() => setAddMode(false)}
+        style={{ width: '80vw' }}
       >
         <AddNutrientToMealM
           addNutrientToMealHandler={addNutrientToMealHandler}
           cancelHandler={() => setAddMode(false)} />
-      </Modal>
+      </Modal> */}
       {/* <div>isLoading: {isLoading ? 'Loading ...' : 'No'}</div>
       <div>Error: {error}</div> */}
       <SpinnerModal visible={isLoading}>

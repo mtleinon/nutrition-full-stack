@@ -14,12 +14,12 @@ const AddNutrientToMeal = React.forwardRef((
 
   return (
     <div ref={ref} style={{ height: '80%', backgroundColor: 'white' }}>
-      <HeaderRow>
+      {/* <HeaderRow>
         <CenterVertically>
           Select nutrient by clicking it
         </CenterVertically>
         <CancelIcon onClick={cancelHandler} />
-      </HeaderRow>
+      </HeaderRow> */}
       <SelectFinelliNutrientM selectDataHandler={selectDataHandler} />
     </div>);
 });

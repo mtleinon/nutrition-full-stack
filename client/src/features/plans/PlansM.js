@@ -22,6 +22,7 @@ import PlanM from './PlanM';
 
 // import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
 
 const NEW_PLAN_DEFAULT_NAME = 'New plan';
 
@@ -76,14 +77,14 @@ export default function Plans() {
         editPlanHandler={editPlanHandler}
         removeHandler={removeHandler} />
       )}
-      <div style={{ justifyContent: 'center' }}>
+      <Container style={{ justifyItems: 'center' }}>
         <Button
           variant="contained" color="primary"
           onClick={() => addPlanHandler(NEW_PLAN_DEFAULT_NAME)}
         >
           ADD NEW PLAN
         </Button>
-      </div>
+      </Container>
       {/* <div>Error: {error}</div>
       <div>isLoading: {isLoading ? 'Loading ...' : 'No'}</div> */}
       <SpinnerModal visible={isLoading}>

@@ -13,7 +13,7 @@ export default function AddNutrientToMeal({
   }
 
   return (
-    <div style={{ height: '80%' }}>
+    <div style={{ height: '80%', backgroundColor: 'white' }}>
       <HeaderRow>
         <CenterVertically>
           Select nutrient by clicking it

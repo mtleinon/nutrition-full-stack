@@ -11,8 +11,8 @@ export default function DataRow({ nutrientData, selectDataHandler }) {
 
   return (
     <div className="data">
-      <HeaderRow>
-        <div style={{ cursor: 'pointer' }}
+      <div style={{ display: 'flex' }} >
+        <div style={{ cursor: 'pointer', flex: 1, wordBreak: 'break-all' }}
           onClick={() => selectDataHandler(nutrientData[I_FINELLI_ID], nutrientData[I_NAME])}
         >
           {nutrientData[I_FINELLI_ID]}. {nutrientData[I_NAME]}
@@ -20,7 +20,7 @@ export default function DataRow({ nutrientData, selectDataHandler }) {
         <div style={{ width: '40px', flexBasis: 0 }}>
           <InfoIcon onClick={() => setShowNutrientInfo(true)} />
         </div>
-      </HeaderRow>
+      </div>
 
       <Modal
         visible={showNutrientInfo}

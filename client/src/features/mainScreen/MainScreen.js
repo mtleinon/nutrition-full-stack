@@ -78,6 +78,7 @@ export default function MainScreen() {
         </Toolbar>
       </AppBar>
       <LoginUserM showLogin={showLogin} handleCloseLogin={handleCloseLogin} />
+      <div style={{ paddingTop: '70px' }} />
       <PlansM />
     </div>
   );
