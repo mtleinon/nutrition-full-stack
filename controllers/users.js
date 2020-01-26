@@ -1,3 +1,6 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const jsonSecret = require('../secrets/finelliConfig').jsonSecret;
 const mySqlUtils = require('../database/mySqlUsersUtils');
 const { checkRequest, sendResponse } = require('./controllerUtils');
 
@@ -5,12 +8,60 @@ const createUser = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
 
-    const create = req.body.create;
-    console.debug('create =', create);
-    const { status, error, result } = await mySqlUtils.createUser(create);
+    const newUser = req.body.newUser;
+    console.debug('newUser =', newUser);
 
-    create.userId = result && result.insertId;
-    sendResponse(res, status, error, create);
+    //TODO: Check that email isn't created to database already
+
+    bcrypt.genSalt(10, (err, salt) => {
+      if (err) throw err;
+      bcrypt.hash(newUser.password, salt, async (err, hash) => {
+
+        if (err) throw err;
+        newUser.password = hash;
+
+        const { status, error, result } = await mySqlUtils.createUser(newUser);
+
+        newUser.userId = result && result.insertId;
+        sendResponse(res, status, error, newUser);
+      });
+    });
+  }
+}
+
+
+// Authenticate user. If it succeeds return JWT
+
+const loginUser = async (req, res, _) => {
+
+  if (checkRequest(req, res)) {
+
+    const user = req.body.user;
+    const { status, error, result } = await mySqlUtils.getUsers(undefined, user.email);
+
+    if (result && result.length === 1) {
+      const userData = result[0];
+      bcrypt.compare(user.password, userData.password, (err, result) => {
+        if (err) throw err;
+        if (result) {
+          userData.password = '';
+          token = jwt.sign({
+            data: {
+              userId: userData.userId,
+              email: userData.email,
+              name: userData.name
+            }
+          }, jsonSecret, { expiresIn: '8h' });
+          return sendResponse(res, status, error, {
+            userData,
+            token: 'bearer ' + token
+          });
+        }
+        return sendResponse(res, 404, { error: 'Password is erroneous' });
+      });
+    } else {
+      sendResponse(res, 404, { error: 'Unknown user' });
+    }
   }
 }
 
@@ -48,6 +99,6 @@ const getUsers = async (req, res, _) => {
 }
 
 module.exports = {
-  createUser, getUsers, updateUser, deleteUser
+  createUser, loginUser, getUsers, updateUser, deleteUser
 
 }

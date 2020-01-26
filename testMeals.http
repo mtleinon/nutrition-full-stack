@@ -13,10 +13,10 @@ content-type: application/json
 
 {
   "create": {
-    "name": "Meal 4   ",
+    "name": "Meal 85   ",
     "description": "Meal 100 description.",
     "userId": 1,
-    "planId": 2
+    "planId": 9
   }
 }
 

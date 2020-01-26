@@ -4,25 +4,29 @@ const { check } = require('express-validator');
 
 const {
   createUser,
-  getUsers,
+  loginUser,
   updateUser,
   deleteUser
 } = require('../controllers/users');
 
-// TODO: check that email address isn't used already. 
-router.post('/', [
-  check('create.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
-  check('create.gender').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Gender can not be empty.'),
-  check('create.age').isNumeric().withMessage('age must be a number.'),
-  check('create.weight').isNumeric().withMessage('weight must be a number.'),
-  check('create.height').isNumeric().withMessage('height must be a number.'),
+router.post('/create/', [
+  check('newUser.email').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Email can not be empty.'),
+  check('newUser.password').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Password can not be empty.'),
+  check('newUser.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+  check('newUser.gender').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Gender can not be empty.'),
+  check('newUser.age').isNumeric().withMessage('age must be a number.'),
+  check('newUser.weight').isNumeric().withMessage('weight must be a number.'),
+  check('newUser.height').isNumeric().withMessage('height must be a number.'),
 ], createUser);
 
-router.get('/:email/:password', getUsers);
-router.get('/:userId', getUsers);
-router.get('/', getUsers);
+router.post('/signin/', [
+  check('user.email').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Email can not be empty.'),
+  check('user.password').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Password can not be empty.'),
+], loginUser);
 
-
+router.get('/:email/:password', (_, res) => res.json({ msg: "Route not supported anymore!" }));
+router.get('/:userId', (_, res) => res.json({ msg: "Route not supported anymore!" }));
+router.get('/', (_, res) => res.json({ msg: "Route not supported anymore!" }));
 
 router.patch('/:userId', [
   // check('update.userId').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('UserId can not be empty.'),

@@ -7,15 +7,15 @@ GET http://localhost:5000/api/nutrients/1
 ### Get nutrient
 GET http://localhost:5000/api/nutrients/1/2
 
-###
+### Crete nutrient
 POST http://localhost:5000/api/nutrients/1 HTTP/1.1
 content-type: application/json
 
 {
   "create": {
-    "amount": "300",
+    "amount": "400",
     "userId": 1,
-    "mealId": 4,
+    "mealId": 6,
     "finelliId": 2
   }
 }

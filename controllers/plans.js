@@ -5,32 +5,36 @@ const createPlan = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
 
-    const userId = +req.params.userId;
-    const create = req.body.create;
-
-    const { status, error, result } = await mySqlUtils.createPlan(userId, create);
-    create.planId = result && result.insertId;
-    sendResponse(res, status, error, create);
+    const userId = +req.user.userId;
+    const newPlan = req.body.newPlan;
+    newPlan.userId = userId;
+    const { status, error, result } =
+      await mySqlUtils.createPlan(userId, newPlan);
+    newPlan.planId = result && result.insertId;
+    sendResponse(res, status, error, newPlan);
   }
 }
 
 const updatePlan = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
-    const userId = +req.params.userId;
-    const planId = +req.params.planId;
-    const updateValues = req.body.update;
 
-    const { status, error } = await mySqlUtils.updatePlan(userId, planId, updateValues);
-    updateValues.planId = planId;
-    sendResponse(res, status, error, updateValues);
+    const userId = +req.user.userId;
+    const planId = +req.params.planId;
+    const plan = req.body.plan;
+    plan.userId = userId;
+
+    const { status, error } = await mySqlUtils.updatePlan(userId, planId, plan);
+    plan.planId = planId;
+    sendResponse(res, status, error, plan);
   }
 }
 
 const deletePlan = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
-    const userId = +req.params.userId;
+
+    const userId = +req.user.userId;
     const planId = +req.params.planId;
 
     const { status, error } = await mySqlUtils.deletePlan(userId, planId);
@@ -41,9 +45,8 @@ const deletePlan = async (req, res, _) => {
 const getPlans = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
-
+    const userId = +req.user.userId;
     const planId = +req.params.planId;
-    const userId = +req.params.userId;
 
     const { status, error, result } = await mySqlUtils.getPlans(userId, planId);
     sendResponse(res, status, error, result);

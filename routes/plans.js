@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const passport = require("passport");
 const { check } = require('express-validator');
 
 const {
@@ -9,21 +10,32 @@ const {
   deletePlan
 } = require('../controllers/plans');
 
-router.post('/:userId', [
-  check('create.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
-  check('create.userId').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('UserId can not be empty.'),
-  check('create.description').trim()
-], createPlan);
+router.post('/',
+  passport.authenticate("jwt", { session: false }),
+  [
+    check('newPlan.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    check('newPlan.description').trim()
+  ],
+  createPlan);
 
-router.get('/:userId/:planId', getPlans);
-router.get('/:userId', getPlans);
+router.get('/:planId',
+  passport.authenticate("jwt", { session: false }),
+  getPlans);
 
-router.patch('/:userId/:planId', [
-  check('update.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
-  check('update.userId').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('UserId can not be empty.'),
-  check('update.description').trim()
-], updatePlan);
+router.get('/',
+  passport.authenticate("jwt", { session: false }),
+  getPlans);
 
-router.delete('/:userId/:planId', deletePlan);
+router.patch('/:planId',
+  passport.authenticate("jwt", { session: false }),
+  [
+    check('plan.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    check('plan.description').trim()
+  ],
+  updatePlan);
+
+router.delete('/:planId',
+  passport.authenticate("jwt", { session: false }),
+  deletePlan);
 
 module.exports = router;

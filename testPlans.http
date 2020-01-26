@@ -2,105 +2,96 @@
 GET http://localhost:5000/
 
 ### Get all users plans
-GET http://localhost:5000/api/plans/1
+GET http://localhost:5000/api/plans
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 
 ### Get one user's plan
-GET http://localhost:5000/api/plans/1/8
-
-### Error: Don't send userId
-GET http://localhost:5000/api/plans/
+GET http://localhost:5000/api/plans/15
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 
 ### Error: Plan not found
-GET http://localhost:5000/api/plans/1/1000
+GET http://localhost:5000/api/plans/1000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 
-### Error: User not found
-GET http://localhost:5000/api/plans/1000/6
-
+### Error: JWT not set to header
+GET http://localhost:5000/api/plans/6
 
 ###  Create plan
-POST http://localhost:5000/api/plans/1 HTTP/1.1
+POST http://localhost:5000/api/plans/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 content-type: application/json
 
 {
-  "create": {
-    "userId": 1,
-    "name": "  aaaa   ",
+  "newPlan": {
+    "name": "  aaaa 2  ",
     "description": "  Plan 100 description."
   }
 }
 
-### Error: Create plan. User not given
+### Error: Create plan. JWT not set
 POST http://localhost:5000/api/plans/ HTTP/1.1
 content-type: application/json
 
 {
-  "create": {
-    "userId": 10,
+  "newPlan": {
     "name": "  plan name   ",
     "description": "  Plan 100 description."
   }
 }
 
-### Error: Create plan. User doesn't exists
-POST http://localhost:5000/api/plans/1 HTTP/1.1
+### Error: Create plan. Name not given
+POST http://localhost:5000/api/plans/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
+
 content-type: application/json
 
 {
-  "create": {
-    "userId": 10,
-    "name": "  plan name   ",
-    "description": "  Plan 100 description."
-  }
-}
-
-### Error: Create plan. User not given and name not given
-POST http://localhost:5000/api/plans/1 HTTP/1.1
-content-type: application/json
-
-{
-  "create": {
+  "newPlan": {
   }
 }
 
 ### Update plan succesfully
-PATCH http://localhost:5000/api/plans/1/6 HTTP/1.1
+PATCH http://localhost:5000/api/plans/17 HTTP/1.1
 content-type: application/json
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
+ 
 {
-  "update": {
-    "userId": 1,
+  "plan": {
     "name": "  Updated name   ",
     "description": "  Updated description."
   }
 }
 
-### Error: user not found
-PATCH http://localhost:5000/api/plans/1000/4 HTTP/1.1
+### Error: plan not found
+PATCH http://localhost:5000/api/plans/4 HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 
 {
-  "update": {
-    "userId": 1000,
+  "plan": {
     "name": "  Updated name  2 ",
     "description": "  Updated description."
   }
 }
 
-### Error: update parameters not given
-PATCH http://localhost:5000/api/plans/1/4 HTTP/1.1
+### Error: plan values not given
+PATCH http://localhost:5000/api/plans/4 HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 
 {
-  "update": {
+  "plan": {
   }
 }
 
 ### Delete succesfully
-DELETE http://localhost:5000/api/plans/1/6
+DELETE http://localhost:5000/api/plans/19
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 
-### Delete with unexisting userId
-DELETE http://localhost:5000/api/plans/1000/4
+### Error: Delete without JWT
+DELETE http://localhost:5000/api/plans/4
 
-### Delete with unexisting planId
-DELETE http://localhost:5000/api/plans/1/1000
+### Error: Delete with unexisting planId
+DELETE http://localhost:5000/api/plans/1000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 

@@ -14,12 +14,13 @@ GET http://localhost:5000/api/users/cecilia@a.com/123456
 GET http://localhost:5000/api/users/1000
 
 ### Create user
-POST http://localhost:5000/api/users HTTP/1.1
+POST http://localhost:5000/api/users/create HTTP/1.1
 content-type: application/json
 
 {
-  "create":  {
+  "newUser":  {
     "email": "Jill@gmail.com",
+    "password": "123456",
     "name": "Jill Carry",
     "gender": "female",
     "age": 33,
@@ -34,6 +35,21 @@ content-type: application/json
 
 {
 }
+
+### Login user
+POST http://localhost:5000/api/users/signin HTTP/1.1
+content-type: application/json
+
+{
+  "user":  {
+    "email": "Jill@gmail.com",
+    "password": "123456"
+  }
+}
+
+
+
+
 ### Update user
 PATCH http://localhost:5000/api/users/2 HTTP/1.1
 content-type: application/json
