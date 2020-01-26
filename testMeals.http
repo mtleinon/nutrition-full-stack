@@ -2,85 +2,97 @@
 GET http://localhost:5000/
 
 ### Get meals
-GET http://localhost:5000/api/meals/1
+GET http://localhost:5000/api/meals
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 
 ### Get meal
-GET http://localhost:5000/api/meals/1/1
+GET http://localhost:5000/api/meals/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 
 ### Create meal
-POST http://localhost:5000/api/meals/1 HTTP/1.1
+POST http://localhost:5000/api/meals/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 content-type: application/json
 
 {
-  "create": {
+  "newMeal": {
     "name": "Meal 85   ",
     "description": "Meal 100 description.",
-    "userId": 1,
     "planId": 9
   }
 }
 
 ### Error: create meal without parameters 
-POST http://localhost:5000/api/meals/1 HTTP/1.1
+POST http://localhost:5000/api/meals/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
+content-type: application/json
+
+{
+}
+
+### Error: create meal without JWT 
+POST http://localhost:5000/api/meals/ HTTP/1.1
 content-type: application/json
 
 {
 }
 
 ### Update a meal
-PATCH http://localhost:5000/api/meals/1/2 HTTP/1.1
+PATCH http://localhost:5000/api/meals/11 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 content-type: application/json
 
 {
-  "update": {
+  "meal": {
     "name": "Meal 4.2   ",
     "description": "Meal 102 description.",
-    "userId": 1,
     "planId": 2
   }
 }
 
 ### Error: Update a meal without parameters
-PATCH http://localhost:5000/api/meals/1/2 HTTP/1.1
+PATCH http://localhost:5000/api/meals/11 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 content-type: application/json
 
 {
-  "update": {
+  "meal": {
   }
 }
 
 ### Error: Update a meal that doesn't exist
-PATCH http://localhost:5000/api/meals/1/1000 HTTP/1.1
+PATCH http://localhost:5000/api/meals/1000 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 content-type: application/json
 
 {
-  "update": {
+  "meal": {
     "name": "Meal 4.2   ",
     "description": "Meal 102 description.",
-    "userId": 1,
     "planId": 2
   }
 }
 
-### Error: Update a meal so that user doesn't exist
-PATCH http://localhost:5000/api/meals/1000/2 HTTP/1.1
+### Error: Update a meal without JWT
+PATCH http://localhost:5000/api/meals/11 HTTP/1.1
 content-type: application/json
 
 {
-  "update": {
+  "meal": {
     "name": "Meal 4.2   ",
     "description": "Meal 102 description.",
-    "userId": 1,
     "planId": 2
   }
 }
 
 ### Delete a meal
-DELETE http://localhost:5000/api/meals/1/3
+DELETE http://localhost:5000/api/meals/11
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 
 ### Error: Delete a meal that doesn't exist
-DELETE http://localhost:5000/api/meals/1/100
+DELETE http://localhost:5000/api/meals/1000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
 
 ### Error: Delete a meal so that user doesn't exist
-DELETE http://localhost:5000/api/meals/1000/4
+DELETE http://localhost:5000/api/meals/12
 

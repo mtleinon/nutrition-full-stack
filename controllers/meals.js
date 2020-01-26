@@ -5,32 +5,36 @@ const createMeal = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
 
-    const userId = +req.params.userId;
-    const create = req.body.create;
-    const { status, error, result } = await mySqlMealUtils.createMeal(userId, create);
+    const userId = +req.user.userId;
+    const newMeal = req.body.newMeal;
+    newMeal.userId = userId;
+    const { status, error, result } = await mySqlMealUtils.createMeal(userId, newMeal);
 
-    create.mealId = result && result.insertId;
-    sendResponse(res, status, error, create);
+    newMeal.mealId = result && result.insertId;
+    sendResponse(res, status, error, newMeal);
   }
 }
 
 const updateMeal = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
-    const userId = +req.params.userId;
-    const mealId = +req.params.mealId;
-    const updateValues = req.body.update;
 
-    const { status, error } = await mySqlMealUtils.updateMeal(userId, mealId, updateValues);
-    updateValues.mealId = mealId;
-    sendResponse(res, status, error, updateValues);
+    const userId = +req.user.userId;
+    const mealId = +req.params.mealId;
+    const meal = req.body.meal;
+    meal.userId = userId;
+
+    const { status, error } = await mySqlMealUtils.updateMeal(userId, mealId, meal);
+    meal.mealId = mealId;
+    sendResponse(res, status, error, meal);
   }
 }
 
 const deleteMeal = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
-    const userId = +req.params.userId;
+
+    const userId = +req.user.userId;
     const mealId = +req.params.mealId;
 
     const { status, error } = await mySqlMealUtils.deleteMeal(userId, mealId);
@@ -42,8 +46,8 @@ const getMeals = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
 
+    const userId = +req.user.userId;
     const mealId = +req.params.mealId;
-    const userId = +req.params.userId;
 
     const { status, error, result } = await mySqlMealUtils.getMeals(userId, mealId);
     sendResponse(res, status, error, result);

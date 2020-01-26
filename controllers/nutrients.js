@@ -5,12 +5,13 @@ const createNutrient = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
 
-    const userId = +req.params.userId;
-    const create = req.body.create;
-    const { status, error, result } = await mySqlNutrientUtils.createNutrient(userId, create);
+    const userId = +req.user.userId;
+    const newNutrient = req.body.newNutrient;
+    newNutrient.userId = userId;
+    const { status, error, result } = await mySqlNutrientUtils.createNutrient(userId, newNutrient);
 
-    create.nutrientId = result && result.insertId;
-    sendResponse(res, status, error, create);
+    newNutrient.nutrientId = result && result.insertId;
+    sendResponse(res, status, error, newNutrient);
   }
 }
 
@@ -18,13 +19,14 @@ const updateNutrient = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
 
-    const userId = +req.params.userId;
+    const userId = +req.user.userId;
     const nutrientId = +req.params.nutrientId;
-    const updateValues = req.body.update;
-    const { status, error } = await mySqlNutrientUtils.updateNutrient(userId, nutrientId, updateValues);
+    const nutrient = req.body.nutrient;
+    nutrient.userId = userId;
+    const { status, error } = await mySqlNutrientUtils.updateNutrient(userId, nutrientId, nutrient);
 
-    updateValues.nutrientId = nutrientId;
-    sendResponse(res, status, error, updateValues);
+    nutrient.nutrientId = nutrientId;
+    sendResponse(res, status, error, nutrient);
   }
 }
 
@@ -32,7 +34,7 @@ const deleteNutrient = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
 
-    const userId = +req.params.userId;
+    const userId = +req.user.userId;
     const nutrientId = +req.params.nutrientId;
 
     const { status, error } =
@@ -45,7 +47,7 @@ const getNutrients = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
 
-    const userId = +req.params.userId;
+    const userId = +req.user.userId;
     const nutrientId = req.params.nutrientId;
     const { status, error, result } = await mySqlNutrientUtils.getNutrients(userId, nutrientId);
     sendResponse(res, status, error, result);

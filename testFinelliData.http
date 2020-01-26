@@ -5,5 +5,5 @@ GET http://localhost:5000/
 GET http://localhost:5000/api/finelliData
 
 ### Get nutrient
-GET http://localhost:5000/api/finelliData/2
+GET http://localhost:5000/api/finelliData/812
 

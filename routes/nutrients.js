@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { check } = require('express-validator');
+const passport = require("passport");
 
 const {
   createNutrient,
@@ -9,21 +10,39 @@ const {
   deleteNutrient
 } = require('../controllers/nutrients');
 
-router.post('/:userId', [
-  check('create.mealId').isNumeric().withMessage('mealId can not be empty.'),
-  check('create.finelliId').isNumeric().withMessage('finelliId can not be empty.'),
-  check('create.amount').isNumeric().withMessage('amount must be a number.'),
-], createNutrient);
+router.post('/',
+  passport.authenticate("jwt", { session: false }),
+  [
+    check('newNutrient.mealId').isNumeric().withMessage('mealId can not be empty.'),
+    check('newNutrient.finelliId').isNumeric().withMessage('finelliId can not be empty.'),
+    check('newNutrient.amount').isNumeric().withMessage('amount must be a number.'),
+  ],
+  createNutrient
+);
 
-router.get('/:userId/:nutrientId', getNutrients);
-router.get('/:userId', getNutrients);
+router.get('/:nutrientId',
+  passport.authenticate("jwt", { session: false }),
+  getNutrients
+);
 
-router.patch('/:userId/:nutrientId', [
-  check('update.mealId').isNumeric().withMessage('mealId can not be empty.'),
-  check('update.finelliId').isNumeric().withMessage('finelliId can not be empty.'),
-  check('update.amount').isNumeric().withMessage('amount must be a number.'),
-], updateNutrient);
+router.get('/',
+  passport.authenticate("jwt", { session: false }),
+  getNutrients
+);
 
-router.delete('/:userId/:nutrientId', deleteNutrient);
+router.patch('/:nutrientId',
+  passport.authenticate("jwt", { session: false }),
+  [
+    check('nutrient.mealId').isNumeric().withMessage('mealId can not be empty.'),
+    check('nutrient.finelliId').isNumeric().withMessage('finelliId can not be empty.'),
+    check('nutrient.amount').isNumeric().withMessage('amount must be a number.'),
+  ],
+  updateNutrient
+);
+
+router.delete('/:nutrientId',
+  passport.authenticate("jwt", { session: false }),
+  deleteNutrient
+);
 
 module.exports = router;

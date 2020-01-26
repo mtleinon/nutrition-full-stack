@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { check } = require('express-validator');
+const passport = require("passport");
 
 const {
   createMeal,
@@ -9,23 +10,38 @@ const {
   deleteMeal
 } = require('../controllers/meals');
 
-router.post('/:userId', [
-  check('create.planId').isNumeric().withMessage('planId can not be empty.'),
-  check('create.userId').isNumeric().withMessage('userId can not be empty.'),
-  check('create.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
-  check('create.description').trim()
-], createMeal);
+router.post('/',
+  passport.authenticate("jwt", { session: false }),
+  [
+    check('newMeal.planId').isNumeric().withMessage('planId can not be empty.'),
+    check('newMeal.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    check('newMeal.description').trim()
+  ],
+  createMeal
+);
 
-router.get('/:userId/:mealId', getMeals);
-router.get('/:userId', getMeals);
+router.get('/:mealId',
+  passport.authenticate("jwt", { session: false }),
+  getMeals
+);
 
-router.patch('/:userId/:mealId', [
-  check('update.planId').isNumeric().withMessage('planId can not be empty.'),
-  check('update.userId').isNumeric().withMessage('userId can not be empty.'),
-  check('update.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
-  check('update.description').trim()
-], updateMeal);
+router.get('/',
+  passport.authenticate("jwt", { session: false }),
+  getMeals
+);
 
-router.delete('/:userId/:mealId', deleteMeal);
+router.patch('/:mealId',
+  passport.authenticate("jwt", { session: false }),
+  [
+    check('meal.planId').isNumeric().withMessage('planId can not be empty.'),
+    check('meal.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    check('meal.description').trim()
+  ], updateMeal
+);
+
+router.delete('/:mealId',
+  passport.authenticate("jwt", { session: false }),
+  deleteMeal
+);
 
 module.exports = router;
