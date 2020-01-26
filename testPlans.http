@@ -1,58 +1,106 @@
 ### Test hello world
 GET http://localhost:5000/
 
-### Get plans
+### Get all users plans
+GET http://localhost:5000/api/plans/1
+
+### Get one user's plan
+GET http://localhost:5000/api/plans/1/8
+
+### Error: Don't send userId
 GET http://localhost:5000/api/plans/
 
-### Get plan
-GET http://localhost:5000/api/plans/27
+### Error: Plan not found
+GET http://localhost:5000/api/plans/1/1000
 
-###
-POST http://localhost:5000/api/plans HTTP/1.1
+### Error: User not found
+GET http://localhost:5000/api/plans/1000/6
+
+
+###  Create plan
+POST http://localhost:5000/api/plans/1 HTTP/1.1
 content-type: application/json
 
 {
   "create": {
+    "userId": 1,
     "name": "  aaaa   ",
     "description": "  Plan 100 description."
   }
 }
-###
-POST http://localhost:5000/api/plans HTTP/1.1
+
+### Error: Create plan. User not given
+POST http://localhost:5000/api/plans/ HTTP/1.1
 content-type: application/json
 
 {
- "a": "1"
+  "create": {
+    "userId": 10,
+    "name": "  plan name   ",
+    "description": "  Plan 100 description."
+  }
 }
-###
-PATCH http://localhost:5000/api/plans/4 HTTP/1.1
+
+### Error: Create plan. User doesn't exists
+POST http://localhost:5000/api/plans/1 HTTP/1.1
+content-type: application/json
+
+{
+  "create": {
+    "userId": 10,
+    "name": "  plan name   ",
+    "description": "  Plan 100 description."
+  }
+}
+
+### Error: Create plan. User not given and name not given
+POST http://localhost:5000/api/plans/1 HTTP/1.1
+content-type: application/json
+
+{
+  "create": {
+  }
+}
+
+### Update plan succesfully
+PATCH http://localhost:5000/api/plans/1/6 HTTP/1.1
 content-type: application/json
 
 {
   "update": {
-    "name": "plan100  ",
-    "description": "   Plan 300 description.  "
+    "userId": 1,
+    "name": "  Updated name   ",
+    "description": "  Updated description."
   }
 }
-###
-PATCH http://localhost:5000/api/plans/3 HTTP/1.1
+
+### Error: user not found
+PATCH http://localhost:5000/api/plans/1000/4 HTTP/1.1
 content-type: application/json
 
 {
   "update": {
-    "name": "plan101"
+    "userId": 1000,
+    "name": "  Updated name  2 ",
+    "description": "  Updated description."
   }
 }
 
-###
-PATCH http://localhost:5000/api/plans/22 HTTP/1.1
+### Error: update parameters not given
+PATCH http://localhost:5000/api/plans/1/4 HTTP/1.1
 content-type: application/json
 
 {
   "update": {
-    "description": "Plan 101 description."
   }
 }
-###
-DELETE http://localhost:5000/api/plans/4
+
+### Delete succesfully
+DELETE http://localhost:5000/api/plans/1/6
+
+### Delete with unexisting userId
+DELETE http://localhost:5000/api/plans/1000/4
+
+### Delete with unexisting planId
+DELETE http://localhost:5000/api/plans/1/1000
 

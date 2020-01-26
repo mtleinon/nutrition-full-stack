@@ -18,18 +18,21 @@ router.post('/', [
   check('create.height').isNumeric().withMessage('height must be a number.'),
 ], createUser);
 
-router.get('/:id', getUsers);
+router.get('/:email/:password', getUsers);
+router.get('/:userId', getUsers);
 router.get('/', getUsers);
 
-router.patch('/:id', [
+
+
+router.patch('/:userId', [
   // check('update.userId').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('UserId can not be empty.'),
-  check('create.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
-  check('create.gender').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Gender can not be empty.'),
-  check('create.age').isNumeric().withMessage('age must be a number.'),
-  check('create.weight').isNumeric().withMessage('weight must be a number.'),
-  check('create.height').isNumeric().withMessage('height must be a number.'),
+  check('update.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+  check('update.gender').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Gender can not be empty.'),
+  check('update.age').isNumeric().withMessage('age must be a number.'),
+  check('update.weight').isNumeric().withMessage('weight must be a number.'),
+  check('update.height').isNumeric().withMessage('height must be a number.'),
 ], updateUser);
 
-router.delete('/:id', deleteUser);
+router.delete('/:userId', deleteUser);
 
 module.exports = router;

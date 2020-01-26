@@ -1,17 +1,14 @@
 const sqlCommand = require('./sqlCommand');
 const FINELLI_TABLE = 'finelli';
 
-async function getFinelliData(id) {
+async function getFinelliData(finelliId) {
   let sql = `SELECT * FROM ${FINELLI_TABLE}`;
   let values;
-  if (id) {
+  if (finelliId) {
     sql = `SELECT * FROM ${FINELLI_TABLE} WHERE ?`;
-    values = [{ finelliId: id }];
+    values = [{ finelliId }];
   }
-  // console.debug('sql, values =', sql, values);
-  const result = await sqlCommand(sql, values);
-  // console.debug('get result =', result);
-  return result;
+  return await sqlCommand(sql, values);
 }
 
 module.exports = { getFinelliData };

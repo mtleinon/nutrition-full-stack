@@ -1,61 +1,55 @@
 const mySqlUtils = require('../database/mySqlPlansUtils');
-const Plan = require('../models/Plan');
-const { validationResult } = require('express-validator');
+const { checkRequest, sendResponse } = require('./controllerUtils');
 
-const createPlan = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
+const createPlan = async (req, res, _) => {
 
-  const create = req.body.create;
-  console.debug('create =', create);
-  const { error, result } = await mySqlUtils.createPlan(create);
-  console.debug('result =', result);
-  if (error) {
-    res.status(500).send(error);
-  } else {
-    create.planId = result.insertId;
-    res.status(200).send(create);
+  if (checkRequest(req, res)) {
+
+    const userId = +req.params.userId;
+    const create = req.body.create;
+
+    const { status, error, result } = await mySqlUtils.createPlan(userId, create);
+    create.planId = result && result.insertId;
+    sendResponse(res, status, error, create);
   }
 }
 
-const updatePlan = async (req, res, next) => {
-  const id = +req.params.id;
-  const updateValues = req.body.update;
-  console.debug('updateValues =', updateValues);
-  const { error, result } = await mySqlUtils.updatePlan(id, updateValues);
-  if (error) {
-    res.status(500).send(error);
-  } else {
-    console.debug('result =', result);
-    updateValues.planId = id;
-    res.status(200).send(updateValues);
+const updatePlan = async (req, res, _) => {
+
+  if (checkRequest(req, res)) {
+    const userId = +req.params.userId;
+    const planId = +req.params.planId;
+    const updateValues = req.body.update;
+
+    const { status, error } = await mySqlUtils.updatePlan(userId, planId, updateValues);
+    updateValues.planId = planId;
+    sendResponse(res, status, error, updateValues);
   }
 }
 
-const deletePlan = async (req, res, next) => {
-  const id = +req.params.id;
-  const { status, error, result } = await mySqlUtils.deletePlan(id);
-  if (error) {
-    res.status(status).send({ error });
-  } else {
-    res.status(status).send({ planId: id });
+const deletePlan = async (req, res, _) => {
+
+  if (checkRequest(req, res)) {
+    const userId = +req.params.userId;
+    const planId = +req.params.planId;
+
+    const { status, error } = await mySqlUtils.deletePlan(userId, planId);
+    sendResponse(res, status, error, { planId });
   }
 }
 
-const getPlans = async (req, res, next) => {
-  const planId = req.params.planId;
-  const userId = req.params.userId;
-  const { error, result } = await mySqlUtils.getPlans(userId, planId);
-  if (error) {
-    res.status(500).send(error);
-  } else {
-    res.status(200).send(result);
+const getPlans = async (req, res, _) => {
+
+  if (checkRequest(req, res)) {
+
+    const planId = +req.params.planId;
+    const userId = +req.params.userId;
+
+    const { status, error, result } = await mySqlUtils.getPlans(userId, planId);
+    sendResponse(res, status, error, result);
   }
 }
 
 module.exports = {
   createPlan, getPlans, updatePlan, deletePlan
-
 }

@@ -45,11 +45,11 @@ export const { addAllMeals, addMeal, deleteMeal, updateMeal, startDbOperation, s
 
 export default mealsSlice.reducer;
 
-export const fetchMealsFromDb = () => {
+export const fetchMealsFromDb = (userId) => {
   return async (dispatch) => {
     dispatch(startDbOperation());
     try {
-      const response = await fetch('/api/meals');
+      const response = await fetch('/api/meals/' + userId);
       if (!response.ok) {
         throw new Error(response.statusText);
       }

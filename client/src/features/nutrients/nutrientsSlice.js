@@ -46,11 +46,11 @@ export const { addAllNutrients, addNutrient, deleteNutrient, updateNutrient, sta
 
 export default nutrientsSlice.reducer;
 
-export const fetchNutrientsFromDb = () => {
+export const fetchNutrientsFromDb = (userId) => {
   return async (dispatch) => {
     dispatch(startDbOperation());
     try {
-      const response = await fetch('/api/nutrients');
+      const response = await fetch('/api/nutrients/' + userId);
       if (!response.ok) {
         throw new Error(response.statusText);
       }

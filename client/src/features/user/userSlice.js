@@ -8,7 +8,9 @@ const initialState = {
     age: 0,
     weight: 0,
     height: 0,
-  }
+  },
+  error: '',
+  isLoading: false
 };
 
 const plansSlice = createSlice({
@@ -44,51 +46,57 @@ const plansSlice = createSlice({
   }
 });
 
-export const { addUser, signInUser, signUpUser, signOutUser, updateUser, setError } = plansSlice.actions;
+export const { addUser, signInUser, signUpUser, signOutUser, updateUser, setError, startDbOperation } = plansSlice.actions;
 
 export default plansSlice.reducer;
 
-// export const fetchPlansFromDb = () => {
-//   return async (dispatch) => {
-//     dispatch(startDbOperation());
-//     try {
-//       const response = await fetch('/api/plans');
-//       if (!response.ok) {
-//         throw new Error(response.statusText);
-//       }
-//       const plansData = await response.json();
-//       dispatch(addAllPlans(plansData));
-//     } catch (err) {
-//       dispatch(setError(err.message));
-//       console.error(err.message)
-//     }
-//   }
-// };
+export const getUserFromDb = (email, password) => {
+  return async (dispatch) => {
+    dispatch(startDbOperation());
+    try {
+      const response = await fetch(`/api/users/${email}/${password}`);
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const user = await response.json();
+      if (user.length === 1) {
+        dispatch(addUser(user[0]));
+      } else {
+        const errorMessage = 'Email or password is erroneous';
+        dispatch(setError(errorMessage));
+        console.error(errorMessage);
+      }
+    } catch (err) {
+      dispatch(setError(err.message));
+      console.error(err.message)
+    }
+  }
+};
 
-// export const addPlanToDb = (name, description = '') => {
-//   return async (dispatch) => {
-//     dispatch(startDbOperation());
+export const addUserToDb = (user) => {
+  return async (dispatch) => {
+    dispatch(startDbOperation());
 
-//     try {
-//       const create = { create: { name, description } };
-//       const response = await fetch("/api/plans", {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(create)
-//       })
-//       if (!response.ok) {
-//         throw new Error(response.statusText);
-//       }
-//       const data = await response.json();
-//       dispatch(addPlan(data));
-//     } catch (err) {
-//       dispatch(setError(err.message));
-//       console.error(err)
-//     };
-//   }
-// }
+    try {
+      const create = { create: { ...user } };
+      const response = await fetch("/api/users", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(create)
+      })
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const data = await response.json();
+      dispatch(addUser(data));
+    } catch (err) {
+      dispatch(setError(err.message));
+      console.error(err)
+    };
+  }
+}
 
 
 // export const deletePlanFromDb = (planId) => {

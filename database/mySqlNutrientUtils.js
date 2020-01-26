@@ -1,39 +1,43 @@
 const sqlCommand = require('./sqlCommand');
 const NUTRIENTS_TABLE = 'nutrients';
 
-async function getNutrients(id) {
-  let sql = `SELECT * FROM ${NUTRIENTS_TABLE}`;
+async function getNutrients(userId, nutrientId) {
+
+  let sql;
   let values;
-  if (id) {
+  if (nutrientId) {
+    sql = `SELECT * FROM ${NUTRIENTS_TABLE} WHERE ? AND ?`;
+    values = [{ userId }, { nutrientId }];
+  } else {
     sql = `SELECT * FROM ${NUTRIENTS_TABLE} WHERE ?`;
-    values = [{ nutrientId: id }];
+    values = [{ userId }];
   }
-  // console.debug('sql, values =', sql, values);
-  const result = await sqlCommand(sql, values);
-  // console.debug('get result =', result);
-  return result;
+
+  return await sqlCommand(sql, values);
 }
 
-async function createNutrient(nutrient) {
+async function createNutrient(userId, nutrient) {
+
   let sql = `INSERT INTO ${NUTRIENTS_TABLE} SET ?`
   let values = nutrient;
-  console.debug('values =', values);
+  return await sqlCommand(sql, values);
+}
+
+async function updateNutrient(userId, nutrientId, nutrient) {
+
+  let sql = `UPDATE ${NUTRIENTS_TABLE} SET ? WHERE ? AND ?;`
+  let values = [nutrient, { userId }, { nutrientId }];
+
   const result = await sqlCommand(sql, values);
   return result;
 }
 
-async function updateNutrient(id, nutrient) {
-  let sql = `UPDATE ${NUTRIENTS_TABLE} SET ? WHERE nutrientId=?;`
-  let values = [nutrient, id];
-  console.debug('values =', values);
+async function deleteNutrient(userId, nutrientId) {
+
+  const sql = `delete FROM ${NUTRIENTS_TABLE} WHERE ? AND ?`;
+  let values = [{ userId }, { nutrientId }];
+
   const result = await sqlCommand(sql, values);
-  return result;
-}
-
-async function deleteNutrient(id) {
-  const sql = `delete FROM ${NUTRIENTS_TABLE} WHERE nutrientId = ?`;
-
-  const result = await sqlCommand(sql, id);
   return result;
 }
 

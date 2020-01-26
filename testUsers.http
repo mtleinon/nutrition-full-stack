@@ -4,33 +4,38 @@ GET http://localhost:5000/
 ### Get users
 GET http://localhost:5000/api/users/
 
-### Get user
+### Get a user
 GET http://localhost:5000/api/users/2
 
-###
+### Get a user
+GET http://localhost:5000/api/users/cecilia@a.com/123456
+
+### Error: Get user which doesn't exists
+GET http://localhost:5000/api/users/1000
+
+### Create user
 POST http://localhost:5000/api/users HTTP/1.1
 content-type: application/json
 
 {
   "create":  {
-    "email": "Jane@gmail.com",
-    "name": "Jane Carry",
+    "email": "Jill@gmail.com",
+    "name": "Jill Carry",
     "gender": "female",
-    "age": 34,
-    "height": 167,
-    "weight": 50
+    "age": 33,
+    "height": 163,
+    "weight": 53
   }
 }
 
-###
+###  Error: Try to create user without params
 POST http://localhost:5000/api/users HTTP/1.1
 content-type: application/json
 
 {
- "a": "1"
 }
-###
-PATCH http://localhost:5000/api/users/4 HTTP/1.1
+### Update user
+PATCH http://localhost:5000/api/users/2 HTTP/1.1
 content-type: application/json
 
 {
@@ -43,25 +48,34 @@ content-type: application/json
     "weight": 52
   }
 }
-###
+### Error: Update user without params
 PATCH http://localhost:5000/api/users/3 HTTP/1.1
 content-type: application/json
 
 {
   "update": {
-    "name": "user101"
   }
 }
 
-###
-PATCH http://localhost:5000/api/users/22 HTTP/1.1
+### Error: Try to update user that doesn't exists
+PATCH http://localhost:5000/api/users/1000 HTTP/1.1
 content-type: application/json
 
 {
   "update": {
-    "description": "User 101 description."
+    "email": "Jane2@gmail.com",
+    "name": "Jane2 Carry",
+    "gender": "female",
+    "age": 35,
+    "height": 168,
+    "weight": 52
   }
 }
-###
-DELETE http://localhost:5000/api/users/4
+### Delete a user
+DELETE http://localhost:5000/api/users/5
 
+### Error: Try to delete a user that doesn't exsist
+DELETE http://localhost:5000/api/users/1000
+
+### Error: Try to delete a user that has plans
+DELETE http://localhost:5000/api/users/1

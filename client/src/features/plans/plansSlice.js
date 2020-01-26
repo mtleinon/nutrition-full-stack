@@ -45,11 +45,12 @@ export const { addAllPlans, addPlan, deletePlan, updatePlan, startDbOperation, s
 
 export default plansSlice.reducer;
 
-export const fetchPlansFromDb = () => {
-  return async (dispatch) => {
+export const fetchPlansFromDb = (userId) => {
+  return async (dispatch, getState) => {
     dispatch(startDbOperation());
+    const rootState = getState();
     try {
-      const response = await fetch('/api/plans');
+      const response = await fetch('/api/plans/' + userId);
       if (!response.ok) {
         throw new Error(response.statusText);
       }

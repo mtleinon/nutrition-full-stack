@@ -8,8 +8,11 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 
+import SpinnerModal from '../../components/SpinnerModal';
+import { Ring } from 'react-awesome-spinners'
+
 import { useSelector, useDispatch } from 'react-redux';
-import { signInUser, signUpUser } from './userSlice';
+import { signInUser, signUpUser, addUserToDb, getUserFromDb } from './userSlice';
 
 const modes = {
   SIGNIN: 'signIn',
@@ -25,18 +28,22 @@ const useStyles = makeStyles(theme => ({
   // },
   // dialog: {
   root: {
-    width: 300,
+    width: '100%',
   }
   // }
 }));
 
 export default function LoginUserM({ showLogin, handleCloseLogin }) {
 
+  const error = useSelector(state => state.plans.error);
+  const isLoading = useSelector(state => state.plans.isLoading);
+
   const [mode, setMode] = useState(modes.SIGNIN);
   const [user, setUser] = useState({
     email: '',
     password: '',
     name: '',
+    gender: '',
     age: 0,
     weight: 0,
     height: 0
@@ -48,23 +55,26 @@ export default function LoginUserM({ showLogin, handleCloseLogin }) {
     const value = event.target.value;
     console.debug('field, event.target.value =', field, value);
     setUser(state => ({ ...state, [field]: value }))
-  }
+  };
+
   const handleSignIn = () => {
     if (mode === modes.SIGNIN) {
-      dispatch(signInUser(user));
+      dispatch(getUserFromDb(user.email, user.password));
       handleCloseLogin();
     } else {
       setMode(modes.SIGNIN);
     }
   };
+
   const handleSignUp = () => {
     if (mode === modes.SIGNUP) {
-      dispatch(signUpUser(user));
+      dispatch(addUserToDb(user));
       handleCloseLogin();
     } else {
       setMode(modes.SIGNUP);
     }
   };
+
   return (
     <div>
       <Dialog
@@ -108,6 +118,15 @@ export default function LoginUserM({ showLogin, handleCloseLogin }) {
                   fullWidth
                   value={user.name}
                   onChange={handleSetUser('name')}
+                />
+                <TextField
+                  margin="dense"
+                  id="gender"
+                  label="Gender"
+                  type="text"
+                  fullWidth
+                  value={user.gender}
+                  onChange={handleSetUser('gender')}
                 />
                 <TextField
                   margin="dense"
@@ -158,6 +177,10 @@ export default function LoginUserM({ showLogin, handleCloseLogin }) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <SpinnerModal visible={isLoading}>
+        <Ring size='100' sizeUnit='px' />
+      </SpinnerModal>
     </div>
   );
 }

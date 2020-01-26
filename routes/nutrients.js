@@ -9,21 +9,21 @@ const {
   deleteNutrient
 } = require('../controllers/nutrients');
 
-router.post('/', [
+router.post('/:userId', [
   check('create.mealId').isNumeric().withMessage('mealId can not be empty.'),
   check('create.finelliId').isNumeric().withMessage('finelliId can not be empty.'),
   check('create.amount').isNumeric().withMessage('amount must be a number.'),
 ], createNutrient);
 
-router.get('/:id', getNutrients);
-router.get('/', getNutrients);
+router.get('/:userId/:nutrientId', getNutrients);
+router.get('/:userId', getNutrients);
 
-router.patch('/:id', [
+router.patch('/:userId/:nutrientId', [
   check('update.mealId').isNumeric().withMessage('mealId can not be empty.'),
   check('update.finelliId').isNumeric().withMessage('finelliId can not be empty.'),
   check('update.amount').isNumeric().withMessage('amount must be a number.'),
 ], updateNutrient);
 
-router.delete('/:id', deleteNutrient);
+router.delete('/:userId/:nutrientId', deleteNutrient);
 
 module.exports = router;

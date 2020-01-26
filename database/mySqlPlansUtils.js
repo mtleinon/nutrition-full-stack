@@ -2,6 +2,7 @@ const sqlCommand = require('./sqlCommand');
 const PLANS_TABLE = 'plans';
 
 async function getPlans(userId, planId) {
+
   let sql;
   let values;
   if (planId) {
@@ -11,33 +12,32 @@ async function getPlans(userId, planId) {
     sql = `SELECT * FROM ${PLANS_TABLE} WHERE ?`;
     values = [{ userId }];
   }
-  console.debug('sql, values =', sql, values);
-  const result = await sqlCommand(sql, values);
-  console.debug('get result =', result);
-  return result;
+
+  return await sqlCommand(sql, values);
 }
 
-async function createPlan(plan) {
+async function createPlan(userId, plan) {
+
   let sql = `INSERT INTO ${PLANS_TABLE} SET ?`
   let values = plan;
-  console.debug('values =', values);
-  const result = await sqlCommand(sql, values);
-  return result;
+
+  return await sqlCommand(sql, values);
 }
 
-async function updatePlan(planId, plan) {
-  let sql = `UPDATE ${PLANS_TABLE} SET ? WHERE planId=?;`
-  let values = [plan, planId];
-  console.debug('values =', values);
-  const result = await sqlCommand(sql, values);
-  return result;
+async function updatePlan(userId, planId, plan) {
+
+  let sql = `UPDATE ${PLANS_TABLE} SET ? WHERE userId=? AND planId=?;`
+  let values = [plan, userId, planId];
+
+  return await sqlCommand(sql, values);
 }
 
-async function deletePlan(id) {
-  const sql = `delete FROM ${PLANS_TABLE} WHERE planId = ?`;
+async function deletePlan(userId, planId) {
 
-  const result = await sqlCommand(sql, id);
-  return result;
+  const sql = `DELETE FROM ${PLANS_TABLE} WHERE userId=? AND planId=?`;
+  let values = [userId, planId];
+
+  return await sqlCommand(sql, values);
 }
 
 module.exports = { getPlans, createPlan, updatePlan, deletePlan };

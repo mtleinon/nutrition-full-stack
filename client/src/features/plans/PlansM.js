@@ -27,6 +27,7 @@ import Container from '@material-ui/core/Container';
 const NEW_PLAN_DEFAULT_NAME = 'New plan';
 
 export default function Plans() {
+  const userId = useSelector(state => state.user.user.userId);
   const plans = useSelector(state => state.plans.plans);
   const error = useSelector(state => state.plans.error);
   const isLoading = useSelector(state => state.plans.isLoading);
@@ -51,11 +52,11 @@ export default function Plans() {
   // }
 
   useEffect(() => {
-    dispatch(fetchPlansFromDb());
-    dispatch(fetchMealsFromDb());
-    dispatch(fetchNutrientsFromDb());
+    dispatch(fetchPlansFromDb(userId));
+    dispatch(fetchMealsFromDb(userId));
+    dispatch(fetchNutrientsFromDb(userId));
     dispatch(fetchFinelliDataFromDb());
-  }, [dispatch]);
+  }, [dispatch, userId]);
 
 
   const removeHandler = (id) => {

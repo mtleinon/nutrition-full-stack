@@ -1,63 +1,57 @@
 const mySqlNutrientUtils = require('../database/mySqlNutrientUtils');
-const Nutrient = require('../models/Nutrient');
-const { validationResult } = require('express-validator');
+const { checkRequest, sendResponse } = require('./controllerUtils');
 
-const createNutrient = async (req, res, next) => {
+const createNutrient = async (req, res, _) => {
 
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-  const create = req.body.create;
-  const { error, result } = await mySqlNutrientUtils.createNutrient(create);
-  if (error) {
-    res.status(500).send(error);
-  } else {
-    create.nutrientId = result.insertId;
-    res.status(200).send(create);
+  if (checkRequest(req, res)) {
+
+    const userId = +req.params.userId;
+    const create = req.body.create;
+    const { status, error, result } = await mySqlNutrientUtils.createNutrient(userId, create);
+
+    create.nutrientId = result && result.insertId;
+    sendResponse(res, status, error, create);
   }
 }
 
-const updateNutrient = async (req, res, next) => {
+const updateNutrient = async (req, res, _) => {
 
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-  const id = +req.params.id;
-  const updateValues = req.body.update;
-  console.debug('updateValues =', updateValues);
-  const { error, result } = await mySqlNutrientUtils.updateNutrient(id, updateValues);
-  if (error) {
-    res.status(500).send(error);
-  } else {
-    console.debug('result =', result);
-    updateValues.nutrientId = id;
-    res.status(200).send(updateValues);
+  if (checkRequest(req, res)) {
+
+    const userId = +req.params.userId;
+    const nutrientId = +req.params.nutrientId;
+    const updateValues = req.body.update;
+    const { status, error } = await mySqlNutrientUtils.updateNutrient(userId, nutrientId, updateValues);
+
+    updateValues.nutrientId = nutrientId;
+    sendResponse(res, status, error, updateValues);
   }
 }
 
-const deleteNutrient = async (req, res, next) => {
-  const id = +req.params.id;
-  const { status, error, result } = await mySqlNutrientUtils.deleteNutrient(id);
-  if (error) {
-    res.status(status).send({ error });
-  } else {
-    res.status(status).send({ nutrientId: id });
+const deleteNutrient = async (req, res, _) => {
+
+  if (checkRequest(req, res)) {
+
+    const userId = +req.params.userId;
+    const nutrientId = +req.params.nutrientId;
+
+    const { status, error } =
+      await mySqlNutrientUtils.deleteNutrient(userId, nutrientId);
+    sendResponse(res, status, error, { nutrientId });
   }
 }
 
-const getNutrients = async (req, res, next) => {
-  const id = req.params.id;
-  const { error, result } = await mySqlNutrientUtils.getNutrients(id);
-  if (error) {
-    res.status(500).send(error);
-  } else {
-    res.status(200).send(result);
+const getNutrients = async (req, res, _) => {
+
+  if (checkRequest(req, res)) {
+
+    const userId = +req.params.userId;
+    const nutrientId = req.params.nutrientId;
+    const { status, error, result } = await mySqlNutrientUtils.getNutrients(userId, nutrientId);
+    sendResponse(res, status, error, result);
   }
 }
 
 module.exports = {
   createNutrient, getNutrients, updateNutrient, deleteNutrient
-
 }

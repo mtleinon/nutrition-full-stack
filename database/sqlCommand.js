@@ -2,19 +2,26 @@ const mysql = require('mysql');
 const config = require('../secrets/finelliConfig.js');
 const util = require('util');
 const INTERNAL_SERVER_ERROR = 'Internal server error happened';
+const CONTENT_NOT_FOUND = 'Content not found';
 
-//TODO: if UPDATE SQL command returns affectedRows=0 value return 404 status?
+//TODO: take connection pool into use 
 
 async function sqlCommand(sqlCommand, values) {
   // console.debug('sqlCommand =', sqlCommand);
-  const result = { result: undefined, error: undefined };
+  const result = { status: undefined, error: undefined, result: undefined };
   const connection = mysql.createConnection(config);
   const query = util.promisify(connection.query).bind(connection);
   try {
     result.result = await query(
       sqlCommand,
-      values)
-    result.status = 200;
+      values);
+    if ((sqlCommand.indexOf('UPDATE') === 0
+      || sqlCommand.indexOf('DELETE') === 0) && result.result.affectedRows === 0) {
+      result.status = 404;
+      result.error = CONTENT_NOT_FOUND;
+    } else {
+      result.status = 200;
+    }
   } catch (err) {
     console.error('MySQL err.code:', err.code);
     console.error('MySQL err.errno:', err.errno);
@@ -22,7 +29,7 @@ async function sqlCommand(sqlCommand, values) {
     console.error('MySQL err.sql:', err.sql);
     console.error('MySQL err.sqlState:', err.sqlState);
     console.error('MySQL err.sqlMessage:', err.sqlMessage);
-    if (err.errno === 1451) {
+    if (err.errno === 1451 || err.errno === 1452) {
       result.status = 422;
       result.error = err.sqlMessage;
     } else {
@@ -36,6 +43,7 @@ async function sqlCommand(sqlCommand, values) {
       }
     });
   }
+  // console.debug('sqlCommand result =', result);
   return result;
 }
 

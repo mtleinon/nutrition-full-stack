@@ -1,59 +1,52 @@
 const mySqlMealUtils = require('../database/mySqlMealUtils');
-const Meal = require('../models/Meal');
-const { validationResult } = require('express-validator');
+const { checkRequest, sendResponse } = require('./controllerUtils');
 
-const createMeal = async (req, res, next) => {
-  console.debug('createMeal 1 =');
+const createMeal = async (req, res, _) => {
 
-  const errors = validationResult(req);
-  console.debug('createMeal 1 =');
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-  console.debug('createMeal 2 =');
-  const create = req.body.create;
-  console.debug('create =', create);
-  const { error, result } = await mySqlMealUtils.createMeal(create);
-  console.debug('result =', result);
-  if (error) {
-    res.status(500).send(error);
-  } else {
-    create.mealId = result.insertId;
-    res.status(200).send(create);
+  if (checkRequest(req, res)) {
+
+    const userId = +req.params.userId;
+    const create = req.body.create;
+    const { status, error, result } = await mySqlMealUtils.createMeal(userId, create);
+
+    create.mealId = result && result.insertId;
+    sendResponse(res, status, error, create);
   }
 }
 
-const updateMeal = async (req, res, next) => {
-  const id = +req.params.id;
-  const updateValues = req.body.update;
-  console.debug('updateValues =', updateValues);
-  const { error, result } = await mySqlMealUtils.updateMeal(id, updateValues);
-  if (error) {
-    res.status(500).send(error);
-  } else {
-    console.debug('result =', result);
-    updateValues.mealId = id;
-    res.status(200).send(updateValues);
+const updateMeal = async (req, res, _) => {
+
+  if (checkRequest(req, res)) {
+    const userId = +req.params.userId;
+    const mealId = +req.params.mealId;
+    const updateValues = req.body.update;
+
+    const { status, error } = await mySqlMealUtils.updateMeal(userId, mealId, updateValues);
+    updateValues.mealId = mealId;
+    sendResponse(res, status, error, updateValues);
   }
 }
 
-const deleteMeal = async (req, res, next) => {
-  const id = +req.params.id;
-  const { status, error, result } = await mySqlMealUtils.deleteMeal(id);
-  if (error) {
-    res.status(status).send({ error });
-  } else {
-    res.status(status).send({ mealId: id });
+const deleteMeal = async (req, res, _) => {
+
+  if (checkRequest(req, res)) {
+    const userId = +req.params.userId;
+    const mealId = +req.params.mealId;
+
+    const { status, error } = await mySqlMealUtils.deleteMeal(userId, mealId);
+    sendResponse(res, status, error, { mealId });
   }
 }
 
-const getMeals = async (req, res, next) => {
-  const id = req.params.id;
-  const { error, result } = await mySqlMealUtils.getMeals(id);
-  if (error) {
-    res.status(500).send(error);
-  } else {
-    res.status(200).send(result);
+const getMeals = async (req, res, _) => {
+
+  if (checkRequest(req, res)) {
+
+    const mealId = +req.params.mealId;
+    const userId = +req.params.userId;
+
+    const { status, error, result } = await mySqlMealUtils.getMeals(userId, mealId);
+    sendResponse(res, status, error, result);
   }
 }
 

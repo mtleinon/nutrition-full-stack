@@ -1,42 +1,44 @@
 const sqlCommand = require('./sqlCommand');
 const USERS_TABLE = 'users';
 
-async function getUsers(userId) {
+async function getUsers(userId, email, password) {
+
   let sql;
   let values;
-  if (userId) {
+  if (email) {
+    sql = `SELECT * FROM ${USERS_TABLE} WHERE ?`;
+    values = [{ email }];
+  } else if (email && password) {
+    sql = `SELECT * FROM ${USERS_TABLE} WHERE ?`;
+    values = [{ email }, { password }];
+  } else if (userId) {
     sql = `SELECT * FROM ${USERS_TABLE} WHERE ?`;
     values = [{ userId }];
   } else {
     sql = `SELECT * FROM ${USERS_TABLE}`;
   }
-  console.debug('sql, values =', sql, values);
-  const result = await sqlCommand(sql, values);
-  console.debug('get result =', result);
-  return result;
+
+  return await sqlCommand(sql, values);
 }
 
 async function createUser(user) {
+
   let sql = `INSERT INTO ${USERS_TABLE} SET ?`
   let values = user;
-  console.debug('values =', values);
-  const result = await sqlCommand(sql, values);
-  return result;
+  return await sqlCommand(sql, values);
 }
 
 async function updateUser(userId, user) {
+
   let sql = `UPDATE ${USERS_TABLE} SET ? WHERE userId=?;`
   let values = [user, userId];
-  console.debug('values =', values);
-  const result = await sqlCommand(sql, values);
-  return result;
+  return await sqlCommand(sql, values);
 }
 
 async function deleteUser(id) {
-  const sql = `delete FROM ${USERS_TABLE} WHERE userId = ?`;
+  const sql = `DELETE FROM ${USERS_TABLE} WHERE userId = ?`;
 
-  const result = await sqlCommand(sql, id);
-  return result;
+  return await sqlCommand(sql, id);
 }
 
 module.exports = { getUsers, createUser, updateUser, deleteUser };

@@ -5,7 +5,7 @@ const {
   getFinelliData,
 } = require('../controllers/finelliData');
 
-router.get('/:id', getFinelliData);
+router.get('/:finelliId', getFinelliData);
 router.get('/', getFinelliData);
 
 module.exports = router;

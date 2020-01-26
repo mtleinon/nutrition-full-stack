@@ -101,24 +101,7 @@ export default React.memo(function NutrientsM({ mealId }) {
       <SelectFinelliNutrientM open={addMode} onClose={() => setAddMode(false)}
         selectDataHandler={addNutrientToMealHandler} />
 
-      {/* <Dialog onClose={() => setAddMode(false)} aria-labelledby="customized-dialog-title" open={addMode}>
-        <AddNutrientToMealM
-          addNutrientToMealHandler={addNutrientToMealHandler}
-          cancelHandler={() => setAddMode(false)} />
-      </Dialog>
 
-
-      <Modal aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description"
-        open={false}
-        onClose={() => setAddMode(false)}
-        style={{ width: '80vw' }}
-      >
-        <AddNutrientToMealM
-          addNutrientToMealHandler={addNutrientToMealHandler}
-          cancelHandler={() => setAddMode(false)} />
-      </Modal> */}
-      {/* <div>isLoading: {isLoading ? 'Loading ...' : 'No'}</div>
-      <div>Error: {error}</div> */}
       <SpinnerModal visible={isLoading}>
         <Ring size='100' sizeUnit='px' />
       </SpinnerModal>

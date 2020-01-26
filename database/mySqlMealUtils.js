@@ -1,40 +1,42 @@
 const sqlCommand = require('./sqlCommand');
 const MEALS_TABLE = 'meals';
 
-async function getMeals(id) {
-  let sql = `SELECT * FROM ${MEALS_TABLE}`;
+async function getMeals(userId, mealId) {
+  let sql;
   let values;
-  if (id) {
+  if (mealId) {
+    sql = `SELECT * FROM ${MEALS_TABLE} WHERE ? AND ?`;
+    values = [{ mealId }, { userId }];
+  } else {
     sql = `SELECT * FROM ${MEALS_TABLE} WHERE ?`;
-    values = [{ mealId: id }];
+    values = [{ userId }];
   }
-  // console.debug('sql, values =', sql, values);
-  const result = await sqlCommand(sql, values);
-  // console.debug('get result =', result);
-  return result;
+
+  return await sqlCommand(sql, values);
 }
 
-async function createMeal(meal) {
+async function createMeal(userId, meal) {
+
   let sql = `INSERT INTO ${MEALS_TABLE} SET ?`
   let values = meal;
-  console.debug('values =', values);
-  const result = await sqlCommand(sql, values);
-  return result;
+
+  return await sqlCommand(sql, values);
 }
 
-async function updateMeal(id, meal) {
-  let sql = `UPDATE ${MEALS_TABLE} SET ? WHERE mealId=?;`
-  let values = [meal, id];
-  console.debug('values =', values);
-  const result = await sqlCommand(sql, values);
-  return result;
+async function updateMeal(userId, mealId, meal) {
+
+  let sql = `UPDATE ${MEALS_TABLE} SET ? WHERE ? AND ?;`
+  let values = [meal, { userId }, { mealId }];
+
+  return await sqlCommand(sql, values);
 }
 
-async function deleteMeal(id) {
-  const sql = `delete FROM ${MEALS_TABLE} WHERE mealId = ?`;
+async function deleteMeal(userId, mealId) {
 
-  const result = await sqlCommand(sql, id);
-  return result;
+  const sql = `DELETE FROM ${MEALS_TABLE} WHERE ? AND ?`;
+  let values = [{ userId }, { mealId }];
+
+  return await sqlCommand(sql, values);
 }
 
 module.exports = { getMeals, createMeal, updateMeal, deleteMeal };
