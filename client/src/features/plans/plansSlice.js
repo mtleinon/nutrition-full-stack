@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchWithJwt } from '../../utils/fetchWithJwt';
 
 const plansSlice = createSlice({
   name: 'plans',
@@ -26,7 +27,9 @@ const plansSlice = createSlice({
     },
     deletePlan(state, action) {
       const { planId } = action.payload;
-      state.plans.splice(state.plans.findIndex(plan => plan.planId === planId), 1);
+      state
+        .plans
+        .splice(state.plans.findIndex(plan => plan.planId === planId), 1);
       state.isLoading = false;
     },
     updatePlan(state, action) {
@@ -41,97 +44,51 @@ const plansSlice = createSlice({
   }
 });
 
-export const { addAllPlans, addPlan, deletePlan, updatePlan, startDbOperation, setError } = plansSlice.actions;
+export const {
+  addAllPlans,
+  addPlan,
+  deletePlan,
+  updatePlan,
+  startDbOperation,
+  setError
+} = plansSlice.actions;
 
 export default plansSlice.reducer;
 
-export const fetchPlansFromDb = (userId) => {
-  return async (dispatch, getState) => {
-    dispatch(startDbOperation());
-    const rootState = getState();
-    try {
-      const response = await fetch('/api/plans/' + userId);
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const plansData = await response.json();
-      dispatch(addAllPlans(plansData));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err.message)
-    }
+export const fetchPlansFromDb = () => {
+  return async (dispatch) => {
+
+    fetchWithJwt('/api/plans/', 'GET', null,
+      dispatch, startDbOperation, addAllPlans, setError);
   }
 };
 
 export const addPlanToDb = (name, description = '') => {
   return async (dispatch) => {
-    dispatch(startDbOperation());
 
-    try {
-      const create = { create: { name, description } };
-      const response = await fetch("/api/plans", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(create)
-      })
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
-      dispatch(addPlan(data));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err)
-    };
+    const newPlan = { newPlan: { name, description } };
+
+    fetchWithJwt('/api/plans/', 'POST', newPlan,
+      dispatch, startDbOperation, addPlan, setError);
   }
 }
 
-
 export const deletePlanFromDb = (planId) => {
   return async (dispatch) => {
-    dispatch(startDbOperation());
 
-    try {
-      const response = await fetch('/api/plans/' + planId,
-        {
-          method: 'DELETE'
-        });
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
-      dispatch(deletePlan(data));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err)
-    }
+    fetchWithJwt('/api/plans/' + planId, 'DELETE', null,
+      dispatch, startDbOperation, deletePlan, setError);
   }
 };
 
-export const updatePlanInDb = (id, name, description) => {
-  return async (dispatch) => {
-    const update = { update: { name } };
-    dispatch(startDbOperation());
 
-    try {
-      const response = await fetch("/api/plans/" + id, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(update)
-      });
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
-      dispatch(updatePlan(data));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err)
-    }
+export const updatePlanInDb = (planId, name, description) => {
+  return async (dispatch) => {
+
+    const updateData = { plan: { name } };
+
+    fetchWithJwt('/api/plans/' + planId, 'PATCH', updateData,
+      dispatch, startDbOperation, updatePlan, setError);
   }
 };
 

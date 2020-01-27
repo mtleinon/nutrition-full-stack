@@ -5,6 +5,7 @@ const initialState = {
     userId: 0,
     email: '',
     name: '',
+    gender: '',
     age: 0,
     weight: 0,
     height: 0,
@@ -50,17 +51,25 @@ export const { addUser, signInUser, signUpUser, signOutUser, updateUser, setErro
 
 export default plansSlice.reducer;
 
-export const getUserFromDb = (email, password) => {
+export const signinUserToBackend = (email, password) => {
   return async (dispatch) => {
     dispatch(startDbOperation());
     try {
-      const response = await fetch(`/api/users/${email}/${password}`);
+      const credentials = { user: { email, password } };
+      const response = await fetch("/api/users/signin", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+      });
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      const user = await response.json();
-      if (user.length === 1) {
-        dispatch(addUser(user[0]));
+      const data = await response.json();
+      if (data.userData) {
+        dispatch(addUser(data.userData));
+        localStorage.setItem('jwtToken', data.token);
       } else {
         const errorMessage = 'Email or password is erroneous';
         dispatch(setError(errorMessage));
@@ -78,7 +87,7 @@ export const addUserToDb = (user) => {
     dispatch(startDbOperation());
 
     try {
-      const create = { create: { ...user } };
+      const create = { newUser: { ...user } };
       const response = await fetch("/api/users", {
         method: 'POST',
         headers: {

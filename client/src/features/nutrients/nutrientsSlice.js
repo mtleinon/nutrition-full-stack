@@ -26,12 +26,18 @@ const nutrientsSlice = createSlice({
     },
     deleteNutrient(state, action) {
       const { nutrientId } = action.payload;
-      state.nutrients.splice(state.nutrients.findIndex(nutrient => nutrient.nutrientId === nutrientId), 1);
+      state.nutrients.splice(
+        state
+          .nutrients
+          .findIndex(nutrient => nutrient.nutrientId === nutrientId),
+        1
+      );
       state.isLoading = false;
     },
     updateNutrient(state, action) {
       const { nutrientId, amount, mealId, finelliId } = action.payload;
-      const nutrient = state.nutrients.find(nutrient => nutrient.nutrientId === nutrientId);
+      const nutrient =
+        state.nutrients.find(nutrient => nutrient.nutrientId === nutrientId);
       if (nutrient) {
         nutrient.amount = amount;
         nutrient.mealId = mealId;
@@ -42,7 +48,14 @@ const nutrientsSlice = createSlice({
   }
 });
 
-export const { addAllNutrients, addNutrient, deleteNutrient, updateNutrient, startDbOperation, setError } = nutrientsSlice.actions;
+export const {
+  addAllNutrients,
+  addNutrient,
+  deleteNutrient,
+  updateNutrient,
+  startDbOperation,
+  setError
+} = nutrientsSlice.actions;
 
 export default nutrientsSlice.reducer;
 

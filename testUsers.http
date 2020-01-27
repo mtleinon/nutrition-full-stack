@@ -1,8 +1,9 @@
 ### Test hello world
 GET http://localhost:5000/
 
-### Get users
+### Get user information with JWT token
 GET http://localhost:5000/api/users/
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDEwMjE1NSwiZXhwIjoxNTgwMTMwOTU1fQ.LsfsDWCk3SK7W18XUocKO47JUpoemMGlQlzEqbuhiRU
 
 ### Get a user
 GET http://localhost:5000/api/users/2

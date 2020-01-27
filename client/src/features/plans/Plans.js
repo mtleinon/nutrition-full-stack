@@ -40,12 +40,12 @@ export default function Plans() {
     setAddMode(false);
   }
 
-  useEffect(() => {
-    dispatch(fetchPlansFromDb());
-    dispatch(fetchMealsFromDb());
-    dispatch(fetchNutrientsFromDb());
-    dispatch(fetchFinelliDataFromDb());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchPlansFromDb());
+  //   dispatch(fetchMealsFromDb());
+  //   dispatch(fetchNutrientsFromDb());
+  //   dispatch(fetchFinelliDataFromDb());
+  // }, [dispatch]);
 
 
   const removeHandler = (id) => {

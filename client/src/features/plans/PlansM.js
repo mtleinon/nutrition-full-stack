@@ -51,12 +51,12 @@ export default function Plans() {
   //   setAddMode(false);
   // }
 
-  useEffect(() => {
-    dispatch(fetchPlansFromDb(userId));
-    dispatch(fetchMealsFromDb(userId));
-    dispatch(fetchNutrientsFromDb(userId));
-    dispatch(fetchFinelliDataFromDb());
-  }, [dispatch, userId]);
+  // useEffect(() => {
+  //   dispatch(fetchPlansFromDb(userId));
+  //   dispatch(fetchMealsFromDb(userId));
+  //   dispatch(fetchNutrientsFromDb(userId));
+  //   dispatch(fetchFinelliDataFromDb());
+  // }, [dispatch, userId]);
 
 
   const removeHandler = (id) => {

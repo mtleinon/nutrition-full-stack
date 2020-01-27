@@ -1,12 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const { check } = require('express-validator');
+const passport = require("passport");
 
 const {
   createUser,
   loginUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  getUsers
 } = require('../controllers/users');
 
 router.post('/create/', [
@@ -26,7 +28,9 @@ router.post('/signin/', [
 
 router.get('/:email/:password', (_, res) => res.json({ msg: "Route not supported anymore!" }));
 router.get('/:userId', (_, res) => res.json({ msg: "Route not supported anymore!" }));
-router.get('/', (_, res) => res.json({ msg: "Route not supported anymore!" }));
+router.get('/',
+  passport.authenticate("jwt", { session: false }),
+  getUsers);
 
 router.patch('/:userId', [
   // check('update.userId').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('UserId can not be empty.'),

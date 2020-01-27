@@ -89,11 +89,12 @@ const deleteUser = async (req, res, _) => {
 const getUsers = async (req, res, _) => {
 
   if (checkRequest(req, res)) {
-    const userId = req.params.userId;
-    const email = req.params.email;
-    const password = req.params.password;
+    const userId = +req.user.userId;
 
-    const { status, error, result } = await mySqlUtils.getUsers(userId, email, password);
+    const { status, error, result } = await mySqlUtils.getUsers(userId);
+    if (result.length === 1) {
+      result[0].password = '';
+    }
     sendResponse(res, status, error, result);
   }
 }

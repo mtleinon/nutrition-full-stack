@@ -12,7 +12,7 @@ import SpinnerModal from '../../components/SpinnerModal';
 import { Ring } from 'react-awesome-spinners'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { signInUser, signUpUser, addUserToDb, getUserFromDb } from './userSlice';
+import { signInUser, signUpUser, addUserToDb, signinUserToBackend } from './userSlice';
 
 const modes = {
   SIGNIN: 'signIn',
@@ -53,13 +53,12 @@ export default function LoginUserM({ showLogin, handleCloseLogin }) {
 
   const handleSetUser = field => event => {
     const value = event.target.value;
-    console.debug('field, event.target.value =', field, value);
     setUser(state => ({ ...state, [field]: value }))
   };
 
   const handleSignIn = () => {
     if (mode === modes.SIGNIN) {
-      dispatch(getUserFromDb(user.email, user.password));
+      dispatch(signinUserToBackend(user.email, user.password));
       handleCloseLogin();
     } else {
       setMode(modes.SIGNIN);

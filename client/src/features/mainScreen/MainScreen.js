@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,6 +9,12 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { fetchPlansFromDb } from '../plans/plansSlice';
+import { fetchMealsFromDb } from '../meals/mealsSlice';
+import { fetchNutrientsFromDb } from '../nutrients/nutrientsSlice';
+import { fetchFinelliDataFromDb } from '../finelliData/finelliDataSlice';
+
 
 import PlansM from '../plans/PlansM';
 import LoginUserM from '../user/LoginUserM';
@@ -42,11 +48,20 @@ export default function MainScreen() {
 
   const drawerPaperStyle = { style: { backgroundColor: theme.palette.primary.main } };
 
+  useEffect(() => {
+    // dispatch(fetchUserDataFromDb());
+    dispatch(fetchPlansFromDb());
+    dispatch(fetchMealsFromDb());
+    dispatch(fetchNutrientsFromDb());
+    dispatch(fetchFinelliDataFromDb());
+  }, [dispatch]);
+
   const handleOpenLogin = () => {
     setShowLogin(true);
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('jwtToken');
     dispatch(signOutUser());
   };
 
