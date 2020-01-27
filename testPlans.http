@@ -3,7 +3,7 @@ GET http://localhost:5000/
 
 ### Get all users plans
 GET http://localhost:5000/api/plans
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDA3NDEyOCwiZXhwIjoxNTgwMTAyOTI4fQ.kyN2qthpAMYqoN2eAH319KNSqSXzFgjxvXAoZZLc6bI
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDEwMDc3MCwiZXhwIjoxNTgwMTI5NTcwfQ.eHhdwyX7JLkkuNQKORMBQtMYw8ANze3vPB8lHE2rR6g
 
 ### Get one user's plan
 GET http://localhost:5000/api/plans/15

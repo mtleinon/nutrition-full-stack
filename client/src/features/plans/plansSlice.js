@@ -81,7 +81,6 @@ export const deletePlanFromDb = (planId) => {
   }
 };
 
-
 export const updatePlanInDb = (planId, name, description) => {
   return async (dispatch) => {
 

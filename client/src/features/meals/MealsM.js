@@ -38,8 +38,8 @@ export default React.memo(function MealsM({ planId }) {
   const isLoading = useSelector(state => state.meals.isLoading);
   const dispatch = useDispatch();
 
-  const editMealHandler = (id, name, description, planId) => {
-    dispatch(updateMealInDb(id, name, description, planId));
+  const editMealHandler = (id, name) => {
+    dispatch(updateMealInDb(id, name));
   }
 
   const addMealHandler = (name, description, planId) => {

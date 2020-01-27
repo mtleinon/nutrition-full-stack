@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchWithJwt } from '../../utils/fetchWithJwt';
 
 const mealsSlice = createSlice({
   name: 'meals',
@@ -41,94 +42,49 @@ const mealsSlice = createSlice({
   }
 });
 
-export const { addAllMeals, addMeal, deleteMeal, updateMeal, startDbOperation, setError } = mealsSlice.actions;
+export const {
+  addAllMeals,
+  addMeal,
+  deleteMeal,
+  updateMeal,
+  startDbOperation,
+  setError } = mealsSlice.actions;
 
 export default mealsSlice.reducer;
 
-export const fetchMealsFromDb = (userId) => {
+export const fetchMealsFromDb = () => {
   return async (dispatch) => {
-    dispatch(startDbOperation());
-    try {
-      const response = await fetch('/api/meals/' + userId);
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const mealsData = await response.json();
-      dispatch(addAllMeals(mealsData));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err.message)
-    }
+
+    fetchWithJwt('/api/meals/', 'GET', null,
+      dispatch, startDbOperation, addAllMeals, setError);
   }
 };
 
 export const addMealToDb = (name, description, planId) => {
   return async (dispatch) => {
-    dispatch(startDbOperation());
 
-    try {
-      const create = { create: { name, description, planId } };
-      const response = await fetch("/api/meals", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(create)
-      })
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
-      dispatch(addMeal(data));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err)
-    };
+    const newMeal = { newMeal: { name, description, planId } };
+
+    fetchWithJwt('/api/meals/', 'POST', newMeal,
+      dispatch, startDbOperation, addMeal, setError);
   }
 }
 
 export const deleteMealFromDb = (mealId) => {
   return async (dispatch) => {
-    dispatch(startDbOperation());
 
-    try {
-      const response = await fetch('/api/meals/' + mealId,
-        {
-          method: 'DELETE'
-        });
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
-      dispatch(deleteMeal(data));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err)
-    }
+    fetchWithJwt('/api/meals/' + mealId, 'DELETE', null,
+      dispatch, startDbOperation, deleteMeal, setError);
   }
 };
 
-export const updateMealInDb = (id, name, description, planId) => {
+export const updateMealInDb = (mealId, name) => {
   return async (dispatch) => {
-    const update = { update: { name, description, planId } };
-    dispatch(startDbOperation());
-    try {
-      const response = await fetch("/api/meals/" + id, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(update)
-      });
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
-      dispatch(updateMeal(data));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err)
-    }
+
+    const updateData = { meal: { name } };
+
+    fetchWithJwt('/api/meals/' + mealId, 'PATCH', updateData,
+      dispatch, startDbOperation, updateMeal, setError);
   }
 };
 

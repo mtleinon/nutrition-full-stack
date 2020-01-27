@@ -33,7 +33,7 @@ const NamePanel = withStyles({
   },
 })(ExpansionPanel);
 
-export default React.memo(function Meal({ meal, editMealHandler, removeHandler }) {
+export default React.memo(function MealM({ meal, editMealHandler, removeHandler }) {
   // const [showNutrients, setShowNutrients] = useState(false);
   const [showMealInfo, setShowMealInfo] = useState(false);
   // const isLoading = useSelector(state => state.meals.isLoading);

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchWithJwt } from '../../utils/fetchWithJwt';
 
 const nutrientsSlice = createSlice({
   name: 'nutrients',
@@ -59,93 +60,113 @@ export const {
 
 export default nutrientsSlice.reducer;
 
-export const fetchNutrientsFromDb = (userId) => {
+export const fetchNutrientsFromDb = () => {
   return async (dispatch) => {
-    dispatch(startDbOperation());
-    try {
-      const response = await fetch('/api/nutrients/' + userId);
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const nutrientsData = await response.json();
-      dispatch(addAllNutrients(nutrientsData));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err.message)
-    }
+
+    fetchWithJwt('/api/nutrients/', 'GET', null,
+      dispatch, startDbOperation, addAllNutrients, setError);
+
+    // dispatch(startDbOperation());
+    // try {
+    //   const response = await fetch('/api/nutrients/' + userId);
+    //   if (!response.ok) {
+    //     throw new Error(response.statusText);
+    //   }
+    //   const nutrientsData = await response.json();
+    //   dispatch(addAllNutrients(nutrientsData));
+    // } catch (err) {
+    //   dispatch(setError(err.message));
+    //   console.error(err.message)
+    // }
   }
 };
 
 export const addNutrientToDb = (amount, mealId, finelliId) => {
   return async (dispatch) => {
-    console.debug('addNutrientToDb 1', new Date().getSeconds(), new Date().getMilliseconds());
-    dispatch(startDbOperation());
 
-    try {
-      const create = { create: { amount, mealId, finelliId } };
-      const response = await fetch("/api/nutrients", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(create)
-      })
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
+    const newNutrient = { newNutrient: { amount, mealId, finelliId } };
 
-      dispatch(addNutrient(data));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err)
-    };
+    fetchWithJwt('/api/nutrients/', 'POST', newNutrient,
+      dispatch, startDbOperation, addNutrient, setError);
+
+
+    // console.debug('addNutrientToDb 1', new Date().getSeconds(), new Date().getMilliseconds());
+    // dispatch(startDbOperation());
+
+    // try {
+    //   const create = { create: { amount, mealId, finelliId } };
+    //   const response = await fetch("/api/nutrients", {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(create)
+    //   })
+    //   if (!response.ok) {
+    //     throw new Error(response.statusText);
+    //   }
+    //   const data = await response.json();
+
+    //   dispatch(addNutrient(data));
+    // } catch (err) {
+    //   dispatch(setError(err.message));
+    //   console.error(err)
+    // };
   }
-
 }
 
 export const deleteNutrientFromDb = (nutrientId) => {
   return async (dispatch) => {
-    dispatch(startDbOperation());
 
-    try {
-      const response = await fetch('/api/nutrients/' + nutrientId,
-        {
-          method: 'DELETE'
-        });
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
-      dispatch(deleteNutrient(data));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err)
-    }
+    fetchWithJwt('/api/nutrients/' + nutrientId, 'DELETE', null,
+      dispatch, startDbOperation, deleteNutrient, setError);
+
+
+    // dispatch(startDbOperation());
+
+    // try {
+    //   const response = await fetch('/api/nutrients/' + nutrientId,
+    //     {
+    //       method: 'DELETE'
+    //     });
+    //   if (!response.ok) {
+    //     throw new Error(response.statusText);
+    //   }
+    //   const data = await response.json();
+    //   dispatch(deleteNutrient(data));
+    // } catch (err) {
+    //   dispatch(setError(err.message));
+    //   console.error(err)
+    // }
   }
 };
 
-export const updateNutrientInDb = (id, amount, mealId, finelliId) => {
+export const updateNutrientInDb = (nutrientId, amount, mealId, finelliId) => {
   return async (dispatch) => {
-    const update = { update: { amount, mealId, finelliId } };
-    dispatch(startDbOperation());
-    try {
-      const response = await fetch("/api/nutrients/" + id, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(update)
-      });
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
-      dispatch(updateNutrient(data));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err)
-    }
+    const nutrient = { nutrient: { amount, mealId, finelliId } };
+
+    fetchWithJwt('/api/nutrients/' + nutrientId, 'PATCH', nutrient,
+      dispatch, startDbOperation, updateNutrient, setError);
+
+
+    // dispatch(startDbOperation());
+    // try {
+    //   const response = await fetch("/api/nutrients/" + id, {
+    //     method: 'PATCH',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(update)
+    //   });
+    //   if (!response.ok) {
+    //     throw new Error(response.statusText);
+    //   }
+    //   const data = await response.json();
+    //   dispatch(updateNutrient(data));
+    // } catch (err) {
+    //   dispatch(setError(err.message));
+    //   console.error(err)
+    // }
   }
 };
 
