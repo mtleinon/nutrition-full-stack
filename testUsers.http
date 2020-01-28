@@ -43,13 +43,13 @@ content-type: application/json
 
 {
   "user":  {
-    "email": "Jill@gmail.com",
+    "email": "mika4@gmail.com",
     "password": "123456"
   }
 }
 
 /api/users/signin
-
+{"user":{"email":"mika4@gmail.com","password":"123456"}}"
 
 ### Update user
 PATCH http://localhost:5000/api/users/2 HTTP/1.1
