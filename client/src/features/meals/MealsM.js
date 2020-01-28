@@ -1,7 +1,4 @@
 import React from 'react';
-import ErrorDialog from '../../materialUiComponents/ErrorDialog';
-import SpinnerModal from '../../components/SpinnerModal';
-import { Ring } from 'react-awesome-spinners'
 // import Dialog from '@material-ui/core/Dialog';
 // import DialogActions from '@material-ui/core/DialogActions';
 // import DialogContent from '@material-ui/core/DialogContent';
@@ -11,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // import { withStyles } from '@material-ui/core/styles';
 
 import {
-  deleteMealFromDb, updateMealInDb, addMealToDb, setError
+  deleteMealFromDb, updateMealInDb, addMealToDb
 } from './mealsSlice';
 
 import MealM from './MealM';
@@ -30,7 +27,7 @@ import Button from '@material-ui/core/Button';
 
 
 
-const DEFAULT_NEW_MEAL_NAME = "New meal";
+const DEFAULT_NEW_MEAL_NAME = "";
 
 export default React.memo(function MealsM({ planId }) {
   const meals = useSelector(state => state.meals.meals).filter(meal => meal.planId === planId);

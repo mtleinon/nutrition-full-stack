@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import ErrorDialog from '../../materialUiComponents/ErrorDialog';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  deleteNutrientFromDb, updateNutrientInDb, addNutrientToDb, setError
+  deleteNutrientFromDb, updateNutrientInDb, addNutrientToDb
 } from './nutrientsSlice';
 // import Modal from '../../components/Modal';
 // import Button from '../../components/Button';
 import NutrientItemM from './NutrientItemM';
 // import './nutrients.css';
 import { I_NAME, I_FINELLI_ID } from '../finelliData/constants'
-import SpinnerModal from '../../components/SpinnerModal';
-import { Ring } from 'react-awesome-spinners'
 
 import List from '@material-ui/core/List';
 import Button from '@material-ui/core/Button';

@@ -11,8 +11,6 @@ import MealsM from '../meals/MealsM';
 import Modal from '@material-ui/core/Modal';
 import PlanAndMealReportM from '../nutrientReport/PlanAndMealReportM';
 
-import Button from '@material-ui/core/Button';
-
 const NamePanel = withStyles({
   root: {
     width: '100%'

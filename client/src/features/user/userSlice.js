@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchWithJwt } from '../../utils/fetchWithJwt';
-import * as mainPageSlice from '../mainPage/mainPageSlice';
 
 const initialState = {
   user: {
