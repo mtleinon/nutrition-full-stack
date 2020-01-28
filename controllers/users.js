@@ -1,8 +1,17 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const jsonSecret = require('../secrets/secrets').jsonSecret;
 const mySqlUtils = require('../database/mySqlUsersUtils');
 const { checkRequest, sendResponse } = require('./controllerUtils');
+
+let jsonSecret;
+if (process.env.NODE_ENV === 'development') {
+  jsonSecret = require("../secrets/secrets").jsonSecret;
+  console.debug('development jsonSecret =', jsonSecret);
+} else {
+  jsonSecret = process.env.JSON_SECRET
+  console.debug('production jsonSecret =', jsonSecret);
+}
+
 
 const createUser = async (req, res, _) => {
 
@@ -37,9 +46,8 @@ const loginUser = async (req, res, _) => {
   if (checkRequest(req, res)) {
 
     const user = req.body.user;
-    console.debug('user =', user);
     const { status, error, result } = await mySqlUtils.getUsers(undefined, user.email);
-    console.debug('result.length =', result.length);
+
     if (result && result.length === 1) {
       const userData = result[0];
       bcrypt.compare(user.password, userData.password, (err, result) => {
