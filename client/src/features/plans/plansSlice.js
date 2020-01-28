@@ -1,21 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchWithJwt } from '../../utils/fetchWithJwt';
 
+const initialState = {
+  plans: [],
+};
 const plansSlice = createSlice({
   name: 'plans',
-  initialState: {
-    plans: [],
-    error: '',
-    isLoading: false
-  },
+  initialState,
   reducers: {
-    startDbOperation(state, _) {
-      state.error = '';
-      state.isLoading = true;
-    },
-    setError(state, action) {
-      state.error = action.payload;
-      state.isLoading = false;
+    initializePlans(state, _) {
+      state.plans = initialState.plans;
     },
     addAllPlans(state, action) {
       state.plans.push(...action.payload);
@@ -45,12 +39,11 @@ const plansSlice = createSlice({
 });
 
 export const {
+  initializePlans,
   addAllPlans,
   addPlan,
   deletePlan,
   updatePlan,
-  startDbOperation,
-  setError
 } = plansSlice.actions;
 
 export default plansSlice.reducer;
@@ -59,7 +52,7 @@ export const fetchPlansFromDb = () => {
   return async (dispatch) => {
 
     fetchWithJwt('/api/plans/', 'GET', null,
-      dispatch, startDbOperation, addAllPlans, setError);
+      dispatch, addAllPlans);
   }
 };
 
@@ -69,7 +62,7 @@ export const addPlanToDb = (name, description = '') => {
     const newPlan = { newPlan: { name, description } };
 
     fetchWithJwt('/api/plans/', 'POST', newPlan,
-      dispatch, startDbOperation, addPlan, setError);
+      dispatch, addPlan);
   }
 }
 
@@ -77,7 +70,7 @@ export const deletePlanFromDb = (planId) => {
   return async (dispatch) => {
 
     fetchWithJwt('/api/plans/' + planId, 'DELETE', null,
-      dispatch, startDbOperation, deletePlan, setError);
+      dispatch, deletePlan);
   }
 };
 
@@ -87,7 +80,7 @@ export const updatePlanInDb = (planId, name, description) => {
     const updateData = { plan: { name } };
 
     fetchWithJwt('/api/plans/' + planId, 'PATCH', updateData,
-      dispatch, startDbOperation, updatePlan, setError);
+      dispatch, updatePlan);
   }
 };
 

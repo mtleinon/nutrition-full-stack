@@ -27,9 +27,7 @@ export default React.memo(function Nutrients({ mealId }) {
   }
 
   const addNutrientToMealHandler = (finelliId) => {
-    console.debug('addNutrientToMealHandler 1', new Date().getSeconds(), new Date().getMilliseconds());
     dispatch(addNutrientToDb(0, mealId, finelliId));
-    console.debug('addNutrientToMealHandler 2', new Date().getSeconds(), new Date().getMilliseconds());
     setAddMode(false);
   }
 

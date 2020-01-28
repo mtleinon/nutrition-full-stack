@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -12,7 +11,7 @@ import SpinnerModal from '../../components/SpinnerModal';
 import { Ring } from 'react-awesome-spinners'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { signInUser, signUpUser, addUserToDb, signinUserToBackend } from './userSlice';
+import { addUserToDb, signinUserToBackend } from './userSlice';
 
 const modes = {
   SIGNIN: 'signIn',
@@ -35,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function LoginUserM({ showLogin, handleCloseLogin }) {
 
-  const error = useSelector(state => state.plans.error);
+  const error = useSelector(state => state.user.error);
   const isLoading = useSelector(state => state.plans.isLoading);
 
   const [mode, setMode] = useState(modes.SIGNIN);
@@ -74,6 +73,7 @@ export default function LoginUserM({ showLogin, handleCloseLogin }) {
     }
   };
 
+  console.debug('error =', error);
   return (
     <div>
       <Dialog

@@ -1,34 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchWithJwt } from '../../utils/fetchWithJwt';
 
+const initialState = {
+  meals: [],
+};
+
 const mealsSlice = createSlice({
   name: 'meals',
-  initialState: {
-    meals: [],
-    error: '',
-    isLoading: false
-  },
+  initialState,
   reducers: {
-    startDbOperation(state, _) {
-      state.error = '';
-      state.isLoading = true;
-    },
-    setError(state, action) {
-      state.error = action.payload;
-      state.isLoading = false;
+    initializeMeals(state, _) {
+      state.meals = initialState.meals;
     },
     addAllMeals(state, action) {
       state.meals.push(...action.payload);
-      state.isLoading = false;
     },
     addMeal(state, action) {
       state.meals.push(action.payload);
-      state.isLoading = false;
     },
     deleteMeal(state, action) {
       const { mealId } = action.payload;
       state.meals.splice(state.meals.findIndex(meal => meal.mealId === mealId), 1);
-      state.isLoading = false;
     },
     updateMeal(state, action) {
       const { mealId, name, description } = action.payload;
@@ -37,18 +29,17 @@ const mealsSlice = createSlice({
         meal.name = name;
         meal.description = description;
       }
-      state.isLoading = false;
     }
   }
 });
 
 export const {
+  initializeMeals,
   addAllMeals,
   addMeal,
   deleteMeal,
   updateMeal,
-  startDbOperation,
-  setError } = mealsSlice.actions;
+} = mealsSlice.actions;
 
 export default mealsSlice.reducer;
 
@@ -56,7 +47,7 @@ export const fetchMealsFromDb = () => {
   return async (dispatch) => {
 
     fetchWithJwt('/api/meals/', 'GET', null,
-      dispatch, startDbOperation, addAllMeals, setError);
+      dispatch, addAllMeals);
   }
 };
 
@@ -66,7 +57,7 @@ export const addMealToDb = (name, description, planId) => {
     const newMeal = { newMeal: { name, description, planId } };
 
     fetchWithJwt('/api/meals/', 'POST', newMeal,
-      dispatch, startDbOperation, addMeal, setError);
+      dispatch, addMeal);
   }
 }
 
@@ -74,7 +65,7 @@ export const deleteMealFromDb = (mealId) => {
   return async (dispatch) => {
 
     fetchWithJwt('/api/meals/' + mealId, 'DELETE', null,
-      dispatch, startDbOperation, deleteMeal, setError);
+      dispatch, deleteMeal);
   }
 };
 
@@ -84,7 +75,7 @@ export const updateMealInDb = (mealId, name) => {
     const updateData = { meal: { name } };
 
     fetchWithJwt('/api/meals/' + mealId, 'PATCH', updateData,
-      dispatch, startDbOperation, updateMeal, setError);
+      dispatch, updateMeal);
   }
 };
 

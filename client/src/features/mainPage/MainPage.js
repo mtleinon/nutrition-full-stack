@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import SpinnerModal from '../../components/SpinnerModal';
+import { Ring } from 'react-awesome-spinners'
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
+import { setError } from '../mainPage/mainPageSlice';
+import { fetchUserDataFromDb } from '../user/userSlice';
 
-import { fetchPlansFromDb } from '../plans/plansSlice';
-import { fetchMealsFromDb } from '../meals/mealsSlice';
-import { fetchNutrientsFromDb } from '../nutrients/nutrientsSlice';
+import { fetchPlansFromDb, initializePlans } from '../plans/plansSlice';
+import { fetchMealsFromDb, initializeMeals } from '../meals/mealsSlice';
+import { fetchNutrientsFromDb, initializeNutrients } from '../nutrients/nutrientsSlice';
 import { fetchFinelliDataFromDb } from '../finelliData/finelliDataSlice';
 
 
@@ -38,23 +46,32 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MainScreen() {
+export default function MainPage() {
+  const error = useSelector(state => state.mainPage.error);
+  const loading = useSelector(state => state.mainPage.loading);
   const theme = useTheme();
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showLogin, setShowLogin] = React.useState(false);
-  const email = useSelector(state => state.user.user.email);
+  const userId = useSelector(state => state.user.user.userId);
   const dispatch = useDispatch();
 
   const drawerPaperStyle = { style: { backgroundColor: theme.palette.primary.main } };
 
+  // Fetch initial user data
   useEffect(() => {
-    // dispatch(fetchUserDataFromDb());
-    dispatch(fetchPlansFromDb());
-    dispatch(fetchMealsFromDb());
-    dispatch(fetchNutrientsFromDb());
-    dispatch(fetchFinelliDataFromDb());
+    dispatch(fetchUserDataFromDb());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (userId > 0) {
+      dispatch(fetchUserDataFromDb());
+      dispatch(fetchPlansFromDb());
+      dispatch(fetchMealsFromDb());
+      dispatch(fetchNutrientsFromDb());
+      dispatch(fetchFinelliDataFromDb());
+    }
+  }, [dispatch, userId]);
 
   const handleOpenLogin = () => {
     setShowLogin(true);
@@ -63,12 +80,14 @@ export default function MainScreen() {
   const handleLogout = () => {
     localStorage.removeItem('jwtToken');
     dispatch(signOutUser());
+    dispatch(initializePlans());
+    dispatch(initializeMeals());
+    dispatch(initializeNutrients());
   };
 
   const handleCloseLogin = () => {
     setShowLogin(false);
   };
-  console.debug('theme.palette.primary =', theme.palette.primary);
   return (
     <div>
       <Drawer
@@ -87,14 +106,31 @@ export default function MainScreen() {
           <Typography variant="h6" className={classes.title}>
             Diet Planner
           </Typography>
-          <Button color="inherit" onClick={email ? handleLogout : handleOpenLogin}>
-            {email ? 'Sign out' : 'Sign in'}
+          <Button color="inherit" onClick={userId ? handleLogout : handleOpenLogin}>
+            {userId ? 'Sign out' : 'Sign in'}
           </Button>
         </Toolbar>
       </AppBar>
       <LoginUserM showLogin={showLogin} handleCloseLogin={handleCloseLogin} />
       <div style={{ paddingTop: '70px' }} />
       <PlansM />
+      <Dialog
+        open={Boolean(error)}
+        onClose={() => dispatch(setError(''))}
+      >
+        <DialogTitle id="form-dialog-title">Error {error}</DialogTitle>
+        <DialogActions>
+          <Button
+            variant='contained'
+            onClick={() => dispatch(setError(''))} color="primary"
+          >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <SpinnerModal visible={loading}>
+        <Ring size='100' sizeUnit='px' />
+      </SpinnerModal>
     </div>
   );
 }

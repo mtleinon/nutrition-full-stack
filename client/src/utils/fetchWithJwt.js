@@ -1,25 +1,28 @@
+import * as mainPageSlice from '../features/mainPage/mainPageSlice';
+
 export const fetchWithJwt = async (
   uri,
   method,
   body,
   dispatch,
-  dispatchStart,
+  // dispatchStart,
   dispatchResult,
-  dispatchError) => {
+  // dispatchError,
+  useJwt = true) => {
 
   const jwtToken = localStorage.getItem('jwtToken');
-  console.debug('jwtToken =', jwtToken);
-  if (!jwtToken) {
-    console.debug('NO JWT, operation not done:', uri, method);
+  if (useJwt && !jwtToken) {
     return;
   }
-  dispatch(dispatchStart());
+  dispatch(mainPageSlice.setLoading(true));
   try {
     const reqBody = {
       headers: {
-        Authorization: localStorage.getItem('jwtToken'),
         'Content-Type': 'application/json'
       }
+    }
+    if (useJwt) {
+      reqBody.headers.Authorization = localStorage.getItem('jwtToken');
     }
     if (body) {
       reqBody.body = JSON.stringify(body);
@@ -34,8 +37,11 @@ export const fetchWithJwt = async (
     }
     const data = await response.json();
     dispatch(dispatchResult(data));
+    dispatch(mainPageSlice.setLoading(false));
   } catch (err) {
-    dispatch(dispatchError(err.message));
+    dispatch(mainPageSlice.setError(err.message));
+    dispatch(mainPageSlice.setLoading(false));
+    // dispatch(dispatchError(err.message));
     console.error(err.message)
   }
 }

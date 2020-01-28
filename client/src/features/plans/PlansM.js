@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ErrorDialog from '../../materialUiComponents/ErrorDialog';
 
 import {
-  fetchPlansFromDb,
-  deletePlanFromDb, updatePlanInDb, addPlanToDb, setError
+  deletePlanFromDb, updatePlanInDb, addPlanToDb
 } from './plansSlice';
-import { fetchMealsFromDb } from '../meals/mealsSlice';
-import { fetchNutrientsFromDb } from '../nutrients/nutrientsSlice';
-import { fetchFinelliDataFromDb } from '../finelliData/finelliDataSlice';
 
-import SpinnerModal from '../../components/SpinnerModal';
-import { Ring } from 'react-awesome-spinners'
 
 // import Plan from './Plan';
 // import Input from '../../components/Input';
@@ -24,13 +17,10 @@ import PlanM from './PlanM';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 
-const NEW_PLAN_DEFAULT_NAME = 'New plan';
+const NEW_PLAN_DEFAULT_NAME = '';
 
 export default function Plans() {
-  const userId = useSelector(state => state.user.user.userId);
   const plans = useSelector(state => state.plans.plans);
-  const error = useSelector(state => state.plans.error);
-  const isLoading = useSelector(state => state.plans.isLoading);
   const dispatch = useDispatch();
   const [lastlyUpdatedId, setLastlyUpdatedId] = useState(0);
 
@@ -63,17 +53,11 @@ export default function Plans() {
     dispatch(deletePlanFromDb(id));
   }
 
-  const clearError = () => {
-    dispatch(setError(''));
-  }
-
   return (
     <div className="plans">
-      {error && <ErrorDialog error={error} clearError={clearError} />}
       {plans.map(plan => <PlanM
         key={plan.planId}
         plan={plan}
-        isLoading={isLoading}
         lastlyUpdatedId={lastlyUpdatedId}
         editPlanHandler={editPlanHandler}
         removeHandler={removeHandler} />
@@ -88,9 +72,6 @@ export default function Plans() {
       </Container>
       {/* <div>Error: {error}</div>
       <div>isLoading: {isLoading ? 'Loading ...' : 'No'}</div> */}
-      <SpinnerModal visible={isLoading}>
-        <Ring size='100' sizeUnit='px' />
-      </SpinnerModal>
     </div>
   );
 }

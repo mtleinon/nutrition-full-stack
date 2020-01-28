@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './data.css';
-import HeaderRow from '../../components/HeaderRow';
 import Modal from '../../components/Modal';
 import InfoIcon from '../../components/InfoIcon';
 import NutrientReport from '../nutrientReport/NutrientReport';

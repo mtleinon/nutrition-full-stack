@@ -147,16 +147,16 @@ export default function SelectFinelliNutrientM(
             return filterValue.split(' ').every(word => nutrientData[I_NAME].toUpperCase().includes(word.toUpperCase()))
           })
           .slice(0, resultCountToShow)
-          .map((nutrientData, i) => <>
-            <DataRow
-              key={nutrientData[I_FINELLI_ID]}
-              nutrientData={nutrientData}
-              selectDataHandler={selectDataHandler}
-            />
-            {(i === resultCountToShow - 1) && <Button variant="outlined" color="primary"
-              onClick={handleShowAllResults}>Show next {RESULT_COUNT_TO_SHOW}</Button>
-            }
-          </>
+          .map((nutrientData, i) =>
+            <React.Fragment key={nutrientData[I_FINELLI_ID]}>
+              <DataRow
+                nutrientData={nutrientData}
+                selectDataHandler={selectDataHandler}
+              />
+              {(i === resultCountToShow - 1) && <Button variant="outlined" color="primary"
+                onClick={handleShowAllResults}>Show next {RESULT_COUNT_TO_SHOW}</Button>
+              }
+            </React.Fragment>
           )
         }
       </div>

@@ -23,7 +23,6 @@ export default React.memo(function Meal(props) {
   // const isLoading = useSelector(state => state.meals.isLoading);
 
 
-  console.debug('Meals: showMealInfo  =', showMealInfo);
   const editMealHandler = (name) => {
     props.editMealHandler(meal.mealId, name);
   };

@@ -13,7 +13,8 @@ const {
 router.post('/',
   passport.authenticate("jwt", { session: false }),
   [
-    check('newPlan.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    // check('newPlan.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    check('newPlan.name').trim(),
     check('newPlan.description').trim()
   ],
   createPlan);
@@ -29,7 +30,8 @@ router.get('/',
 router.patch('/:planId',
   passport.authenticate("jwt", { session: false }),
   [
-    check('plan.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    // check('plan.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    check('plan.name').trim(),
     check('plan.description').trim()
   ],
   updatePlan);

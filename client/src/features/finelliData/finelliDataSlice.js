@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchWithJwt } from '../../utils/fetchWithJwt';
 
 /*
   convertFinelliData converts finelli data object to 
@@ -17,8 +18,6 @@ const finelliDataSlice = createSlice({
   name: 'finelliData',
   initialState: {
     finelliData: [],
-    error: '',
-    isLoading: false
   },
   reducers: {
     startDbOperation(state, _) {
@@ -42,17 +41,8 @@ export default finelliDataSlice.reducer;
 
 export const fetchFinelliDataFromDb = () => {
   return async (dispatch) => {
-    dispatch(startDbOperation());
-    try {
-      const response = await fetch('/api/finellidata');
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const finelliData = await response.json();
-      dispatch(addAllFinelliData(finelliData));
-    } catch (err) {
-      dispatch(setError(err.message));
-      console.error(err.message)
-    }
+
+    fetchWithJwt('/api/finelliData/', 'GET', null,
+      dispatch, addAllFinelliData, false);
   }
 };

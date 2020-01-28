@@ -36,7 +36,6 @@ export default function NameHeaderM({ label, mealId, planId, initialName, isLoad
   // }
 
   const onRemove = (e) => {
-    console.debug('removeHandler =');
     removeHandler(id)
     e.stopPropagation();
   }

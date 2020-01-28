@@ -1,21 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchWithJwt } from '../../utils/fetchWithJwt';
 
+const initialState = {
+  nutrients: [],
+};
+
 const nutrientsSlice = createSlice({
   name: 'nutrients',
-  initialState: {
-    nutrients: [],
-    error: '',
-    isLoading: false
-  },
+  initialState,
   reducers: {
-    startDbOperation(state, _) {
-      state.error = '';
-      state.isLoading = true;
-    },
-    setError(state, action) {
-      state.error = action.payload;
-      state.isLoading = false;
+    initializeNutrients(state, _) {
+      state.nutrients = initialState.nutrients;
     },
     addAllNutrients(state, action) {
       state.nutrients.push(...action.payload);
@@ -50,12 +45,11 @@ const nutrientsSlice = createSlice({
 });
 
 export const {
+  initializeNutrients,
   addAllNutrients,
   addNutrient,
   deleteNutrient,
   updateNutrient,
-  startDbOperation,
-  setError
 } = nutrientsSlice.actions;
 
 export default nutrientsSlice.reducer;
@@ -64,7 +58,7 @@ export const fetchNutrientsFromDb = () => {
   return async (dispatch) => {
 
     fetchWithJwt('/api/nutrients/', 'GET', null,
-      dispatch, startDbOperation, addAllNutrients, setError);
+      dispatch, addAllNutrients);
 
     // dispatch(startDbOperation());
     // try {
@@ -87,7 +81,7 @@ export const addNutrientToDb = (amount, mealId, finelliId) => {
     const newNutrient = { newNutrient: { amount, mealId, finelliId } };
 
     fetchWithJwt('/api/nutrients/', 'POST', newNutrient,
-      dispatch, startDbOperation, addNutrient, setError);
+      dispatch, addNutrient);
 
 
     // console.debug('addNutrientToDb 1', new Date().getSeconds(), new Date().getMilliseconds());
@@ -119,7 +113,7 @@ export const deleteNutrientFromDb = (nutrientId) => {
   return async (dispatch) => {
 
     fetchWithJwt('/api/nutrients/' + nutrientId, 'DELETE', null,
-      dispatch, startDbOperation, deleteNutrient, setError);
+      dispatch, deleteNutrient);
 
 
     // dispatch(startDbOperation());
@@ -146,7 +140,7 @@ export const updateNutrientInDb = (nutrientId, amount, mealId, finelliId) => {
     const nutrient = { nutrient: { amount, mealId, finelliId } };
 
     fetchWithJwt('/api/nutrients/' + nutrientId, 'PATCH', nutrient,
-      dispatch, startDbOperation, updateNutrient, setError);
+      dispatch, updateNutrient);
 
 
     // dispatch(startDbOperation());

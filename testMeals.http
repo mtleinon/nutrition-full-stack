@@ -3,7 +3,7 @@ GET http://localhost:5000/
 
 ### Get meals
 GET http://localhost:5000/api/meals
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDEwNzgwNSwiZXhwIjoxNTgwMTM2NjA1fQ.lqvdCY6BkdOtt-w_hkcPL5Z-dmv2h98mNWzQsC1efYw
 
 ### Get meal
 GET http://localhost:5000/api/meals/1
@@ -38,15 +38,13 @@ content-type: application/json
 }
 
 ### Update a meal
-PATCH http://localhost:5000/api/meals/11 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDAzNjY3MSwiZXhwIjoxNTgwMDY1NDcxfQ.Zevk8kdjXwwQPH7-uKcsSt6C-hVdMIjZZTu170giGnE
+PATCH http://localhost:5000/api/meals/13 HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDEwNzgwNSwiZXhwIjoxNTgwMTM2NjA1fQ.lqvdCY6BkdOtt-w_hkcPL5Z-dmv2h98mNWzQsC1efYw
 content-type: application/json
 
 {
   "meal": {
-    "name": "Meal 4.2   ",
-    "description": "Meal 102 description.",
-    "planId": 2
+    "name": "Meal 4.3  "
   }
 }
 

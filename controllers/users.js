@@ -37,8 +37,9 @@ const loginUser = async (req, res, _) => {
   if (checkRequest(req, res)) {
 
     const user = req.body.user;
+    console.debug('user =', user);
     const { status, error, result } = await mySqlUtils.getUsers(undefined, user.email);
-
+    console.debug('result.length =', result.length);
     if (result && result.length === 1) {
       const userData = result[0];
       bcrypt.compare(user.password, userData.password, (err, result) => {

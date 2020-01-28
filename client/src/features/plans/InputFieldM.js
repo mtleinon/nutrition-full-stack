@@ -29,11 +29,9 @@ export default function InputFieldM({ label, id, initialValue, isLoading, lastly
   const onChange = (e) => {
     e.preventDefault();
     setValue(e.target.value);
-    console.debug('onChange =', e.target.value);
   }
 
   const onClick = (e) => {
-    console.debug('onClick e =', e);
     e.stopPropagation();
   };
 
@@ -42,17 +40,14 @@ export default function InputFieldM({ label, id, initialValue, isLoading, lastly
     if (e.key === 'Enter') {
       if (value !== initialValue) {
         editHandler(id, value);
-        console.debug('Update value to DB ', value);
       }
     }
     // e.stopPropagation();
   };
 
   const onBlur = (e) => {
-    console.debug('onBlur e =', e);
     if (value !== initialValue) {
       editHandler(id, value);
-      console.debug('Update value to DB ', value);
     }
     e.stopPropagation();
   };
