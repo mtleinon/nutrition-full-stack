@@ -14,7 +14,8 @@ router.post('/',
   passport.authenticate("jwt", { session: false }),
   [
     check('newMeal.planId').isNumeric().withMessage('planId can not be empty.'),
-    check('newMeal.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    // check('newMeal.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    check('newMeal.name').trim(),
     check('newMeal.description').trim()
   ],
   createMeal
@@ -33,8 +34,9 @@ router.get('/',
 router.patch('/:mealId',
   passport.authenticate("jwt", { session: false }),
   [
-    // check('meal.planId').isNumeric().withMessage('planId can not be empty.'),
-    check('meal.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    check('meal.planId').isNumeric().withMessage('planId can not be empty.'),
+    // check('meal.name').not().isEmpty({ ignore_whitespace: true }).trim().withMessage('Name can not be empty.'),
+    check('meal.name').trim(),
     // check('meal.description').trim()
   ], updateMeal
 );
