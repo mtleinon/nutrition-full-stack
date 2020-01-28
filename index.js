@@ -1,5 +1,6 @@
 const express = require('express');
 const passport = require("passport");
+const path = require('path');
 
 const usersRoutes = require('./routes/users');
 const mealsRoutes = require('./routes/meals');
@@ -15,10 +16,20 @@ app.use(express.json());
 app.use(passport.initialize());
 require("./config/passport")(passport);
 
-app.get('/', (req, res) => res.send('hello world!'))
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.get('/api/', (req, res) => res.send('hello world!'))
 app.use('/api/users', usersRoutes);
 app.use('/api/plans', plansRoutes);
 app.use('/api/meals', mealsRoutes);
 app.use('/api/nutrients', nutrientsRoutes);
 app.use('/api/finelliData', finelliDataRoutes);
+
+// Handles any requests that don't match the ones above
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
+
 app.listen(port, () => console.log('Nutrition full stack API listening port', port, '. NODE_ENV=', process.env.NODE_ENV));
+
