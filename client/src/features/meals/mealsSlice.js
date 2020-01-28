@@ -69,10 +69,10 @@ export const deleteMealFromDb = (mealId) => {
   }
 };
 
-export const updateMealInDb = (mealId, name) => {
+export const updateMealInDb = (mealId, name, planId) => {
   return async (dispatch) => {
 
-    const updateData = { meal: { name } };
+    const updateData = { meal: { name, planId } };
 
     fetchWithJwt('/api/meals/' + mealId, 'PATCH', updateData,
       dispatch, updateMeal);

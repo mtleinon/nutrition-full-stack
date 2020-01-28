@@ -33,16 +33,16 @@ export default React.memo(function MealsM({ planId }) {
   const meals = useSelector(state => state.meals.meals).filter(meal => meal.planId === planId);
   const dispatch = useDispatch();
 
-  const editMealHandler = (id, name) => {
-    dispatch(updateMealInDb(id, name));
+  const editMealHandler = (mealId, name) => {
+    dispatch(updateMealInDb(mealId, name, planId));
   }
 
-  const addMealHandler = (name, description, planId) => {
+  const addMealHandler = (name, description = '') => {
     dispatch(addMealToDb(name, description, planId));
   }
 
-  const removeHandler = (id) => {
-    dispatch(deleteMealFromDb(id));
+  const removeHandler = (mealId) => {
+    dispatch(deleteMealFromDb(mealId));
   }
 
   return (
