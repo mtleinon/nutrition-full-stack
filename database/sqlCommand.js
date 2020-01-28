@@ -1,18 +1,20 @@
 const mysql = require('mysql');
-const mySqlConfig = require('../config/mySqlConfig.js');
 const util = require('util');
 const INTERNAL_SERVER_ERROR = 'Internal server error happened';
 const CONTENT_NOT_FOUND = 'Content not found';
 
 //TODO: take connection pool into use 
 console.debug('process.env.NODE_ENV =', process.env.NODE_ENV);
+let mySqlConfig;
 if (process.env.NODE_ENV === 'development') {
+  mySqlConfig = require('../config/mySqlConfig.js');
   const mySqlPassword = require('../secrets/secrets').mySqlPassword;
 
   mySqlConfig.password = mySqlPassword;
   console.debug('development mySqlConfig =', mySqlConfig);
 } else {
-
+  mySqlConfig = require('../config/mySqlConfigHeroku');
+  mySqlConfig.user = process.env.MYSQL_USER;
   mySqlConfig.password = process.env.MYSQL_PASSWORD;
   console.debug('production mySqlConfig =', mySqlConfig);
 }
