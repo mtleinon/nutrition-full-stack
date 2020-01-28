@@ -1,15 +1,26 @@
 const mysql = require('mysql');
-const config = require('../secrets/finelliConfig.js');
+const mySqlConfig = require('../config/mySqlConfig.js');
 const util = require('util');
 const INTERNAL_SERVER_ERROR = 'Internal server error happened';
 const CONTENT_NOT_FOUND = 'Content not found';
 
 //TODO: take connection pool into use 
+console.debug('process.env.NODE_ENV =', process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'development') {
+  const mySqlPassword = require('../secrets/secrets').mySqlPassword;
+
+  mySqlConfig.password = mySqlPassword;
+  console.debug('development mySqlConfig =', mySqlConfig);
+} else {
+
+  mySqlConfig.password = process.env.MYSQL_PASSWORD;
+  console.debug('production mySqlConfig =', mySqlConfig);
+}
 
 async function sqlCommand(sqlCommand, values) {
   // console.debug('sqlCommand =', sqlCommand);
   const result = { status: undefined, error: undefined, result: undefined };
-  const connection = mysql.createConnection(config);
+  const connection = mysql.createConnection(mySqlConfig);
   const query = util.promisify(connection.query).bind(connection);
   try {
     result.result = await query(

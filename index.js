@@ -7,7 +7,7 @@ const plansRoutes = require('./routes/plans');
 const nutrientsRoutes = require('./routes/nutrients');
 const finelliDataRoutes = require('./routes/finelliData');
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.use(express.json());
 
@@ -21,4 +21,4 @@ app.use('/api/plans', plansRoutes);
 app.use('/api/meals', mealsRoutes);
 app.use('/api/nutrients', nutrientsRoutes);
 app.use('/api/finelliData', finelliDataRoutes);
-app.listen(port, () => console.log('Example app listening port', port));
+app.listen(port, () => console.log('Nutrition full stack API listening port', port, '. NODE_ENV=', process.env.NODE_ENV));

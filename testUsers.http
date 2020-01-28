@@ -3,7 +3,7 @@ GET http://localhost:5000/
 
 ### Get user information with JWT token
 GET http://localhost:5000/api/users/
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NywiZW1haWwiOiJKaWxsQGdtYWlsLmNvbSIsIm5hbWUiOiJKaWxsIENhcnJ5In0sImlhdCI6MTU4MDExNzg5MiwiZXhwIjoxNTgwMTQ2NjkyfQ.fsn1JGvDVtXsy5-UEzz2ndMxiqadGlAEjUPuQJdfjOE
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6MTAsImVtYWlsIjoibWlrYTRAZ21haWwuY29tIiwibmFtZSI6Ik1pa2E0In0sImlhdCI6MTU4MDIzOTgzMiwiZXhwIjoxNTgwMjY4NjMyfQ.SMD64tik_mozwfMDqjSto3DEXIkKBynQ4AC4djvh46M
 
 ### Get a user
 GET http://localhost:5000/api/users/2

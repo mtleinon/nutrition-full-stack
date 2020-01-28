@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const jsonSecret = require('../secrets/finelliConfig').jsonSecret;
+const jsonSecret = require('../secrets/secrets').jsonSecret;
 const mySqlUtils = require('../database/mySqlUsersUtils');
 const { checkRequest, sendResponse } = require('./controllerUtils');
 
