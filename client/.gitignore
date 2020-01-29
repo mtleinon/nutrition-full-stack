@@ -8,8 +8,8 @@
 # testing
 /coverage
 
-# production
-/build
+# production. /build directory is needed for aws deployment
+#/build
 
 # misc
 .DS_Store
