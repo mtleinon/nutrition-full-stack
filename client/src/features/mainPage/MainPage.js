@@ -20,13 +20,14 @@ import { fetchUserDataFromDb } from '../user/userSlice';
 import { fetchPlansFromDb, initializePlans } from '../plans/plansSlice';
 import { fetchMealsFromDb, initializeMeals } from '../meals/mealsSlice';
 import { fetchNutrientsFromDb, initializeNutrients } from '../nutrients/nutrientsSlice';
-import { fetchFinelliDataFromDb } from '../finelliData/finelliDataSlice';
-
+// import { fetchFinelliDataFromDb } from '../finelliData/finelliDataSlice';
+import { addAllFinelliData } from '../finelliData/finelliDataSlice';
 
 import PlansM from '../plans/PlansM';
 import LoginUserM from '../user/LoginUserM';
 import { signOutUser } from '../user/userSlice';
 import SideDrawer from './SideDrawer';
+var finelli = require('../../data/finelli3con.json');
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -68,7 +69,8 @@ export default function MainPage() {
       dispatch(fetchPlansFromDb());
       dispatch(fetchMealsFromDb());
       dispatch(fetchNutrientsFromDb());
-      dispatch(fetchFinelliDataFromDb());
+      // dispatch(fetchFinelliDataFromDb());
+      dispatch(addAllFinelliData(finelli));
     }
   }, [dispatch, userId]);
 
