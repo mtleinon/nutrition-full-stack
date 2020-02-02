@@ -1,4 +1,5 @@
 import React from 'react';
+import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Paper from '@material-ui/core/Paper';
@@ -15,41 +16,56 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     margin: theme.spacing(1)
+  },
+  paper: {
+    backgroundColor: theme.palette.primary.main
+  },
+  userInfoItem: {
+    display: 'flex'
+  },
+  userInfoText: {
+    flex: 1
   }
 }));
 
-const Item = ({ name, value }) => {
+const UserInfoItem = ({ name, value }) => {
+  const classes = useStyles();
   return (
-    <ListItem style={{ display: 'flex' }}>
-      <Typography variant='body1' style={{ flex: 1 }}>
+    <ListItem className={classes.userInfoItem}>
+      <Typography variant='body1' className={classes.userInfoText}>
         {name}
       </Typography>
-      <Typography variant='body1' style={{ flex: 1 }}>
+      <Typography variant='body1' className={classes.userInfoText}>
         {value}
       </Typography>
     </ListItem>
   );
 };
 
-export default function SideDrawer() {
+export default function SideDrawer({ drawerOpen, handleCloseSideDrawer }) {
   const classes = useStyles();
   const user = useSelector(state => state.user.user);
 
   return (
-    <div className={classes.drawerContent}>
-      {user.email && (
-        <Paper elevation={2} className={classes.root} >
-          <Typography variant='h6'>
-            User info:
-      </Typography>
-          <List>
-            <Item name='Email' value={user.email} />
-            <Item name='Name' value={user.name} />
-            <Item name='Height' value={user.height + 'cm'} />
-            <Item name='Weight' value={user.weight + 'kg'} />
-          </List>
-        </Paper>
-      )}
-    </div>
+    <Drawer
+      classes={{ paper: classes.paper }}
+      open={drawerOpen} onClose={handleCloseSideDrawer}
+    >
+      <div className={classes.drawerContent}>
+
+        {user.email && (
+          <Paper elevation={2} className={classes.root} >
+            <Typography variant='h6'>User info:</Typography>
+            <List>
+              <UserInfoItem name='Email' value={user.email} />
+              <UserInfoItem name='Name' value={user.name} />
+              <UserInfoItem name='Height' value={user.height + 'cm'} />
+              <UserInfoItem name='Weight' value={user.weight + 'kg'} />
+            </List>
+          </Paper>
+        )}
+
+      </div>
+    </Drawer>
   )
 }

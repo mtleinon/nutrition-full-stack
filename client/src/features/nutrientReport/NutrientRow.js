@@ -31,7 +31,6 @@ export default function NutrientRow({ mealId, planId, nutrientId, sideMargins })
     allNutrients === 0 || allMeals === 0) {
     return (<div className={styles.container}
       style={{ marginLeft: sideMargins, marginRight: sideMargins }}>
-      {'s '}
     </div>
     )
   }

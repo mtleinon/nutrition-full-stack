@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { dataToShow } from './helperFunctions';
 
 const PlanAndMealReportM = React.forwardRef((props, ref) => {
-  const { mealId, planId, name, hideModal } = props;
+  const { mealId, planId, name, hideModal, open } = props;
   const finelliData = useSelector(state => state.finelliData.finelliData);
 
   const allNutrients = useSelector(state => state.nutrients.nutrients);
@@ -23,10 +23,11 @@ const PlanAndMealReportM = React.forwardRef((props, ref) => {
   const nutrientData = dataToShow(nutrients, 0, finelliData);
   return (
     <NutrientReportM
-      ref2={ref}
+      open={open}
       reportTitle={name}
       nutrientData={nutrientData}
       hideModal={hideModal}
+      ref2={ref}
     />
   );
 });

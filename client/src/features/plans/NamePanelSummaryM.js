@@ -1,18 +1,18 @@
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import { green } from '@material-ui/core/colors';
+import { blue  } from '@material-ui/core/colors';
 
 const NamePanelSummary = withStyles(theme => ({
   root: {
-    backgroundColor: green[100],
+    backgroundColor: blue[100],
     padding: '0 12px 0 12px',
     borderRadius: '3px 3px 3px 3px',
     '&:hover': {
-      backgroundColor: green[200],
+      backgroundColor: blue[200],
     },
 
     '&$focused': {
-      backgroundColor: green[200],
+      backgroundColor: blue[200],
       // borderRadius: '5px 5px 0 0'
     },
   },

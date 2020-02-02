@@ -43,14 +43,15 @@ const DataRow = ({ row }) => {
 
 function dataWithHeadingAndTitles(nutrientData) {
 
-  const headingsAdded = nutrientData.map((dataRow, i) => ({
-    value: dataRow,
-    heading: nutrientHeading[i].name.fiShort,
-    unit: nutrientHeading[i].unit,
-    recommendation: getRecommendation(nutrientHeading[i])
-  }));
-
   headingsAdded[I_ENERGY].value = convertKCalToKJ(headingsAdded[I_ENERGY].value);
+  const headingsAdded = nutrientData
+    .map((dataRow, i) => ({
+      value: dataRow,
+      heading: nutrientHeading[i].name.fiShort,
+      unit: nutrientHeading[i].unit,
+      recommendation: getRecommendation(nutrientHeading[i])
+    }));
+
 
   const titlesAdded = [
     {

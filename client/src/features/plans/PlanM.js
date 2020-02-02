@@ -39,25 +39,21 @@ export default React.memo(function PlanM({ plan, isLoading, lastlyUpdatedId, edi
             openModal={() => setShowPlanInfo(true)}
           />
         </NamePanelSummaryM>
-        <NamePanelDetailsM>
+        <NamePanelDetailsM style={{
+          backgroundColor: '#eee',
+          borderBottomLeftRadius: '4px', borderBottomRightRadius: '4px'
+        }}>
           <MealsM planId={plan.planId} />
         </NamePanelDetailsM >
-        {/* <div style={{ margin: '4px' }}>
-          <Button variant="contained" color="primary" fullWidth>
-            Add meal
-          </Button>
-        </div> */}
       </NamePanel >
-      <Modal aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description"
-        open={showPlanInfo}
-        onClose={() => setShowPlanInfo(false)}
-      >
+      {showPlanInfo &&
         <PlanAndMealReportM
+          open={showPlanInfo}
           planId={plan.planId}
           name={plan.name}
           hideModal={() => setShowPlanInfo(false)}
         />
-      </Modal>
+      }
     </>
   );
 });

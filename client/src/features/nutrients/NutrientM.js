@@ -36,6 +36,9 @@ const useStyles = makeStyles({
   iconContainer: {
     margin: '12px 0 12px 12px',
     alignSelf: 'flex-end'
+  },
+  nutrientName: {
+    padding: '8px'
   }
 });
 
@@ -52,6 +55,7 @@ export default function NutrientM(props) {
     <div id="1" className={classes.nutrientContainer}>
       <div id="2" className={classes.nutrientRowText}>
         <Typography
+          className={classes.nutrientName}
           component="div"
           variant="body2"
           color="textPrimary"

@@ -1,84 +1,68 @@
 import React, { useState, useEffect } from 'react';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { makeStyles } from '@material-ui/core/styles';
+
 import SpinnerModal from '../../components/SpinnerModal';
 import { Ring } from 'react-awesome-spinners'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { useSelector, useDispatch } from 'react-redux';
-import { setError } from '../mainPage/mainPageSlice';
 import { fetchUserDataFromDb } from '../user/userSlice';
-
 import { fetchPlansFromDb, initializePlans } from '../plans/plansSlice';
 import { fetchMealsFromDb, initializeMeals } from '../meals/mealsSlice';
 import { fetchNutrientsFromDb, initializeNutrients } from '../nutrients/nutrientsSlice';
-// import { fetchFinelliDataFromDb } from '../finelliData/finelliDataSlice';
 import { addAllFinelliData } from '../finelliData/finelliDataSlice';
 
 import PlansM from '../plans/PlansM';
-import LoginUserM from '../user/LoginUserM';
+import SignInM from '../user/SignInUserM';
 import { signOutUser } from '../user/userSlice';
+import UpperAppBar from './UpperAppBar';
 import SideDrawer from './SideDrawer';
-var finelli = require('../../data/finelli3con.json');
+import ErrorDialog from './ErrorDialog';
+
+const finelli = require('../../data/finelli3con.json');
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
+  mainPage: {
+    maxWidth: '600px',
+    margin: 'auto',
+    height: '100vh',
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawer: {
-    root: {
-      backgroundColor: 'red'
-    }
+  upperAppBarSpace: {
+    paddingTop: '70px'
   }
 }));
 
+// Main page of the app
 export default function MainPage() {
-  const error = useSelector(state => state.mainPage.error);
   const loading = useSelector(state => state.mainPage.loading);
-  const theme = useTheme();
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [showLogin, setShowLogin] = React.useState(false);
+  const [showSignin, setShowSignin] = useState(false);
   const userId = useSelector(state => state.user.user.userId);
   const dispatch = useDispatch();
 
-  const drawerPaperStyle = { style: { backgroundColor: theme.palette.primary.main } };
-
-  // Fetch initial user data
+  // When application starts, fetch user data if user has been logged in.
   useEffect(() => {
     dispatch(fetchUserDataFromDb());
+    dispatch(addAllFinelliData(finelli));
   }, [dispatch]);
 
+  // When a different user signs in, fetch user data newly.
   useEffect(() => {
     if (userId > 0) {
       dispatch(fetchUserDataFromDb());
       dispatch(fetchPlansFromDb());
       dispatch(fetchMealsFromDb());
       dispatch(fetchNutrientsFromDb());
-      // dispatch(fetchFinelliDataFromDb());
-      dispatch(addAllFinelliData(finelli));
     }
   }, [dispatch, userId]);
 
-  const handleOpenLogin = () => {
-    setShowLogin(true);
+  const handleSignIn = () => {
+    setShowSignin(true);
   };
 
-  const handleLogout = () => {
+  // If user signed out, clear user data.
+  const handleSignOut = () => {
     localStorage.removeItem('jwtToken');
     dispatch(signOutUser());
     dispatch(initializePlans());
@@ -86,52 +70,42 @@ export default function MainPage() {
     dispatch(initializeNutrients());
   };
 
-  const handleCloseLogin = () => {
-    setShowLogin(false);
+  const handleCloseSignin = () => {
+    setShowSignin(false);
   };
+
+  const handleOpenDrawer = () => {
+    setDrawerOpen(true);
+  }
+
+  const handleCloseSideDrawer = () => {
+    setDrawerOpen(false);
+  }
+
   return (
-    <div>
-      <Drawer
-        PaperProps={drawerPaperStyle}
-        open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <SideDrawer />
-      </Drawer>
-      <AppBar position="fixed">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton}
-            color="inherit" aria-label="menu"
-            onClick={() => setDrawerOpen(true)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Diet Planner
-          </Typography>
-          <Button color="inherit" onClick={userId ? handleLogout : handleOpenLogin}>
-            {userId ? 'Sign out' : 'Sign in'}
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <LoginUserM showLogin={showLogin} handleCloseLogin={handleCloseLogin} />
-      <div style={{ paddingTop: '70px' }} />
+    <div className={classes.mainPage}>
+      <div className={classes.upperAppBarSpace} />
+
+      <SideDrawer
+        drawerOpen={drawerOpen} handleCloseSideDrawer={handleCloseSideDrawer}>
+      </SideDrawer>
+
+      <UpperAppBar
+        handleOpenDrawer={handleOpenDrawer}
+        handleSignIn={handleSignIn}
+        handleSignOut={handleSignOut}
+        userId={userId} />
+
+      <SignInM showSignin={showSignin} handleCloseSignin={handleCloseSignin} />
+
       <PlansM />
-      <Dialog
-        open={Boolean(error)}
-        onClose={() => dispatch(setError(''))}
-      >
-        <DialogTitle id="form-dialog-title">Error {error}</DialogTitle>
-        <DialogActions>
-          <Button
-            variant='contained'
-            onClick={() => dispatch(setError(''))} color="primary"
-          >
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog>
+
+      <ErrorDialog />
+
       <SpinnerModal visible={loading}>
         <Ring size='100' sizeUnit='px' />
       </SpinnerModal>
+
     </div>
   );
 }

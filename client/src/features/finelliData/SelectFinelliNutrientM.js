@@ -1,41 +1,28 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import DataRow from './DataRow';
 
-import './selectFinelliNutrient.css';
-import { I_NAME, I_FINELLI_ID } from './constants'
-
-import Dialog from '@material-ui/core/Dialog';
+import LongDialog from '../nutrientReport/LongDialog';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
-import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
-import CloseIcon from '@material-ui/icons/Close';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
+import List from '@material-ui/core/List';
 
-// import { makeStyles } from '@material-ui/core/styles';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import { FixedSizeList } from 'react-window';
-// import List from '@material-ui/core/List';
+import { I_NAME, I_FINELLI_ID } from './constants'
 
 const useStyles = makeStyles(theme => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    // backgroundColor: fade(theme.palette.common.white, 0.15),
     backgroundColor: fade(theme.palette.primary.main, 0.15),
     '&:hover': {
       backgroundColor: fade(theme.palette.primary.main, 0.25),
     },
-    marginLeft: 0,
-    width: '80%',
-    // [theme.breakpoints.up('sm')]: {
-    //   marginLeft: theme.spacing(1),
-    //   width: 'auto',
-    // },
+    margin: theme.spacing(1, 2, 2, 2),
+
   },
   searchIcon: {
     width: theme.spacing(7),
@@ -60,34 +47,15 @@ const useStyles = makeStyles(theme => ({
     //   },
     // },
   },
+  list: {
+    width: '95vw',
+    maxWidth: '100%',
+    height: 'calc( 100% - 80px)',
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    overflow: 'auto',
+  },
 }));
-
-const styles = theme => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
-
-const DialogTitleWithCloseButton = withStyles(styles)(props => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <DialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-});
 
 const RESULT_COUNT_TO_SHOW = 20;
 
@@ -109,36 +77,34 @@ export default function SelectFinelliNutrientM(
     setResultCountToShow(state => state + RESULT_COUNT_TO_SHOW);
   };
 
+  const onClickHandler = (finelliId) => {
+    console.debug('handler clicked =', finelliId);
+    selectDataHandler(finelliId);
+  };
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="customized-dialog-title"
-      fullWidth={true}
-      maxWidth={'sm'}
+    <LongDialog
+      dialogTitle='Select nutrient'
+      open={open}
+      hideModal={onClose}
+      aria-labelledby="customized-dialog-title"
     >
-      <DialogTitleWithCloseButton id="customized-dialog-title" onClose={onClose}
-      >
-        Select nutrient
-      </DialogTitleWithCloseButton>
-      <div>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <InputBase
-            value={filterValue}
-            onChange={handleFilterValueChange}
-            placeholder="Search nutrient..."
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ 'aria-label': 'search' }}
-          />
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <SearchIcon />
         </div>
+        <InputBase
+          value={filterValue}
+          onChange={handleFilterValueChange}
+          placeholder="Search nutrient..."
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+        />
       </div>
+      <List className={classes.list} component="nav" aria-label="main mailbox folders">
 
-      <div className="selectFinelliNutrient"
-      // style={{ width: '100%', maxWidth: '500px' }}
-      >
         {finelliData
           .filter(nutrientData => {
             if (filterValue.trim() === '') {
@@ -148,19 +114,22 @@ export default function SelectFinelliNutrientM(
           })
           .slice(0, resultCountToShow)
           .map((nutrientData, i) =>
-            <React.Fragment key={nutrientData[I_FINELLI_ID]}>
-              <DataRow
-                nutrientData={nutrientData}
-                selectDataHandler={selectDataHandler}
-              />
+            <React.Fragment key={nutrientData[I_FINELLI_ID]} >
+              <ListItem button onClick={() => onClickHandler(nutrientData[I_FINELLI_ID])} >
+                <ListItemText>
+                  {nutrientData[I_NAME]}
+                </ListItemText>
+              </ListItem>
+              <Divider light />
+
               {(i === resultCountToShow - 1) && <Button variant="outlined" color="primary"
                 onClick={handleShowAllResults}>Show next {RESULT_COUNT_TO_SHOW}</Button>
               }
             </React.Fragment>
           )
         }
-      </div>
-    </Dialog>
+      </List>
+    </LongDialog>
   );
 };
 
@@ -183,3 +152,16 @@ export default function SelectFinelliNutrientM(
         //     </ListItem>))
         //   }
         // </List> 
+
+
+      //   .map((nutrientData, i) =>
+      //   <React.Fragment key={nutrientData[I_FINELLI_ID]}>
+      //     <DataRow
+      //       nutrientData={nutrientData}
+      //       selectDataHandler={selectDataHandler}
+      //     />
+      //     {(i === resultCountToShow - 1) && <Button variant="outlined" color="primary"
+      //       onClick={handleShowAllResults}>Show next {RESULT_COUNT_TO_SHOW}</Button>
+      //     }
+      //   </React.Fragment>
+      // )

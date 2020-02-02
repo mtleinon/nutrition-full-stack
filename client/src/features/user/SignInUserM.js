@@ -32,9 +32,9 @@ const useStyles = makeStyles(theme => ({
   // }
 }));
 
-export default function LoginUserM({ showLogin, handleCloseLogin }) {
+export default function SignInUserM({ showSignin, handleCloseSignin }) {
 
-  const error = useSelector(state => state.user.error);
+  // const error = useSelector(state => state.user.error);
   const isLoading = useSelector(state => state.plans.isLoading);
 
   const [mode, setMode] = useState(modes.SIGNIN);
@@ -58,7 +58,7 @@ export default function LoginUserM({ showLogin, handleCloseLogin }) {
   const handleSignIn = () => {
     if (mode === modes.SIGNIN) {
       dispatch(signinUserToBackend(user.email, user.password));
-      handleCloseLogin();
+      handleCloseSignin();
     } else {
       setMode(modes.SIGNIN);
     }
@@ -67,18 +67,17 @@ export default function LoginUserM({ showLogin, handleCloseLogin }) {
   const handleSignUp = () => {
     if (mode === modes.SIGNUP) {
       dispatch(addUserToDb(user));
-      handleCloseLogin();
+      handleCloseSignin();
     } else {
       setMode(modes.SIGNUP);
     }
   };
 
-  console.debug('error =', error);
   return (
     <div>
       <Dialog
-        open={showLogin}
-        onClose={handleCloseLogin}
+        open={showSignin}
+        onClose={handleCloseSignin}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">{mode === modes.SIGNIN ? 'Sign in' : 'Sign Up'}</DialogTitle>
@@ -171,7 +170,7 @@ export default function LoginUserM({ showLogin, handleCloseLogin }) {
           >
             Sign up
           </Button>
-          <Button onClick={handleCloseLogin} color="secondary">
+          <Button onClick={handleCloseSignin} color="secondary">
             Cancel
           </Button>
         </DialogActions>

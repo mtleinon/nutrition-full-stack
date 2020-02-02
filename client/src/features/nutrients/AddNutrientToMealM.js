@@ -1,15 +1,13 @@
 import React from 'react';
 import SelectFinelliNutrientM from '../finelliData/SelectFinelliNutrientM';
 
-import HeaderRow from '../../components/HeaderRow';
-import CenterVertically from '../../components/CenterVertically';
-import CancelIcon from '../../components/CancelIcon';
 
 const AddNutrientToMeal = React.forwardRef((
   { addNutrientToMealHandler, cancelHandler }, ref) => {
 
   const selectDataHandler = (finelliId) => {
-    addNutrientToMealHandler(finelliId);
+    // addNutrientToMealHandler(finelliId);
+    console.debug('select handler =', finelliId);
   }
 
   return (
