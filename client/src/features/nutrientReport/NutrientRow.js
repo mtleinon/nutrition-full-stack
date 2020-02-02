@@ -13,7 +13,11 @@ export default function NutrientRow({ mealId, planId, nutrientId, sideMargins })
 
   const allNutrients = useSelector(state => state.nutrients.nutrients);
   const allMeals = useSelector(state => state.meals.meals);
+  const showDetails = useSelector(state => state.mainPage.showDetails);
 
+  if ((!showDetails.nutrient && nutrientId) || (!showDetails.meal && mealId) || (!showDetails.plan && planId)) {
+    return null;
+  }
   let nutrients;
   if (nutrientId) {
     nutrients = allNutrients.filter(
@@ -29,9 +33,10 @@ export default function NutrientRow({ mealId, planId, nutrientId, sideMargins })
   let nutrientData;
   if (nutrients.length === 0 || finelliData.length === 0 ||
     allNutrients === 0 || allMeals === 0) {
-    return (<div className={styles.container}
-      style={{ marginLeft: sideMargins, marginRight: sideMargins }}>
-    </div>
+    return (
+      <div className={styles.container}
+        style={{ marginLeft: sideMargins, marginRight: sideMargins }}>{'-'}
+      </div>
     )
   }
 

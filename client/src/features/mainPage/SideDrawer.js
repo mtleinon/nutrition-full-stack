@@ -6,7 +6,15 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { useSelector } from 'react-redux';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Switch from '@material-ui/core/Switch';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { setShowDetails } from './mainPageSlice';
 
 const useStyles = makeStyles(theme => ({
   drawerContent: {
@@ -15,7 +23,8 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.contrastText
   },
   root: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
+    padding: theme.spacing(2)
   },
   paper: {
     backgroundColor: theme.palette.primary.main
@@ -45,6 +54,12 @@ const UserInfoItem = ({ name, value }) => {
 export default function SideDrawer({ drawerOpen, handleCloseSideDrawer }) {
   const classes = useStyles();
   const user = useSelector(state => state.user.user);
+  const showDetails = useSelector(state => state.mainPage.showDetails);
+  const dispatch = useDispatch();
+
+  const handleChange = name => event => {
+    dispatch(setShowDetails({ ...showDetails, [name]: event.target.checked }));
+  };
 
   return (
     <Drawer
@@ -64,7 +79,27 @@ export default function SideDrawer({ drawerOpen, handleCloseSideDrawer }) {
             </List>
           </Paper>
         )}
-
+        <Paper elevation={2} className={classes.root}  >
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Show details of:</FormLabel>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch checked={showDetails.plan} onChange={handleChange('plan')} value="plan" />}
+                label="Plan"
+              />
+              <FormControlLabel
+                control={<Switch checked={showDetails.meal} onChange={handleChange('meal')} value="meal" />}
+                label="Meal"
+              />
+              <FormControlLabel
+                control={
+                  <Switch checked={showDetails.nutrient} onChange={handleChange('nutrient')} value="nutrient" />
+                }
+                label="Nutrient"
+              />
+            </FormGroup>
+          </FormControl>
+        </Paper>
       </div>
     </Drawer>
   )
