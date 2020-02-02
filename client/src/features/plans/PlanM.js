@@ -40,7 +40,7 @@ export default React.memo(function PlanM({ plan, isLoading, lastlyUpdatedId, edi
           />
         </NamePanelSummaryM>
         <NamePanelDetailsM style={{
-          backgroundColor: '#eee',
+          backgroundColor: '#fff',
           borderBottomLeftRadius: '4px', borderBottomRightRadius: '4px'
         }}>
           <MealsM planId={plan.planId} />

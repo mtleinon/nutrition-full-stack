@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  deleteNutrientFromDb, updateNutrientInDb, addNutrientToDb
+  deleteNutrientFromDb, updateNutrientInDb
 } from './nutrientsSlice';
 import NutrientItemM from './NutrientItemM';
 import { I_NAME, I_FINELLI_ID } from '../finelliData/constants'
 
 import List from '@material-ui/core/List';
-import Button from '@material-ui/core/Button';
-import SelectFinelliNutrientM from '../finelliData/SelectFinelliNutrientM';
-import ButtonContainer from '../../componentsM/ButtonContainer';
 
 const NutrientListM = withStyles({
   root: {
@@ -28,16 +25,8 @@ export default React.memo(function NutrientsM({ mealId }) {
 
   const dispatch = useDispatch();
 
-  const [addMode, setAddMode] = useState(false);
-
   const editNutrientHandler = (nutrientId, amount, mealId, finelliId) => {
     dispatch(updateNutrientInDb(nutrientId, amount, mealId, finelliId));
-  }
-
-  const addNutrientToMealHandler = (finelliId) => {
-    dispatch(addNutrientToDb(0, mealId, finelliId));
-    setAddMode(false);
-    console.debug('ad mealId, finelliId =', mealId, finelliId);
   }
 
   const removeHandler = (id) => {
@@ -63,19 +52,6 @@ export default React.memo(function NutrientsM({ mealId }) {
             />)}
         </NutrientListM >
       }
-      <ButtonContainer>
-        <Button
-          color='primary'
-          variant='outlined'
-
-          style={{ marginTop: '5px' }}
-          onClick={() => setAddMode(true)}
-        >
-          ADD NEW NUTRIENT
-        </Button>
-      </ButtonContainer>
-      <SelectFinelliNutrientM open={addMode} onClose={() => setAddMode(false)}
-        selectDataHandler={addNutrientToMealHandler} />
     </div >
   );
 });

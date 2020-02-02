@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './meal.css';
 import NutrientsM from '../nutrients/NutrientsM';
+import SelectFinelliNutrientM from '../finelliData/SelectFinelliNutrientM';
 
 import PlanAndMealReportM from '../nutrientReport/PlanAndMealReportM';
+import Button from '@material-ui/core/Button';
+import ButtonContainer from '../../componentsM/ButtonContainer';
 
 import { withStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -12,6 +15,10 @@ import NamePanelSummaryM from '../plans/NamePanelSummaryM';
 import NamePanelDetailsM from '../plans/NamePanelDetailsM';
 import NameHeaderM from '../plans/NameHeaderM';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useDispatch } from 'react-redux';
+import {
+  addNutrientToDb
+} from '../nutrients/nutrientsSlice';
 
 const NamePanel = withStyles({
   root: {
@@ -21,6 +28,14 @@ const NamePanel = withStyles({
 
 export default React.memo(function MealM({ meal, editMealHandler, removeHandler }) {
   const [showMealInfo, setShowMealInfo] = useState(false);
+  const [addMode, setAddMode] = useState(false);
+  const dispatch = useDispatch();
+
+  const addNutrientToMealHandler = (finelliId) => {
+    dispatch(addNutrientToDb(0, meal.mealId, finelliId));
+    setAddMode(false);
+    // console.debug('ad mealId, finelliId =', meal.mealId, finelliId);
+  }
 
   return (
     <NamePanel>
@@ -41,6 +56,18 @@ export default React.memo(function MealM({ meal, editMealHandler, removeHandler 
         <NamePanel>
           <NutrientsM mealId={meal.mealId} />
         </NamePanel>
+        <ButtonContainer>
+          <Button
+            color='primary'
+            variant='outlined'
+
+            style={{ marginBottom: '4px' }}
+            onClick={() => setAddMode(true)}
+          >
+            ADD NEW NUTRIENT
+        </Button>
+        </ButtonContainer>
+
       </NamePanelDetailsM>
       {showMealInfo &&
         <PlanAndMealReportM
@@ -50,6 +77,9 @@ export default React.memo(function MealM({ meal, editMealHandler, removeHandler 
           hideModal={() => setShowMealInfo(false)}
         />
       }
+      <SelectFinelliNutrientM open={addMode} onClose={() => setAddMode(false)}
+        selectDataHandler={addNutrientToMealHandler} />
+
     </NamePanel>
   );
 });

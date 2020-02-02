@@ -12,6 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 
 import { I_NAME, I_FINELLI_ID } from './constants'
+import ButtonContainer from '../../componentsM/ButtonContainer';
 
 const useStyles = makeStyles(theme => ({
   search: {
@@ -122,8 +123,11 @@ export default function SelectFinelliNutrientM(
               </ListItem>
               <Divider light />
 
-              {(i === resultCountToShow - 1) && <Button variant="outlined" color="primary"
-                onClick={handleShowAllResults}>Show next {RESULT_COUNT_TO_SHOW}</Button>
+              {(i === resultCountToShow - 1) &&
+                <ButtonContainer>
+                  <Button variant="outlined" color="primary"
+                    onClick={handleShowAllResults}>Show next {RESULT_COUNT_TO_SHOW}</Button>
+                </ButtonContainer>
               }
             </React.Fragment>
           )
