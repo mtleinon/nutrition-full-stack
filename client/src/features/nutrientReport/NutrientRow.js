@@ -49,13 +49,13 @@ export default function NutrientRow({ mealId, planId, nutrientId, sideMargins })
         {convertKCalToKJ(nutrientData[I_ENERGY]).toFixed(0)}kcal
       </div>
       <div className={styles.items}>
-        carb {nutrientData[I_FET].toFixed(0)}g
+        carb {nutrientData[I_CARB].toFixed(0)}g
       </div>
       <div className={styles.items}>
-        fet {nutrientData[I_PROTEIN].toFixed(0)}g
+        fet {nutrientData[I_FET].toFixed(0)}g
       </div>
       <div className={styles.items}>
-        prot {nutrientData[I_CARB].toFixed(0)}g
+        prot {nutrientData[I_PROTEIN].toFixed(0)}g
       </div>
     </div>
 
