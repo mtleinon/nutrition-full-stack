@@ -4,4 +4,4 @@ Please try the app with following link: https://nutrition-full-stack.herokuapp.c
 
 ## Below is a picture of application interface:
 
-<img src="https://github.com/mtleinon/training/blob/master/images/dietPlanner.jpg" width="500px">
+<img src="https://github.com/mtleinon/training/blob/master/images/dietPlanner.jpg" width="500px" href="#">
