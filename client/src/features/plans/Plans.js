@@ -22,6 +22,7 @@ export default function Plans() {
   const plans = useSelector(state => state.plans.plans);
   const error = useSelector(state => state.plans.error);
   const isLoading = useSelector(state => state.plans.isLoading);
+  const userId = useSelector(state => state.user.user.userId);
   const dispatch = useDispatch();
 
   const [addMode, setAddMode] = useState(false);
@@ -65,6 +66,7 @@ export default function Plans() {
         <Button
           onClick={() => addPlanHandler(NEW_PLAN_DEFAULT_NAME)}
           style={{ backgroundColor: 'lightGreen' }}
+          disabled
         >
           ADD NEW PLAN
         </Button>

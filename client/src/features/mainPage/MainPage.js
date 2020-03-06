@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 
 import SpinnerModal from '../../components/SpinnerModal';
 import { Ring } from 'react-awesome-spinners'
@@ -18,6 +19,7 @@ import { signOutUser } from '../user/userSlice';
 import UpperAppBar from './UpperAppBar';
 import SideDrawer from './SideDrawer';
 import ErrorDialog from './ErrorDialog';
+import { Typography } from '@material-ui/core';
 
 const finelli = require('../../data/finelli3con.json');
 
@@ -98,7 +100,16 @@ export default function MainPage() {
 
       <SignInM showSignin={showSignin} handleCloseSignin={handleCloseSignin} />
 
-      <PlansM />
+      {userId === 0 ?
+
+        <Container style={{ padding: '16px' }}>
+          <Typography variant='h6' align='center' component='div'>
+            Please sign in
+
+          </Typography>
+        </Container>
+        : <PlansM />
+      }
 
       <ErrorDialog />
 

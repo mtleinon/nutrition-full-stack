@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 async function sqlCommand(sqlCommand, values) {
-  // console.debug('sqlCommand =', sqlCommand);
+  console.debug('sqlCommand, values =', sqlCommand, values);
   const result = { status: undefined, error: undefined, result: undefined };
   const connection = mysql.createConnection(mySqlConfig);
   const query = util.promisify(connection.query).bind(connection);
@@ -56,7 +56,7 @@ async function sqlCommand(sqlCommand, values) {
       }
     });
   }
-  // console.debug('sqlCommand result =', result);
+  console.debug('sqlCommand result =', result);
   return result;
 }
 

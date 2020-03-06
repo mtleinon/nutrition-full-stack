@@ -27,6 +27,8 @@ export default function Plans() {
   const classes = useStyles();
 
   const plans = useSelector(state => state.plans.plans);
+  const userId = useSelector(state => state.user.user.userId);
+
   const dispatch = useDispatch();
   const [lastlyUpdatedId, setLastlyUpdatedId] = useState(0);
 
@@ -61,6 +63,7 @@ export default function Plans() {
           disableRipple
           variant="contained" color="primary"
           onClick={() => addPlanHandler(NEW_PLAN_DEFAULT_NAME)}
+          disabled={userId === 0}
         >
           ADD NEW PLAN
         </Button>

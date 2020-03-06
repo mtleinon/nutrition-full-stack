@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.primary.main, 0.25),
     },
-    margin: theme.spacing(1, 2, 2, 2),
+    margin: theme.spacing(1, 0, 2, 0),
 
   },
   searchIcon: {
@@ -55,6 +55,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     position: 'relative',
     overflow: 'auto',
+    backgroundColor: '#f5f5f5',
+    /* border: #009 1px solid; */
+    borderRadius: '4px',
+    overflowY: 'scroll',
+    boxShadow: 'inset 1px 1px 6px rgba(0,0,0,.3)'
   },
 }));
 

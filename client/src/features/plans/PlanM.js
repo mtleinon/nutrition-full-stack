@@ -13,16 +13,19 @@ import PlanAndMealReportM from '../nutrientReport/PlanAndMealReportM';
 
 const NamePanel = withStyles({
   root: {
-    width: '100%'
+    width: '100%',
+    borderRadius: '4px'
   },
 })(ExpansionPanel);
 
 export default React.memo(function PlanM({ plan, isLoading, lastlyUpdatedId, editPlanHandler, removeHandler }) {
   const [showPlanInfo, setShowPlanInfo] = useState(false);
+  // const classes = useStyles();
+
 
   return (
     <>
-      <NamePanel>
+      <NamePanel >
         <NamePanelSummaryM expandIcon={<ExpandMoreIcon />}
           aria-controls="planPanel1"
           id="planPanel1"
